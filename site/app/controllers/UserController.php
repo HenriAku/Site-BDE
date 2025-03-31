@@ -41,13 +41,21 @@ class UserController extends Controller {
                     $errors[] = 'Le mot de passe doit contenir au moins 6 caractères.';
                 }
 
+                if (empty($data['conf_password']) || !($data['conf_password']) === ($data['password'])) {
+                    $errors[] = 'Le mot de passe doit être identique.';
+                }
+
+                if (empty($data['netu'])) {
+                    $errors[] = 'Le numéro étudiant est requis.';
+                }
+
                 if (!empty($errors)) {
                     throw new Exception(implode(', ', $errors));
                 }
 
                 // Création de l'objet utilisateur
                 $hashedPassword = $this->hash($data['password']);
-                $user = new User(null, $data['firstname'], $data['lastname'], $data['email'], $hashedPassword);
+                $user = new User(null, $data['firstname'], $data['lastname'], $data['email'], $hashedPassword, $data['netu']);
 
                 // Sauvegarde dans la base de données
                 $userRepo = new UserRepository();
