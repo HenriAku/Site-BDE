@@ -20,18 +20,23 @@ class UserRepository {
 
     private function createUserFromRow(array $row): User
     {
-        return new User($row['id'], $row['firstname'], $row['lastname'], $row['email'], $row['password']);
+        return new User($row['n_etu'],  $row['nom_etu'], $row['prenom_etu'], $row['mail_etu'], $row['mdp_etu'], $row['nom_etu']);
     }
 
-    public function create(User $user): bool {
-        $stmt = $this->pdo->prepare('INSERT INTO "User" (firstname,lastname,email,password ) VALUES (:firstname, :lastname, :email, :password)');
+    public function create(User $user): bool 
+    {
+        $stmt = $this->pdo->prepare('INSERT INTO adherent (num_etu, nom_etu, prenom_etu, admin, mdp_etu, mail_etu) 
+                                     VALUES (:num_etu, :firstname, :lastname, false, :password, :email)');
         return $stmt->execute([
+            'num_etu' => $user->getNetu(),
             'firstname' => $user->getFirstname(),
             'lastname' => $user->getLastname(),
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
         ]);
     }
+    
+    
 
     public function update(User $user): bool
     {
@@ -46,7 +51,7 @@ class UserRepository {
     }
 
     public function findByEmail(string $email): ?User {
-        $stmt = $this->pdo->prepare('SELECT * FROM "User" WHERE email = :email');
+        $stmt = $this->pdo->prepare('SELECT * FROM "adherent" WHERE mail_etu = :email');
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if($user)
