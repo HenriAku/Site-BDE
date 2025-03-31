@@ -10,7 +10,7 @@ class EvenementController extends Controller {
         //$this->checkAuth();
 
         $evenementRepo = new EvenementRepository();
-        //$evenements = $evenementRepo->findAll();
+        $evenements = $evenementRepo->findAll();
 
         $this->view('/evenement/index.html.twig', ['evenements' => $evenements]);
     }

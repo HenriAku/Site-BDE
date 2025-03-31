@@ -50,6 +50,7 @@ CREATE TABLE Adherent (
                          n_etu SERIAL PRIMARY KEY,
                          nom_etu VARCHAR(255) NOT NULL,
                          prenom_etu VARCHAR(255) NOT NULL,
+                         num_etu VARCHAR(255) NOT NULL,
                          admin BOOLEAN DEFAULT false,
                          mdp_etu VARCHAR(255) NOT NULL,
                          mail_etu VARCHAR(255) NOT NULL UNIQUE
@@ -122,51 +123,41 @@ CREATE TABLE Consulte (
                          FOREIGN KEY (n_art) REFERENCES Article(n_art) ON DELETE CASCADE
 );
 
-INSERT INTO Article VALUES (0,"Lorem Ipsum1", 10, 'Vetement', 25
+INSERT INTO Produit VALUES (0,"Lorem Ipsum1", 10, 'Vetement', 25
 , "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'L');
-INSERT INTO Article VALUES (1,"Lorem Ipsum2", 5, 'Accessoire', 50
+INSERT INTO Produit VALUES (1,"Lorem Ipsum2", 5, 'Accessoire', 50
 , "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'XL');
-INSERT INTO Article VALUES (2,"Lorem Ipsum3", 30, 'Consommable', 10
+INSERT INTO Produit VALUES (2,"Lorem Ipsum3", 30, 'Consommable', 10
 , "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'XS');
-INSERT INTO Article VALUES (3,"Lorem Ipsum4", 45, 'Vetement', 16
+INSERT INTO Produit VALUES (3,"Lorem Ipsum4", 45, 'Vetement', 16
 , "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'M');
-INSERT INTO Article VALUES (4,"Lorem Ipsum5", 45, 'Accessoire', 21
+INSERT INTO Produit VALUES (4,"Lorem Ipsum5", 45, 'Accessoire', 21
 , "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'L');
-
-
-/*CREATE TABLE Evenement (
-                         n_event SERIAL PRIMARY KEY,
-                         nom_event VARCHAR(255) NOT NULL,
-                         date_debut_event TIMESTAMP DEFAULT NOW(),
-                         description_event TEXT NOT NULL,
-                         adr_event VARCHAR(255) NOT NULL,
-                         prix_event INTEGER NOT NULL                 
-)*/
 
 INSERT INTO Evenement VALUES (0,"Lorem Ipsum1", "2028-07-17 03:55:10"
 , "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
