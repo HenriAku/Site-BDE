@@ -122,7 +122,92 @@ CREATE TABLE Consulte (
                          FOREIGN KEY (n_art) REFERENCES Article(n_art) ON DELETE CASCADE
 );
 
-/*
+INSERT INTO Article VALUES (0,"Lorem Ipsum1", 10, 'Vetement', 25
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'L');
+INSERT INTO Article VALUES (1,"Lorem Ipsum2", 5, 'Accessoire', 50
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'XL');
+INSERT INTO Article VALUES (2,"Lorem Ipsum3", 30, 'Consommable', 10
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'XS');
+INSERT INTO Article VALUES (3,"Lorem Ipsum4", 45, 'Vetement', 16
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'M');
+INSERT INTO Article VALUES (4,"Lorem Ipsum5", 45, 'Accessoire', 21
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'L');
+
+
+/*CREATE TABLE Evenement (
+                         n_event SERIAL PRIMARY KEY,
+                         nom_event VARCHAR(255) NOT NULL,
+                         date_debut_event TIMESTAMP DEFAULT NOW(),
+                         description_event TEXT NOT NULL,
+                         adr_event VARCHAR(255) NOT NULL,
+                         prix_event INTEGER NOT NULL                 
+)*/
+
+INSERT INTO Evenement VALUES (0,"Lorem Ipsum1", "2028-07-17 03:55:10"
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","29 rue Porte d'Orange", 10);
+
+INSERT INTO Evenement VALUES (1,"Lorem Ipsum2", "2000-02-19 17:08:22"
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","92 rue Saint Germain", 0);
+INSERT INTO Evenement VALUES (2,"Lorem Ipsum3", "2002-09-25 20:49:10"
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","53 rue Reine Elisabeth", 5);
+INSERT INTO Evenement VALUES (3,"Lorem Ipsum4", "2029-01-08 22:13:33"
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","23 Chemin des Bateliers", 0);
+INSERT INTO Evenement VALUES (4,"Lorem Ipsum5", "2028-12-14 16:42:43"
+, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","37 Place Charles de Gaulle", 3);
+
+
+
+/*=
 -- Insertion d'un utilisateur standard
 INSERT INTO "User" (firstname, lastname, email, password) VALUES
     ('John', 'Doe', 'john.doe@example.com', 'securePassword123');
