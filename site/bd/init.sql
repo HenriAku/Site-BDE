@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS Produit CASCADE;
 DROP TABLE IF EXISTS Article CASCADE;
 DROP TABLE IF EXISTS Fichier CASCADE;
 DROP TABLE IF EXISTS Evenement CASCADE;
-DROP TABLE IF EXISTS "Adherent" CASCADE;
+DROP TABLE IF EXISTS Adherent CASCADE;
 
 
 --CREATION DES TABLES 
@@ -29,7 +29,7 @@ CREATE TABLE Produit(
 
 -- Création de la table 'Article'
 CREATE TABLE Article (
-                         n_art SERIAL PRIMARY KEY,
+                 title        n_art SERIAL PRIMARY KEY,
                          titre_art VARCHAR(255) NOT NULL,
                          contenu_art TEXT NOT NULL,
                          date_publi_art TIMESTAMP DEFAULT NOW()
@@ -48,6 +48,7 @@ CREATE TABLE Evenement (
 -- Création de la table 'Adherent'
 CREATE TABLE Adherent (
                          n_etu SERIAL PRIMARY KEY,
+                         num_etu VARCHAR(255) NOT NULL,
                          nom_etu VARCHAR(255) NOT NULL,
                          prenom_etu VARCHAR(255) NOT NULL,
                          num_etu VARCHAR(255) NOT NULL,
@@ -155,7 +156,7 @@ INSERT INTO Produit VALUES (4,'Lorem Ipsum5', 45, 'Accessoire', 21
 , 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
- rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ rutrum fermentumtitle. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','#FF0000', 'L');
 
@@ -200,9 +201,9 @@ Nullam in neque in nisi elementum iaculis eget vel justo. Sed
 
 /*=
 -- Insertion d'un utilisateur standard
-INSERT INTO "User" (firstname, lastname, email, password) VALUES
+INSERT INTO 'User' (firstname, lastname, email, password) VALUES
     ('John', 'Doe', 'john.doe@example.com', 'securePassword123');
 
 -- Insertion d'un administrateur
-INSERT INTO "User" (firstname, lastname, email, password) VALUES
+INSERT INTO 'User' (firstname, lastname, email, password) VALUES
     ('root', 'toor', 'ro@ot.fr', 'adminPassword456');*/
