@@ -43,6 +43,19 @@
         <input type="password" name="password" id="password" class="form-control" required>
     </div>
 
+    <!-- Confirmer Mot de passe -->
+    <div class="mb-3">
+        <label for="conf_password" class="form-label">Confirmer mot de passe</label>
+        <input type="password" name="conf_password" id="conf_password" class="form-control" required>
+    </div>
+
+    <!-- Num etudiant -->
+    <div class="mb-3">
+        <label for="netu" class="form-label">Numéro étudiant</label>
+        <input type="text" name="netu" id="netu" class="form-control"
+               value="{{ data.netu }}" required>
+    </div>
+
     <!-- Bouton -->
     <button type="submit" class="btn btn-primary">Créer</button>
 </form>

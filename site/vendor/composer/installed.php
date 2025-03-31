@@ -3,7 +3,7 @@
         'name' => 'bde/site',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '0247af701826107e0c9e385f0309970fa9fa0034',
+        'reference' => '0bc92d8b7452868330668cc7541516114bda0aea',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'bde/site' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '0247af701826107e0c9e385f0309970fa9fa0034',
+            'reference' => '0bc92d8b7452868330668cc7541516114bda0aea',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
