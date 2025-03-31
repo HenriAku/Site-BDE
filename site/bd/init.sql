@@ -22,7 +22,7 @@ CREATE TABLE Produit(
                           stock_prod     INTEGER,
                           categorie_prod VARCHAR(255) NOT NULL CHECK (categorie_prod IN ('Vetement', 'Accessoire', 'Consommable')),
                           prix_prod      INTEGER NOT NULL,
-                          description_prod VARCHAR(255) NOT NULL,
+                          description_prod TEXT NOT NULL,
                           couleur_prod  VARCHAR(255) NOT NULL,
                           taille_prod VARCHAR(255) NOT NULL CHECK (taille_prod IN ('XS', 'S', 'M', 'L', 'XL', 'XXL'))
 );
@@ -90,7 +90,7 @@ CREATE TABLE Commente (
                          note INTEGER NOT NULL CHECK (note BETWEEN 0 AND 5),
                          avis VARCHAR(255) NOT NULL,
                          PRIMARY KEY (n_event, n_etu),
-                         FOREIGN KEY (n_etu) REFERENCES Evenement(n_etu) ON DELETE CASCADE,
+                         FOREIGN KEY (n_event) REFERENCES Evenement(n_event) ON DELETE CASCADE,
                          FOREIGN KEY (n_etu) REFERENCES Adherent(n_etu) ON DELETE CASCADE
 );
 
@@ -123,78 +123,78 @@ CREATE TABLE Consulte (
                          FOREIGN KEY (n_art) REFERENCES Article(n_art) ON DELETE CASCADE
 );
 
-INSERT INTO Produit VALUES (0,"Lorem Ipsum1", 10, 'Vetement', 25
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+INSERT INTO Produit VALUES (0,'Lorem Ipsum1', 10, 'Vetement', 25
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'L');
-INSERT INTO Produit VALUES (1,"Lorem Ipsum2", 5, 'Accessoire', 50
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','#FF0000', 'L');
+INSERT INTO Produit VALUES (1,'Lorem Ipsum2', 5, 'Accessoire', 50
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'XL');
-INSERT INTO Produit VALUES (2,"Lorem Ipsum3", 30, 'Consommable', 10
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','#FF0000', 'XL');
+INSERT INTO Produit VALUES (2,'Lorem Ipsum3', 30, 'Consommable', 10
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'XS');
-INSERT INTO Produit VALUES (3,"Lorem Ipsum4", 45, 'Vetement', 16
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','#FF0000', 'XS');
+INSERT INTO Produit VALUES (3,'Lorem Ipsum4', 45, 'Vetement', 16
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'M');
-INSERT INTO Produit VALUES (4,"Lorem Ipsum5", 45, 'Accessoire', 21
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','#FF0000', 'M');
+INSERT INTO Produit VALUES (4,'Lorem Ipsum5', 45, 'Accessoire', 21
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","#FF0000", 'L');
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','#FF0000', 'L');
 
-INSERT INTO Evenement VALUES (0,"Lorem Ipsum1", "2028-07-17 03:55:10"
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+INSERT INTO Evenement VALUES (0,'Lorem Ipsum1', '2028-07-17 03:55:10'
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","29 rue Porte d'Orange", 10);
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','29 rue Porte d Orange', 10);
 
-INSERT INTO Evenement VALUES (1,"Lorem Ipsum2", "2000-02-19 17:08:22"
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+INSERT INTO Evenement VALUES (1,'Lorem Ipsum2', '2000-02-19 17:08:22'
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","92 rue Saint Germain", 0);
-INSERT INTO Evenement VALUES (2,"Lorem Ipsum3", "2002-09-25 20:49:10"
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','92 rue Saint Germain', 0);
+INSERT INTO Evenement VALUES (2,'Lorem Ipsum3', '2002-09-25 20:49:10'
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","53 rue Reine Elisabeth", 5);
-INSERT INTO Evenement VALUES (3,"Lorem Ipsum4", "2029-01-08 22:13:33"
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','53 rue Reine Elisabeth', 5);
+INSERT INTO Evenement VALUES (3,'Lorem Ipsum4', '2029-01-08 22:13:33'
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","23 Chemin des Bateliers", 0);
-INSERT INTO Evenement VALUES (4,"Lorem Ipsum5", "2028-12-14 16:42:43"
-, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','23 Chemin des Bateliers', 0);
+INSERT INTO Evenement VALUES (4,'Lorem Ipsum5', '2028-12-14 16:42:43'
+, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.","37 Place Charles de Gaulle", 3);
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','37 Place Charles de Gaulle', 3);
 
 
 
