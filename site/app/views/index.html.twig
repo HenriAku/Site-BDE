@@ -1,5 +1,7 @@
 {% extends '_template/base.html.twig' %}
 
+{% block title %}<title> Accueil - BDE Informatique</title>{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }} {# Important pour conserver les styles du parent #}
     <link rel="stylesheet" href="../asset/css/accueil.css">
@@ -8,7 +10,45 @@
 
 
 {% block body %}
-    <div>
-        <img src="../../asset/images/logo.png" alt="Logo BDE">
+    <div class="section1">
+        <div>
+            <h1>BDE INFORMATIQUE</h1>
+            <h2>Organisateur de sortie et de soirée pour le département Informatique.</h2>
+        </div>
+        <div><img src="../../asset/images/grand-logo.png" alt="Logo BDE" ></div>
+    </div>
+
+    <div class="section2">
+        <h2>ÉVÉNEMENT DU BDE</h2>
+        <div class="card">
+            {% for event in evenements|slice(0, 3) %}
+                <div class="event-card">
+                    <h2 class="event-title">{{ event.getNom() }}</h2>
+
+                    <hr>
+                    <p class="event-description">{{ event.getDescription() }}</p>
+                    <hr>
+
+                    <p class="event-date">
+                        {{ event.getDateDebut() }} - {{ event.getAdresse() }}
+                    </p>
+
+                    <p class="event-note">
+                        *Note : {% if event.getNote() is defined %}{{ event.getNote() }}/5{% else %}Non noté{% endif %}
+                    </p>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="section 3">
+        <div class="iut-container">
+            <img src="../../asset/images/iut1.jpg" class="iut">
+        </div>
+        <div class="text">
+            <p><strong>DEPUIS 2024</strong> <br>Le BDE Informatique vous accompagne dans la vie étudiante</p>
+            <p><strong>8 membres </strong><br> Tous dévoué pour les projets que nous vous proposons </p>
+        </div>
     </div>
 {% endblock %}

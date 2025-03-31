@@ -5,23 +5,18 @@ require_once './app/entities/Purchase.php';
 require_once './app/repositories/ArticleRepository.php';
 require_once './app/repositories/CategoryRepository.php';
 require_once './app/trait/FormTrait.php';
+require_once './app/repositories/EvenementRepository.php';
+
 
 class HomeController extends Controller
 {
     use FormTrait;
     public function index()
     {
-        /*$articleRepo = new ArticleRepository();
-        $categoryRepo = new CategoryRepository();
+        $evenementRepo = new EvenementRepository();
+        $evenements = $evenementRepo->findAll();
 
-        $articles = $articleRepo->findAll();
-
-        foreach ($articles as $article) {
-            $category = $categoryRepo->findByArticle($article);
-            $article->setCategory($category);
-        }*/
-
-        $this->view('index.html.twig'/*,  ['articles' => $articles]*/);
+        $this->view('index.html.twig', ['evenements' => $evenements]);
     }
 
     public function purchase()
