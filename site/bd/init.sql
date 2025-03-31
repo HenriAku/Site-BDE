@@ -29,7 +29,7 @@ CREATE TABLE Produit(
 
 -- Création de la table 'Article'
 CREATE TABLE Article (
-                 title        n_art SERIAL PRIMARY KEY,
+                         n_art SERIAL PRIMARY KEY,
                          titre_art VARCHAR(255) NOT NULL,
                          contenu_art TEXT NOT NULL,
                          date_publi_art TIMESTAMP DEFAULT NOW()
