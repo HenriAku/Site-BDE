@@ -91,7 +91,7 @@ CREATE TABLE Commente (
                          note INTEGER NOT NULL CHECK (note BETWEEN 0 AND 5),
                          avis VARCHAR(255) NOT NULL,
                          PRIMARY KEY (n_event, n_etu),
-                         FOREIGN KEY (n_etu) REFERENCES Evenement(n_etu) ON DELETE CASCADE,
+                         FOREIGN KEY (n_event) REFERENCES Evenement(n_event) ON DELETE CASCADE,
                          FOREIGN KEY (n_etu) REFERENCES Adherent(n_etu) ON DELETE CASCADE
 );
 
@@ -160,23 +160,13 @@ Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','#FF0000', 'L');
 
-
-/*CREATE TABLE Evenement (
-                         n_event SERIAL PRIMARY KEY,
-                         nom_event VARCHAR(255) NOT NULL,
-                         date_debut_event TIMESTAMP DEFAULT NOW(),
-                         description_event TEXT NOT NULL,
-                         adr_event VARCHAR(255) NOT NULL,
-                         prix_event INTEGER NOT NULL                 
-)*/
-
 INSERT INTO Evenement VALUES (0,'Lorem Ipsum1', '2028-07-17 03:55:10'
 , 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
- vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','29 rue Porte d''Orange', 10);
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','29 rue Porte d Orange', 10);
 
 INSERT INTO Evenement VALUES (1,'Lorem Ipsum2', '2000-02-19 17:08:22'
 , 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -188,7 +178,7 @@ Nullam in neque in nisi elementum iaculis eget vel justo. Sed
 INSERT INTO Evenement VALUES (2,'Lorem Ipsum3', '2002-09-25 20:49:10'
 , 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
- nec arcu ac urnatitle interdum egestas at at lectus. Praesent iaculis 
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','53 rue Reine Elisabeth', 5);
