@@ -8,7 +8,7 @@ require_once './app/trait/AuthTrait.php';
 class UserController extends Controller {
 
     use FormTrait;
-    use AuthTrait;
+    use AuthTrait; 
 
     public function index() {
         $repository = new UserRepository();
@@ -57,11 +57,14 @@ class UserController extends Controller {
                 $hashedPassword = $this->hash($data['password']);
                 $user = new User(null, $data['firstname'], $data['lastname'], $data['email'], $hashedPassword, $data['netu']);
 
+
                 // Sauvegarde dans la base de données
                 $userRepo = new UserRepository();
-                if (!$userRepo->create($user)) {
+                if (!$userRepo->create($user)) 
+                {
                     throw new Exception('Erreur lors de l\'enregistrement de l\'utilisateur.');
                 }
+
 
                 $this->redirectTo('users.php'); // Redirection après création
             } catch (Exception $e) {
