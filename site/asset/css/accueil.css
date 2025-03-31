@@ -5,6 +5,86 @@ body {
     font-family: Arial, sans-serif;
 }
 
-div{
-	background-color: aqua;
+.section1{
+	background-color: #75C9E1;
+    margin-top: -40px;
 }
+
+.section1 h1{
+    padding: 20px;
+    padding-top: 170px;
+    padding-left: 15%;
+}
+
+.section1 h2{
+    padding-left: 15%;
+    width: 26%;
+}
+
+.section1 img{
+    margin-left: auto;
+    display: flex;
+    margin-top: -180px;
+    padding-bottom: 100px;
+    padding-right: 10%;
+    width: 500px; /* Taille fixe recommandée */
+    height: auto; /* Conserve les proportions */
+}
+
+.section2{
+    margin-top: 40px;
+    color: black;
+
+}
+
+.section2 h2{
+    text-align: center;
+}
+
+.card{
+    display: flex;
+    flex-direction: row;
+}
+.event-card{
+    background-color: #EBEFF0;
+    margin: 5%;
+    padding: 1.2%;
+    border-radius: 20px;
+}
+
+.event-card .event-description{
+    height: 50%;
+}
+
+.event-card hr{
+    color: #4E9EB4;
+}
+
+.section3 {
+    position: relative;
+    text-align: center;
+    color: black;
+
+}
+
+.iut-container img{
+    height:300px;
+    width: 100%;
+    opacity: 20%;
+    object-fit: cover;
+}
+
+.text{
+    display: flex;
+    flex-direction: row;
+}
+
+.text p{
+    color: black;
+    width: 20%;
+    text-align: center;
+    margin-top: -200px;
+    font-size: 120%;
+    margin-left: 20%;
+}
+
