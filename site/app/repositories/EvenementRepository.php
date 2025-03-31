@@ -29,4 +29,30 @@ class EvenementRepository {
 
         return $evenements;
     }
+
+    public function findById(int $id) {
+        $query = "SELECT * FROM evenement WHERE n_event = :id LIMIT 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if (!$row) {
+            return null;
+        }
+    
+        return new Evenement(
+            $row['n_event'],
+            $row['nom_event'],
+            $row['date_debut_event'],
+            $row['description_event'],
+            $row['adr_event'],
+            $row['prix_event']
+        );
+    }
+    
+
+
+
 }

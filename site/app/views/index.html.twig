@@ -6,7 +6,6 @@
     {{ parent() }} {# Important pour conserver les styles du parent #}
     <link rel="stylesheet" href="../asset/css/accueil.css">
 {% endblock %}
-{% block titre %}Accueil - BDE Informatique{% endblock %}
 
 
 {% block body %}
@@ -34,7 +33,6 @@
                     </p>
 
                     <p class="event-note">
-                        *Note : {% if event.getNote() is defined %}{{ event.getNote() }}/5{% else %}Non noté{% endif %}
                     </p>
                 </div>
 
@@ -49,6 +47,26 @@
         <div class="text">
             <p><strong>DEPUIS 2024</strong> <br>Le BDE Informatique vous accompagne dans la vie étudiante</p>
             <p><strong>8 membres </strong><br> Tous dévoué pour les projets que nous vous proposons </p>
+        </div>
+    </div>
+
+    <div class="section4">
+        <h2>NEWS</h2>
+        <div class="card">
+            {# Correction syntaxique de la boucle #}
+            {% for newsItem in news %}
+                <div class="new-card">
+                    <h2 class="new-title">{{ newsItem.getTitre() }}</h2>
+
+                    <hr>
+                    <p class="new-description">{{ newsItem.getContenu() }}</p>
+                    <hr>
+
+                    <p class="new-date">
+                        {{ newsItem.getDate() }}
+                    </p>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
