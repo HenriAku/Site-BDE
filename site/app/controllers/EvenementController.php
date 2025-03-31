@@ -13,6 +13,7 @@ class EvenementController extends Controller {
         $evenements = $evenementRepo->findAll();
 
         $this->view('/evenement/index.html.twig', ['evenements' => $evenements]);
+
     }
 
     private function checkAuth() {
@@ -20,5 +21,24 @@ class EvenementController extends Controller {
         if (!$auth->isLoggedIn()) {
             $this->redirectTo('login.php');
         }
+    }
+    public function show() {
+        if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+            throw new Exception("ID invalide");
+        }
+
+        echo("blablabla");
+    
+        $id = (int) $_GET['id'];
+        $repo = new EvenementRepository();
+        $event = $repo->findById($id);
+    
+        if (!$event) {
+            throw new Exception("Événement non trouvé");
+        }
+    
+        $this->view('evenement/show.html.twig', [
+            'event' => $event
+        ]);
     }
 }
