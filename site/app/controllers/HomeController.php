@@ -11,7 +11,7 @@ class HomeController extends Controller
     use FormTrait;
     public function index()
     {
-        $articleRepo = new ArticleRepository();
+        /*$articleRepo = new ArticleRepository();
         $categoryRepo = new CategoryRepository();
 
         $articles = $articleRepo->findAll();
@@ -19,9 +19,9 @@ class HomeController extends Controller
         foreach ($articles as $article) {
             $category = $categoryRepo->findByArticle($article);
             $article->setCategory($category);
-        }
+        }*/
 
-        $this->view('index.html.twig',  ['articles' => $articles]);
+        $this->view('index.html.twig'/*,  ['articles' => $articles]*/);
     }
 
     public function purchase()
