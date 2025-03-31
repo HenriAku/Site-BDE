@@ -7,11 +7,11 @@ class EvenementRepository {
     private $db;
 
     public function __construct() {
-        $this->db = Database::getInstance()->getConnection();
+        $this->db = Repository::getInstance()->getPDO();
     }
 
     public function findAll() {
-        $query = "SELECT * FROM Evenement ORDER BY date_debut_event DESC";
+        $query = "SELECT * FROM evenement ORDER BY date_debut_event DESC";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         

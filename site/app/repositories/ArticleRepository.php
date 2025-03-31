@@ -10,7 +10,7 @@ class ArticleRepository {
     }
 
     public function findAll(): array {
-        $stmt = $this->pdo->query('SELECT * FROM article');
+        $stmt = $this->pdo->query('SELECT * FROM Produit');
         $articles = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $articles[] = $this->createArticleFromRow($row);

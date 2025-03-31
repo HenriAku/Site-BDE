@@ -29,7 +29,7 @@ CREATE TABLE Produit(
 
 -- Création de la table 'Article'
 CREATE TABLE Article (
-                         n_art SERIAL PRIMARY KEY,
+                 title        n_art SERIAL PRIMARY KEY,
                          titre_art VARCHAR(255) NOT NULL,
                          contenu_art TEXT NOT NULL,
                          date_publi_art TIMESTAMP DEFAULT NOW()
@@ -51,6 +51,7 @@ CREATE TABLE Adherent (
                          num_etu VARCHAR(255) NOT NULL,
                          nom_etu VARCHAR(255) NOT NULL,
                          prenom_etu VARCHAR(255) NOT NULL,
+                         num_etu VARCHAR(255) NOT NULL,
                          admin BOOLEAN DEFAULT false,
                          mdp_etu VARCHAR(255) NOT NULL,
                          mail_etu VARCHAR(255) NOT NULL UNIQUE
@@ -155,7 +156,7 @@ INSERT INTO Produit VALUES (4,'Lorem Ipsum5', 45, 'Accessoire', 21
 , 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
- rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ rutrum fermentumtitle. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','#FF0000', 'L');
 
@@ -187,7 +188,7 @@ Nullam in neque in nisi elementum iaculis eget vel justo. Sed
 INSERT INTO Evenement VALUES (2,'Lorem Ipsum3', '2002-09-25 20:49:10'
 , 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Nullam in neque in nisi elementum iaculis eget vel justo. Sed
- nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ nec arcu ac urnatitle interdum egestas at at lectus. Praesent iaculis 
  rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','53 rue Reine Elisabeth', 5);
