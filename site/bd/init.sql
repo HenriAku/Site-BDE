@@ -58,7 +58,7 @@ CREATE TABLE Adherent (
 
 -- Création de la table 'Fichier'
 CREATE TABLE Fichier (
-                         nom_image VARCHAR(255) PRIMARY KEY,
+                         nom_image VARCHAR(255) PRIMARY KEY
 );
 
 --CREATION DES RELATIONS 
