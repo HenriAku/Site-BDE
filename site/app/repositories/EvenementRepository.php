@@ -141,4 +141,17 @@ class EvenementRepository {
             'comments' => $comments
         ];
     }
+
+    public function addComment(int $eventId, int $userId, int $note, string $avis): bool {
+        $query = "INSERT INTO Commente (n_event, n_etu, note, avis) 
+                  VALUES (:eventId, :userId, :note, :avis)";
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':eventId', $eventId, PDO::PARAM_INT);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':note', $note, PDO::PARAM_INT);
+        $stmt->bindParam(':avis', $avis, PDO::PARAM_STR);
+        
+        return $stmt->execute();
+    }
 }

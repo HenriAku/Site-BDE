@@ -46,7 +46,34 @@
     </div>
 
     <div class="comments-section">
-       <h3>Commentaires ({{ comments|length }})</h3>
+    <h3>Commentaires ({{ comments|length }})</h3>
+    
+    {% if event.checkAuth() %}
+        <div class="add-comment">
+            <h4>Ajouter un commentaire</h4>
+            <form action="/event/{{ event.id }}/comment" method="post">
+                <div class="form-group">
+                    <label for="note">Note (entre 1 et 5)</label>
+                    <select name="note" id="note" class="form-control" required>
+                        <option value="1">1 ★</option>
+                        <option value="2">2 ★★</option>
+                        <option value="3">3 ★★★</option>
+                        <option value="4">4 ★★★★</option>
+                        <option value="5" selected>5 ★★★★★</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="avis">Votre commentaire</label>
+                    <textarea name="avis" id="avis" class="form-control" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <a href="/login.php">Connectez-vous</a> pour laisser un commentaire
+        </div>
+    {% endif %}
     
         {% if comments|length > 0 %}
             {% for comment in comments %}
