@@ -50,7 +50,13 @@ class EvenementRepository {
     }
 
     public function findById(int $id) {
-        $query = "SELECT * FROM evenement WHERE n_event = :id LIMIT 1";
+        $query = "SELECT e.*, f.nom_image as image
+                  FROM evenement e
+                  LEFT JOIN contient_evenement ce ON e.n_event = ce.n_event
+                  LEFT JOIN Fichier f ON ce.nom_image = f.nom_image
+                  WHERE e.n_event = :id
+                  LIMIT 1";
+        
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -67,12 +73,13 @@ class EvenementRepository {
             $row['date_debut_event'],
             $row['description_event'],
             $row['adr_event'],
-            $row['prix_event']
+            $row['prix_event'],
+            $row['image']
         );
     }
 
     public function findByIdWithComments(int $id) {
-        // Requête pour l'événement avec image
+        // Requête pour l'événement avec stats
         $queryEvent = "SELECT e.*, 
                       COALESCE(AVG(c.note), 0) as note_moyenne,
                       COUNT(DISTINCT c.n_etu) as nb_avis,
@@ -82,7 +89,8 @@ class EvenementRepository {
                       LEFT JOIN contient_evenement ce ON e.n_event = ce.n_event
                       LEFT JOIN Fichier f ON ce.nom_image = f.nom_image
                       WHERE e.n_event = :id
-                      GROUP BY e.n_event";
+                      GROUP BY e.n_event, e.nom_event, e.date_debut_event, 
+                               e.description_event, e.adr_event, e.prix_event, f.nom_image";
         
         $stmtEvent = $this->db->prepare($queryEvent);
         $stmtEvent->bindParam(':id', $id, PDO::PARAM_INT);
@@ -102,10 +110,11 @@ class EvenementRepository {
             $eventData['prix_event'],
             $eventData['image']
         );
+        
         $event->note_moyenne = round($eventData['note_moyenne'], 1);
         $event->nb_avis = $eventData['nb_avis'];
     
-        // Requête pour les commentaires
+        // Requête des commentaires (inchangée)
         $queryComments = "SELECT c.avis, c.note, 
                          a.prenom_etu, a.nom_etu
                          FROM Commente c
@@ -129,8 +138,7 @@ class EvenementRepository {
     
         return [
             'event' => $event,
-            'comments' => $comments,
-            'nb_avis' => count($comments) // Nombre réel de commentaires
+            'comments' => $comments
         ];
     }
 }
