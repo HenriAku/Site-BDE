@@ -10,7 +10,8 @@ trait AuthTrait
         return password_hash($password, PASSWORD_BCRYPT);
     }
 
-    public function verify(string $password, string $hash): bool {
+    public function verify(string $password, string $hash): bool 
+    {
         return password_verify($password, $hash);
     }
 }
