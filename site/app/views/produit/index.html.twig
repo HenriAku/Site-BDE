@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }} {# Important pour conserver les styles du parent #}
-    <link rel="stylesheet" href="../asset/css/produit.css">
+    <link rel="stylesheet" href="../asset/css/create_produit.css">
 {% endblock %}
 
 {% block body %}
@@ -22,17 +22,17 @@
 <div class="Formulaire">
     <label for="ListeProduit">Liste Produit</label>
     <div class="LstProduits">    
-    <select id="LstProduits" name="ListeProduit">
-        <option value=""></option>
-        {% for Produit in Produits %}
-            <option 
-                value="{{ Produit.n_prod }}"  {# Utiliser l'ID du produit #}
-                data-color="{{ Produit.color }}"
-                data-price="{{ Produit.price }}">
-                {{ Produit.name }}
-            </option>
-        {% endfor %}
-    </select>
+        <select id="LstProduits" name="ListeProduit">
+            <option value=""></option>
+            {% for Produit in Produits %}
+                <option 
+                    value="{{ Produit.n_prod }}"  
+                    data-color="{{ Produit.color }}"
+                    data-price="{{ Produit.price }}">
+                    {{ Produit.name }}
+                </option>
+            {% endfor %}
+        </select>
     </div>
 
     <form>
