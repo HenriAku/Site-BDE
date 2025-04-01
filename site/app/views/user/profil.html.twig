@@ -9,10 +9,19 @@
 {% block body %}
 
 <h1>profil</h1>
-<p>{{user.firstname}} {{user.lastname}}</p>
-<p>{{user.email}}</p>
-<p>{{user.password}}</p>
-<p>{{user.netu}}</p>
+<div>
+    <p>{{user.firstname}} {{user.lastname}}</p>
+    <p>{{user.email}}</p>
+    <p>{{user.password}}</p>
+    <p>{{user.netu}}</p>
+</div>
 
+<div>
+    <form method="POST" action="./logout.php">
+        <button type="submit">Déconnexion</button>
+    </form>
+
+    <button>supprimer profil</button>
+</div>
 
 {% endblock %}
