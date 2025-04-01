@@ -4,6 +4,7 @@ require_once './app/core/Controller.php';
 require_once './app/repositories/UserRepository.php';
 require_once './app/trait/FormTrait.php';
 require_once './app/trait/AuthTrait.php';
+require_once './app/services/AuthService.php';
 
 class UserController extends Controller {
 
@@ -170,5 +171,24 @@ class UserController extends Controller {
             echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
         }
         exit;
+    }
+
+    public function profil()
+    {
+
+        $authServ = new AuthService();
+
+        if($authServ->isLoggedIn())
+        {
+            echo "<script>console.log('sa passe');</script>";
+            $this->view('/user/form.html.twig',  ['data' => $data, 'errors' => $errors, 'id' => $id]);
+        }
+        else
+        {
+            echo "<script>console.log('sa passe pas');</script>";
+        }
+
+
+
     }
 }
