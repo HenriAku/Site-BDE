@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }} {# Important pour conserver les styles du parent #}
-    <link rel="stylesheet" href="../asset/css/produit.css">
+    <link rel="stylesheet" href="../asset/css/create_produit.css">
 {% endblock %}
 
 {% block body %}
@@ -26,8 +26,9 @@
             <option value=""></option>
             {% for Produit in Produits %}
                 <option 
-                    value="{{ Produit.name }}" 
-                    data-color="{{ Produit.color }}" >
+                    value="{{ Produit.n_prod }}"  
+                    data-color="{{ Produit.color }}"
+                    data-price="{{ Produit.price }}">
                     {{ Produit.name }}
                 </option>
             {% endfor %}
@@ -43,19 +44,21 @@
 
 
     
-    <div class="zoneDepotImage" onclick="triggerFileInput()">
+   <div class="zoneDepotImage" onclick="triggerFileInput()">
+    <div id="zoneDepTxt">
         {% set imageFound = false %}
         {% for image in images %}
-            {% if image.n_prod == Produit.n_prod %}
-                <img src="../asset/images/produit/"{{ image.nom_image }} alt={{ Produit.name }} style="max-width: 100px; max-height: 100px;">
+            {% if image.n_prod == Produit.n_produit %}
                 {% set imageFound = true %}
+                <img src="../asset/images/produit/{{ image.nom_image }}" style="max-width: 100%; max-height: 100%;">
             {% endif %}
         {% endfor %}
         {% if not imageFound %}
-            <p id="zoneDepTxt">Cliquez ici pour déposer une image</p>
+            Cliquez ici pour déposer une image
         {% endif %}
-        <input type="file" id="fileInput" style="display: none;">
     </div>
+    <input type="file" id="fileInput" style="display: none;" accept="image/*">
+</div>
     
 
     <label for="zoneDescription">Description Produit :</label>
