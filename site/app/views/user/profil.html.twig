@@ -55,9 +55,12 @@
         </button>
     </form>
 
-    <button class="btn delete-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre profil ?')">
-        <i class="fas fa-trash-alt"></i> Supprimer le profil
-    </button>
+    <form method="POST" action="./user_delete.php">
+        <button class="btn delete-btn"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre profil ?')">
+            <i class="fas fa-trash-alt"></i> Supprimer le profil
+        </button>
+    </form>
+
 </div>
 
 
