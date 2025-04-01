@@ -12,7 +12,7 @@ class EvenementController extends Controller {
         $evenementRepo = new EvenementRepository();
         $evenements = $evenementRepo->findAll();
 
-        $this->view('/evenement/index.html.twig', ['evenements' => $evenements]);
+        $this->view('/evenement/eventIndex.html.twig', ['evenements' => $evenements]);
 
     }
 
@@ -22,23 +22,22 @@ class EvenementController extends Controller {
             $this->redirectTo('login.php');
         }
     }
-    public function show() {
+    public function show() { // Renommez showEvent en show pour correspondre à la convention
         if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-            throw new Exception("ID invalide");
+            die("ID invalide !");
         }
-
-        echo("blablabla");
     
         $id = (int) $_GET['id'];
-        $repo = new EvenementRepository();
-        $event = $repo->findById($id);
+        $eventRepository = new EvenementRepository();
+        $event = $eventRepository->findById($id);
     
         if (!$event) {
-            throw new Exception("Événement non trouvé");
+            die("Événement non trouvé !");
         }
     
-        $this->view('evenement/show.html.twig', [
+        $this->view('/evenement/show.html.twig', [
             'event' => $event
         ]);
     }
+    
 }

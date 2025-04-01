@@ -6,7 +6,7 @@ class News {
     private $contenu;
     private $date;
 
-    public function __construct($id, $titre, $date, $contenu) {
+    public function __construct($id, $titre, $contenu , $date) {
         $this->id = $id;
         $this->titre = $titre;
         $this->date = $date;
