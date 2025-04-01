@@ -9,8 +9,9 @@ class Evenement {
     private $prix;
     private $image;
     public $note_moyenne;
+    public $nb_avis;
 
-    public function __construct($id, $nom, $dateDebut, $description, $adresse, $prix, $image) {
+    public function __construct($id, $nom, $dateDebut, $description, $adresse, $prix, $image = null) {
         $this->id = $id;
         $this->nom = $nom;
         $this->dateDebut = $dateDebut;
@@ -27,12 +28,7 @@ class Evenement {
     public function getDescription() { return $this->description; }
     public function getAdresse() { return $this->adresse; }
     public function getPrix() { return $this->prix; }
-
-    public function getImage() {
-        return $this->image ?? 'default-event.jpg'; 
-    }
-
-    public function getNoteMoyenne() {
-        return $this->note_moyenne;
-    }
+    public function getImage() { return $this->image ?? 'default-event.jpg'; }
+    public function getNoteMoyenne() { return $this->note_moyenne; }
+    public function getNbAvis() { return $this->nb_avis; }
 }

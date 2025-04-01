@@ -2,8 +2,7 @@
 
 require_once './app/core/Controller.php';
 require_once './app/entities/Purchase.php';
-require_once './app/repositories/ArticleRepository.php';
-require_once './app/repositories/CategoryRepository.php';
+require_once './app/repositories/ProduitRepository.php';
 require_once './app/trait/FormTrait.php';
 require_once './app/repositories/EvenementRepository.php';
 require_once './app/repositories/NewsRepository.php';
@@ -28,11 +27,11 @@ class HomeController extends Controller
 
     public function purchase()
     {
-        $articleRepo = new ArticleRepository();
-        $article = $articleRepo->findById($this->getQueryParam('article_id'));
+        $ProduitRepo = new ProduitRepository();
+        $Produit = $ProduitRepo->findById($this->getQueryParam('Produit_id'));
 
         $authService = new AuthService();
-        $purchase = new Purchase(null,$article,$authService->getUser(),$this->getPostParam('quantity'));
+        $purchase = new Purchase(null,$Produit,$authService->getUser(),$this->getPostParam('quantity'));
 
         if(session_status() == PHP_SESSION_NONE)
             session_start();

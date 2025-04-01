@@ -10,20 +10,39 @@
 {% block body %}
 <div class="contact-container">
     <h1>Contactez-nous</h1>
-    <form method="post" action="/contact/submit">
-        <div class="div-form">
-            <label for="email">Email :</label>
-            <input type="email" name="email" id="email" required>
+
+    {% if success %}
+        <div class="alert alert-success text-center" role="alert">
+            {{ success }}
         </div>
+    {% endif %}
+
+    {% if errors %}
+        <div class="alert alert-danger text-center" role="alert">
+            <ul class="mb-0">
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="post" action="contact.php">
+		{% if not log %}
+			<div class="div-form">
+				<label for="email">Email :</label>
+				<input type="email" name="email" id="email" value="{{ data.email ?? '' }}" required>
+			</div>
+		{% endif %}
 
         <div class="div-form">
-            <label for="object">Objet :</label>
-            <input type="text" name="object" id="object" required>
+            <label for="objet">Objet :</label>
+            <input type="text" name="objet" id="objet" value="{{ data.objet ?? '' }}" required>
         </div>
         
         <div class="div-form">
             <label for="msg">Message :</label>
-            <textarea name="msg" id="msg" required></textarea>
+            <textarea name="msg" id="msg" required>{{ data.msg ?? '' }}</textarea>
         </div>
         
         <div class="div-form">

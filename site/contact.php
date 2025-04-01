@@ -1,3 +1,3 @@
 <?php
 require_once './app/controllers/ContactController.php';
-(new ContactController())->index();
+(new ContactController())->create();
