@@ -16,6 +16,45 @@ class EvenementController extends Controller {
 
     }
 
+    public function createEvent()
+    {
+        $auth = new AuthService();
+        if (!$auth->isLoggedIn()) {
+            $this->redirectTo('login.php');
+        }
+
+        $repo = new EvenementRepository();
+        $events = $repo->findAll();
+
+        // Gérer les soumissions du formulaire
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $action = $_POST['action'] ?? '';
+            $id = $_POST['id'] ?? 0;
+
+            switch ($action) {
+                case 'add':
+                    $this->addEvent($repo);
+                    break;
+                case 'update':
+                    $this->updateEvent($repo, $id);
+                    break;
+                case 'delete':
+                    $this->deleteEvent($repo, $id);
+                    break;
+            }
+
+            // Rediriger pour éviter la resoumission du formulaire
+            $this->redirectTo('/create_event.php');
+        }
+
+        // Afficher la page avec la liste des événements
+        $this->view('/evenement/create_event.html.twig', [
+            'events' => $events,
+            'messages' => $_SESSION['user'] ?? []
+        ]);
+
+    }
+
     private function checkAuth() {
         $auth = new AuthService();
         if (!$auth->isLoggedIn()) {
@@ -89,6 +128,134 @@ class EvenementController extends Controller {
     
             header("Location: /event.php?id=$eventId");
             exit();
+        }
+    }
+
+    public function adminPanel()
+    {
+        $auth = new AuthService();
+        if (!$auth->isLoggedIn() || !$auth->isAdmin()) {
+            $this->redirectTo('login.php');
+        }
+
+        $repo = new EvenementRepository();
+        $events = $repo->findAllForAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $action = $_POST['action'] ?? '';
+            
+            switch ($action) {
+                case 'add':
+                    $this->handleAddEvent($repo);
+                    break;
+                case 'update':
+                    $id = $_POST['id'] ?? 0;
+                    $this->handleUpdateEvent($repo, $id);
+                    break;
+                case 'delete':
+                    $id = $_POST['id'] ?? 0;
+                    $this->handleDeleteEvent($repo, $id);
+                    break;
+            }
+            
+            $this->redirectTo('/create_produit.php');
+        }
+
+        $this->view('/evenement/create_event.html.twig', [
+            'events' => $events,
+            'messages' => $_SESSION['admin_messages'] ?? []
+        ]);
+        
+        unset($_SESSION['user']);
+    }
+
+    private function handleAddEvent(EvenementRepository $repo)
+    {
+        $data = $this->validateEventData($_POST);
+        
+        if ($repo->create(
+            $data['nom'],
+            $data['date'],
+            $data['description'],
+            $data['adresse'],
+            $data['prix'],
+            $data['places'],
+            $_FILES['image']
+        )) {
+            $_SESSION['admin_messages']['success'] = "Événement ajouté avec succès";
+        } else {
+            $_SESSION['admin_messages']['error'] = "Erreur lors de l'ajout de l'événement";
+        }
+    }
+
+    private function validateEventData(array $postData): array
+    {
+        return [
+            'nom' => htmlspecialchars(trim($postData['nom'] ?? '')),
+            'date' => $postData['date'] ?? '',
+            'description' => htmlspecialchars(trim($postData['description'] ?? '')),
+            'adresse' => htmlspecialchars(trim($postData['adresse'] ?? '')),
+            'prix' => (float)($postData['prix'] ?? 0),
+        ];
+    }
+
+    private function addEvent(EvenementRepository $repo)
+    {
+        try {
+            $data = $this->validateEventData($_POST);
+            
+            $prix = (int)round($data['prix']);
+            
+            if ($repo->create(
+                $data['nom'],
+                $data['date'],
+                $data['description'],
+                $data['adresse'],
+                $prix,
+                0,
+                $_FILES['image']
+            )) {
+            } else {
+                throw new RuntimeException("Erreur lors de la création");
+            }
+        } catch (Exception $e) {
+            
+        }
+    }
+
+    private function updateEvent(EvenementRepository $repo, int $id)
+    {
+        try {
+            $data = $this->validateEventData($_POST);
+            
+            // Fournir une valeur par défaut pour places
+            $places = (int)($_POST['places'] ?? 0);
+            
+            if ($repo->update(
+                $id,
+                $data['nom'],
+                $data['date'],
+                $data['description'],
+                $data['adresse'],
+                $data['prix'],
+                $places, // Maintenant toujours un int
+                $_FILES['image']
+            )) {
+                $_SESSION['admin_messages']['success'] = "Événement mis à jour";
+            } else {
+                throw new RuntimeException("Erreur lors de la mise à jour");
+            }
+        } catch (Exception $e) {
+            $_SESSION['admin_messages']['error'] = $e->getMessage();
+        }
+    }
+
+    private function deleteEvent(EvenementRepository $repo, int $id)
+    {
+        if ($repo->delete($id)) {
+            $_SESSION['admin_messages']['success'] = "Événement supprimé";
+        } else {
+            $_SESSION['admin_messages']['error'] = "Erreur lors de la suppression";
         }
     }
     

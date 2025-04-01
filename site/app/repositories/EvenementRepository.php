@@ -154,4 +154,189 @@ class EvenementRepository {
         
         return $stmt->execute();
     }
+
+    public function findAllForAdmin(): array {
+        $query = "SELECT e.*, 
+                 COUNT(c.n_event) as nb_commentaires,
+                 f.nom_image as image
+                 FROM evenement e
+                 LEFT JOIN Commente c ON e.n_event = c.n_event
+                 LEFT JOIN contient_evenement ce ON e.n_event = ce.n_event
+                 LEFT JOIN Fichier f ON ce.nom_image = f.nom_image
+                 GROUP BY e.n_event
+                 ORDER BY e.date_debut_event DESC";
+        
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function create(
+        string $nom, 
+        string $date, 
+        string $description, 
+        string $adresse, 
+        float $prix,
+        int $places,  // On garde le paramètre mais ne l'utilisera pas dans la requête
+        ?array $imageFile = null
+    ): bool {
+        try {
+            // Requête adaptée au schéma actuel (sans places_disponibles)
+            $query = "INSERT INTO evenement 
+                     (nom_event, date_debut_event, description_event, adr_event, prix_event)
+                     VALUES (:nom, :date, :description, :adresse, :prix)";
+            
+            $stmt = $this->db->prepare($query);
+            $params = [
+                ':nom' => $nom,
+                ':date' => $date,
+                ':description' => $description,
+                ':adresse' => $adresse,
+                ':prix' => (int)$prix  // Conversion en integer pour correspondre au schéma
+            ];
+            
+            if (!$stmt->execute($params)) {
+                throw new RuntimeException("Erreur lors de l'insertion de l'événement");
+            }
+    
+            // Gestion de l'image si fournie
+            if ($imageFile && $imageFile['error'] === UPLOAD_ERR_OK) {
+                $eventId = $this->db->lastInsertId();
+                $filename = $this->handleImageUpload($imageFile, $eventId);
+                
+                $query = "INSERT INTO contient_evenement (n_event, nom_image)
+                         VALUES (:eventId, :filename)";
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([
+                    ':eventId' => $eventId,
+                    ':filename' => $filename
+                ]);
+            }
+    
+            return true;
+        } catch (Exception $e) {
+            error_log("Erreur création événement: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function update(
+        int $id,
+        string $nom, 
+        string $date, 
+        string $description, 
+        string $adresse, 
+        float $prix,
+        ?int $places = null,  // Rendre le paramètre optionnel
+        ?array $image = null
+    ): bool {
+        try {
+            // Requête UPDATE adaptée (sans places_disponibles)
+            $query = "UPDATE evenement SET
+                     nom_event = :nom,
+                     date_debut_event = :date,
+                     description_event = :description,
+                     adr_event = :adresse,
+                     prix_event = :prix
+                     WHERE n_event = :id";
+            
+            $stmt = $this->db->prepare($query);
+            $params = [
+                ':nom' => $nom,
+                ':date' => $date,
+                ':description' => $description,
+                ':adresse' => $adresse,
+                ':prix' => (int)$prix, // Conversion en integer
+                ':id' => $id
+            ];
+            
+            if (!$stmt->execute($params)) {
+                throw new RuntimeException("Erreur lors de la mise à jour");
+            }
+            
+            // 2. Gérer l'image si fournie
+            if ($image && $image['error'] === UPLOAD_ERR_OK) {
+                // Supprimer l'ancienne image si elle existe
+                $this->deleteEventImage($id);
+                
+                // Ajouter la nouvelle image
+                $filename = $this->handleImageUpload($image, $id);
+                
+                $query = "INSERT INTO contient_evenement (n_event, nom_image)
+                         VALUES (:eventId, :filename)";
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([
+                    ':eventId' => $id,
+                    ':filename' => $filename
+                ]);
+            }
+            
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            error_log("Erreur mise à jour événement: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function delete(int $id): bool {
+        $this->db->beginTransaction();
+        
+        try {
+            // 1. Supprimer les commentaires associés
+            $query = "DELETE FROM Commente WHERE n_event = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':id' => $id]);
+            
+            // 2. Supprimer les références aux images
+            $this->deleteEventImage($id);
+            
+            // 3. Supprimer l'événement
+            $query = "DELETE FROM evenement WHERE n_event = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':id' => $id]);
+            
+            $this->db->commit();
+            return true;
+            
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            error_log("Erreur suppression événement: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Méthodes utilitaires privées
+    private function handleImageUpload(array $imageFile, int $eventId): string
+    {
+        $uploadDir = __DIR__ . '/../../public/uploads/events/';
+        $extension = pathinfo($imageFile['name'], PATHINFO_EXTENSION);
+        $filename = 'event_' . $eventId . '_' . time() . '.' . $extension;
+        
+        if (!move_uploaded_file($imageFile['tmp_name'], $uploadDir . $filename)) {
+            throw new RuntimeException("Échec de l'upload de l'image");
+        }
+        
+        return $filename;
+    }
+
+    private function deleteEventImage(int $eventId): void {
+        // 1. Récupérer le nom de l'image
+        $query = "SELECT nom_image FROM contient_evenement WHERE n_event = :eventId";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':eventId' => $eventId]);
+        $image = $stmt->fetchColumn();
+        
+        if ($image) {
+            // 2. Supprimer le fichier physique
+            $filePath = __DIR__ . '/../../public/uploads/events/' . $image;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+            
+            // 3. Supprimer la référence en base
+            $query = "DELETE FROM contient_evenement WHERE n_event = :eventId";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':eventId' => $eventId]);
+        }
+    }
 }

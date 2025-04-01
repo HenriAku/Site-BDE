@@ -1,7 +1,7 @@
 .event-container, .event-container * {
     color: black !important;
 }
-.title  {
+.title, body  {
     color: black !important;
 }
 
@@ -43,6 +43,23 @@
 .no-comments {
     font-style: italic;
     color: #999;
+}
+
+.Menu-administrateur {
+    background-color: #75C9E1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 50px;
+    height: 5vh;
+    width: 70vw;
+    margin: 20px auto;
+    padding: 0;
+}
+.Menu-administrateur a {
+    font-size: 18px;
+    text-decoration: none;
+    color: white;
 }
 
 /* Liste des événements */
