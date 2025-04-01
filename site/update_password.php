@@ -11,7 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     }
 
     $controller = new UserController();
-    $controller->updatePassword();
+
+    $netu = $controller->getUser();
+
+    $controller->updatePassword($newPassword, $netu);
 
 }
 
