@@ -48,7 +48,7 @@
     <div class="comments-section">
     <h3>Commentaires ({{ comments|length }})</h3>
     
-    {% if event.checkAuth() %}
+    {% if app.user %}
         <div class="add-comment">
             <h4>Ajouter un commentaire</h4>
             <form action="/event/{{ event.id }}/comment" method="post">
