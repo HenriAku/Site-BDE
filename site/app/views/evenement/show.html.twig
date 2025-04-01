@@ -5,29 +5,28 @@
     <link rel="stylesheet" href="../asset/css/event.css">
 {% endblock %}
 
-{% block title %}Liste des événements{% endblock %}
-
 {% block body %}
-<h1 class="title">Événements à venir</h1>
-
-<div class="event-container">
-    {% for event in evenements %}
-    <div class="event-card">
-        <h2 class="event-title">{{ event.getNom() }}</h2>
-
-        <p class="event-description">{{ event.getDescription() }}</p>
-
-        <p class="event-date">
-            {{ event.getDateDebut() }} - {{ event.getAdresse() }}
-        </p>
-
-        <p class="event-note">
-            *Note : {% if event.getNote() is defined %}{{ event.getNote() }}/5{% else %}Non noté{% endif %}
-        </p>
-  
-        <a href="/evenement/show?id={{ event.getId() }}" class="btn">Voir plus</a>
+<article class="event-container">
+    <h1>{{ event.nom }}</h1>
+    
+    <div class="event-header">
+        <div class="event-meta">
+            <time>{{ event.dateDebut|date('d/m/Y H:i') }}</time>
+            <address>{{ event.adresse }}</address>
+            <div class="price">{{ event.prix }} €</div>
+        </div>
     </div>
-    {% endfor %}
-</div>
 
+    <div class="event-body">
+        <p>{{ event.description }}</p>
+        
+        {% if event.note %}
+        <div class="rating">
+            Note: {{ event.note }}/5
+        </div>
+        {% endif %}
+    </div>
+
+    <a href="/event.php" class="btn">Retour à la liste</a>
+</article>
 {% endblock %}
