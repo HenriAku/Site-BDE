@@ -56,6 +56,7 @@ class UserController extends Controller {
 
                 // Création de l'objet utilisateur
                 $hashedPassword = $this->hash($data['password']);
+                echo "<script>console.log('".$data['netu']."');</script>";
                 $user = new User(null, $data['firstname'], $data['lastname'], $data['email'], $hashedPassword, $data['netu']);
 
 
@@ -67,7 +68,7 @@ class UserController extends Controller {
                 }
 
 
-                $this->redirectTo('index.php'); // Redirection après création
+                $this->redirectTo('login.php'); // Redirection après création
             } catch (Exception $e) {
                 $errors = explode(', ', $e->getMessage()); // Récupération des erreurs
             }
@@ -177,14 +178,19 @@ class UserController extends Controller {
     {
 
         $authServ = new AuthService();
+        $user = $authServ->getUser();
+
+        echo "<script>console.log('".$user->getNetu()."');</script>";
+
 
         if($authServ->isLoggedIn())
         {
             echo "<script>console.log('sa passe');</script>";
-            $this->view('/user/form.html.twig',  ['data' => $data, 'errors' => $errors, 'id' => $id]);
+            $this->view('/user/profil.html.twig', ['user' => $user]);
         }
         else
         {
+            $this->redirectTo('login.php');
             echo "<script>console.log('sa passe pas');</script>";
         }
 
