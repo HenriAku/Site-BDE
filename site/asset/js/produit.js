@@ -1,12 +1,13 @@
 const lstProduit = document.getElementById("LstProduits");
+
 lstProduit.addEventListener("change", () => {
 	updateNom();
 });
 
 function updateNom() {
-	const selectedProduit = document.getElementById('LstProduits').value;
-	
-	document.getElementById('nom').value = selectedProduit;
+    const select = document.getElementById('LstProduits');
+    const selectedProduit = select.options[select.selectedIndex].textContent;
+    document.getElementById('nom').value = selectedProduit;
 }
 
 function changeImageNameZoneTxt() {
@@ -82,6 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 prix.value = Produits[select.selectedIndex-1].price;
             else
                 prix.value = 0;
+
+            const textArea = document.getElementById("description");
+            if (select.selectedIndex-1 >= 0)    
+                textArea.value = Produits[select.selectedIndex-1].description;
+            else
+                textArea.value = "";
+
         }
     
     // Écouteur d'événement
