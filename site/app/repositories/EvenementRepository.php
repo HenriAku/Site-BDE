@@ -176,31 +176,31 @@ class EvenementRepository {
         string $description, 
         string $adresse, 
         float $prix,
-        int $places,
-        array $imageFile
+        int $places,  // On garde le paramètre mais ne l'utilisera pas dans la requête
+        ?array $imageFile = null
     ): bool {
-        $this->db->beginTransaction();
-        
         try {
-            // 1. Insérer l'événement
+            // Requête adaptée au schéma actuel (sans places_disponibles)
             $query = "INSERT INTO evenement 
-                     (nom_event, date_debut_event, description_event, adr_event, prix_event, places_disponibles)
-                     VALUES (:nom, :date, :description, :adresse, :prix, :places)";
+                     (nom_event, date_debut_event, description_event, adr_event, prix_event)
+                     VALUES (:nom, :date, :description, :adresse, :prix)";
             
             $stmt = $this->db->prepare($query);
-            $stmt->execute([
+            $params = [
                 ':nom' => $nom,
                 ':date' => $date,
                 ':description' => $description,
                 ':adresse' => $adresse,
-                ':prix' => $prix,
-                ':places' => $places
-            ]);
+                ':prix' => (int)$prix  // Conversion en integer pour correspondre au schéma
+            ];
             
-            $eventId = $this->db->lastInsertId();
-            
-            // 2. Gérer l'image si elle existe
-            if ($imageFile['error'] === UPLOAD_ERR_OK) {
+            if (!$stmt->execute($params)) {
+                throw new RuntimeException("Erreur lors de l'insertion de l'événement");
+            }
+    
+            // Gestion de l'image si fournie
+            if ($imageFile && $imageFile['error'] === UPLOAD_ERR_OK) {
+                $eventId = $this->db->lastInsertId();
                 $filename = $this->handleImageUpload($imageFile, $eventId);
                 
                 $query = "INSERT INTO contient_evenement (n_event, nom_image)
@@ -211,12 +211,9 @@ class EvenementRepository {
                     ':filename' => $filename
                 ]);
             }
-            
-            $this->db->commit();
+    
             return true;
-            
-        } catch (PDOException $e) {
-            $this->db->rollBack();
+        } catch (Exception $e) {
             error_log("Erreur création événement: " . $e->getMessage());
             return false;
         }
@@ -229,32 +226,32 @@ class EvenementRepository {
         string $description, 
         string $adresse, 
         float $prix,
-        int $places,
+        ?int $places = null,  // Rendre le paramètre optionnel
         ?array $image = null
     ): bool {
-        $this->db->beginTransaction();
-        
         try {
-            // 1. Mettre à jour l'événement
+            // Requête UPDATE adaptée (sans places_disponibles)
             $query = "UPDATE evenement SET
                      nom_event = :nom,
                      date_debut_event = :date,
                      description_event = :description,
                      adr_event = :adresse,
-                     prix_event = :prix,
-                     places_disponibles = :places
+                     prix_event = :prix
                      WHERE n_event = :id";
             
             $stmt = $this->db->prepare($query);
-            $stmt->execute([
+            $params = [
                 ':nom' => $nom,
                 ':date' => $date,
                 ':description' => $description,
                 ':adresse' => $adresse,
-                ':prix' => $prix,
-                ':places' => $places,
+                ':prix' => (int)$prix, // Conversion en integer
                 ':id' => $id
-            ]);
+            ];
+            
+            if (!$stmt->execute($params)) {
+                throw new RuntimeException("Erreur lors de la mise à jour");
+            }
             
             // 2. Gérer l'image si fournie
             if ($image && $image['error'] === UPLOAD_ERR_OK) {
@@ -275,9 +272,7 @@ class EvenementRepository {
             
             $this->db->commit();
             return true;
-            
-        } catch (PDOException $e) {
-            $this->db->rollBack();
+        } catch (Exception $e) {
             error_log("Erreur mise à jour événement: " . $e->getMessage());
             return false;
         }

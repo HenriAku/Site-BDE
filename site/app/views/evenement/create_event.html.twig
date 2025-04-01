@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="../asset/css/event.css">
+    <link rel="stylesheet" href="../asset/css/produit.css">
 {% endblock %}
 
 {% block body %}
@@ -16,16 +16,17 @@
 {% endif %}
 
 <div class="Menu-administrateur">
-    <a href="">Événements</a>
-    <a href="">Articles</a>
-    <a href="">Boutique</a>
-    <a href="">Ventes</a>
-    <a href="">Gestion</a>
-    <a href="">Adhésions</a>
-    <a href="">Participants</a>
+    <a href="create_event.php">Event</a>
+    <a href="">Actu</a>
+    <a href="produit.php">Boutique</a>
+    <a href="">Vente</a>
+    <a href="users.php">Gestion</a>
+    <a href="">Adhésion</a>
+    <a href="">Participation</a>
 </div>
 
-<form method="post" enctype="multipart/form-data">
+
+<form method="post" enctype="multipart/form-data" action="/create_event.php">
     <input type="hidden" name="id" id="eventId" value="">
 
     <div class="Formulaire">
@@ -34,16 +35,16 @@
             <select id="LstEvenements" name="event_select" onchange="loadEventData(this)">
                 <option value="">-- Sélectionner un événement --</option>
                 {% for event in events %}
-                    <option value="{{ event.id }}" 
-                            data-nom="{{ event.nom }}"
-                            data-date="{{ event.date|date('Y-m-d\TH:i') }}"
-                            data-adresse="{{ event.adresse }}"
-                            data-description="{{ event.description }}"
-                            data-prix="{{ event.prix }}"
-                            data-places="{{ event.places }}">
-                        {{ event.nom }} ({{ event.date|date('d/m/Y') }})
+                    <option value="{{ event.getId() }}" 
+                            data-nom="{{ event.getNom() }}"
+                            data-date="{{ event.getDateDebut()|date('Y-m-d\\TH:i') }}"
+                            data-adresse="{{ event.getAdresse() }}"
+                            data-description="{{ event.getDescription() }}"
+                            data-prix="{{ event.getPrix() }}"
+                            data-places="{{ event.getPlaces() }}">
+                        {{ event.getNom() }} ({{ event.getDateDebut()|date('d/m/Y') }})
                     </option>
-                {% endfor %}
+                {% endfor %}    
             </select>
         </div>
 
@@ -78,10 +79,6 @@
                 <input type="number" step="0.01" id="prix" name="prix" min="0" required>
             </div>
 
-            <div class="form-group">
-                <label for="places">Places disponibles :</label>
-                <input type="number" id="places" name="places" min="0" required>
-            </div>
         </div>
 
         <div class="actions">
