@@ -1,0 +1,112 @@
+{% extends '_template/base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="../asset/css/event.css">
+{% endblock %}
+
+{% block body %}
+<h1>Panel D'administration des Événements</h1>
+
+{% if messages.success %}
+    <div class="alert alert-success">{{ messages.success }}</div>
+{% endif %}
+{% if messages.error %}
+    <div class="alert alert-danger">{{ messages.error }}</div>
+{% endif %}
+
+<div class="Menu-administrateur">
+    <a href="">Événements</a>
+    <a href="">Articles</a>
+    <a href="">Boutique</a>
+    <a href="">Ventes</a>
+    <a href="">Gestion</a>
+    <a href="">Adhésions</a>
+    <a href="">Participants</a>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" id="eventId" value="">
+
+    <div class="Formulaire">
+        <label for="LstEvenements">Liste des événements</label>
+        <div class="LstEvenements">    
+            <select id="LstEvenements" name="event_select" onchange="loadEventData(this)">
+                <option value="">-- Sélectionner un événement --</option>
+                {% for event in events %}
+                    <option value="{{ event.id }}" 
+                            data-nom="{{ event.nom }}"
+                            data-date="{{ event.date|date('Y-m-d\TH:i') }}"
+                            data-adresse="{{ event.adresse }}"
+                            data-description="{{ event.description }}"
+                            data-prix="{{ event.prix }}"
+                            data-places="{{ event.places }}">
+                        {{ event.nom }} ({{ event.date|date('d/m/Y') }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="nom">Nom de l'événement :</label>
+            <input type="text" id="nom" name="nom" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date et heure :</label>
+            <input type="datetime-local" id="date" name="date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="adresse">Adresse :</label>
+            <input type="text" id="adresse" name="adresse" required>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Image :</label>
+            <input type="file" id="image" name="image" accept="image/*">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description :</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="prix">Prix :</label>
+                <input type="number" step="0.01" id="prix" name="prix" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="places">Places disponibles :</label>
+                <input type="number" id="places" name="places" min="0" required>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="submit" name="action" value="add" class="btn-ajouter">Ajouter</button>
+            <button type="submit" name="action" value="update" class="btn-modifier">Modifier</button>
+            <button type="submit" name="action" value="delete" class="btn-supprimer">Supprimer</button>
+        </div>
+    </div>
+</form>
+
+{% block javascripts %}
+<script>
+function loadEventData(select) {
+    const option = select.selectedOptions[0];
+    if (!option.value) return;
+    
+    document.getElementById('eventId').value = option.value;
+    document.getElementById('nom').value = option.dataset.nom;
+    document.getElementById('date').value = option.dataset.date;
+    document.getElementById('adresse').value = option.dataset.adresse;
+    document.getElementById('description').value = option.dataset.description;
+    document.getElementById('prix').value = option.dataset.prix;
+    document.getElementById('places').value = option.dataset.places;
+}
+</script>
+{% endblock %}
+
+{% endblock %}

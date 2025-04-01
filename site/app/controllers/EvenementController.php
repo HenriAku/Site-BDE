@@ -16,6 +16,17 @@ class EvenementController extends Controller {
 
     }
 
+    public function createEvent()
+    {
+        $auth = new AuthService();
+        if (!$auth->isLoggedIn()) {
+            $this->redirectTo('login.php');
+        }
+
+        // Afficher la page de création d'événement
+        $this->view('/evenement/create_event.html.twig');
+    }
+
     private function checkAuth() {
         $auth = new AuthService();
         if (!$auth->isLoggedIn()) {
@@ -89,6 +100,124 @@ class EvenementController extends Controller {
     
             header("Location: /event.php?id=$eventId");
             exit();
+        }
+    }
+
+    public function adminPanel()
+    {
+        $auth = new AuthService();
+        if (!$auth->isLoggedIn() || !$auth->isAdmin()) {
+            $this->redirectTo('login.php');
+        }
+
+        $repo = new EvenementRepository();
+        $events = $repo->findAllForAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $action = $_POST['action'] ?? '';
+            
+            switch ($action) {
+                case 'add':
+                    $this->handleAddEvent($repo);
+                    break;
+                case 'update':
+                    $id = $_POST['id'] ?? 0;
+                    $this->handleUpdateEvent($repo, $id);
+                    break;
+                case 'delete':
+                    $id = $_POST['id'] ?? 0;
+                    $this->handleDeleteEvent($repo, $id);
+                    break;
+            }
+            
+            // Rediriger pour éviter la resoumission du formulaire
+            $this->redirectTo('/admin/evenements');
+        }
+
+        $this->view('/admin/evenements.html.twig', [
+            'events' => $events,
+            'messages' => $_SESSION['admin_messages'] ?? []
+        ]);
+        
+        unset($_SESSION['admin_messages']);
+    }
+
+    private function handleAddEvent(EvenementRepository $repo)
+    {
+        $data = $this->validateEventData($_POST);
+        
+        if ($repo->create(
+            $data['nom'],
+            $data['date'],
+            $data['description'],
+            $data['adresse'],
+            $data['prix'],
+            $data['places'],
+            $_FILES['image']
+        )) {
+            $_SESSION['admin_messages']['success'] = "Événement ajouté avec succès";
+        } else {
+            $_SESSION['admin_messages']['error'] = "Erreur lors de l'ajout de l'événement";
+        }
+    }
+
+    private function validateEventData(array $postData): array
+    {
+        return [
+            'nom' => htmlspecialchars($postData['nom'] ?? ''),
+            'date' => $postData['date'] ?? '',
+            'description' => htmlspecialchars($postData['description'] ?? ''),
+            'adresse' => htmlspecialchars($postData['adresse'] ?? ''),
+            'prix' => (float)($postData['prix'] ?? 0),
+            'places' => (int)($postData['places'] ?? 0)
+        ];
+    }
+
+    private function addEvent(EvenementRepository $repo)
+    {
+        $data = $this->validateEventData($_POST);
+        
+        if ($repo->create(
+            $data['nom'],
+            $data['date'],
+            $data['description'],
+            $data['adresse'],
+            $data['prix'],
+            $data['places'],
+            $_FILES['image']
+        )) {
+            $_SESSION['admin_messages']['success'] = "Événement ajouté avec succès";
+        } else {
+            $_SESSION['admin_messages']['error'] = "Erreur lors de l'ajout";
+        }
+    }
+
+    private function updateEvent(EvenementRepository $repo, int $id)
+    {
+        $data = $this->validateEventData($_POST);
+        
+        if ($repo->update(
+            $id,
+            $data['nom'],
+            $data['date'],
+            $data['description'],
+            $data['adresse'],
+            $data['prix'],
+            $data['places'],
+            $_FILES['image']
+        )) {
+            $_SESSION['admin_messages']['success'] = "Événement mis à jour";
+        } else {
+            $_SESSION['admin_messages']['error'] = "Erreur lors de la mise à jour";
+        }
+    }
+
+    private function deleteEvent(EvenementRepository $repo, int $id)
+    {
+        if ($repo->delete($id)) {
+            $_SESSION['admin_messages']['success'] = "Événement supprimé";
+        } else {
+            $_SESSION['admin_messages']['error'] = "Erreur lors de la suppression";
         }
     }
     
