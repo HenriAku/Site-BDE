@@ -54,6 +54,12 @@
             <a href="/login.php" class="btn-reserver">Connectez-vous pour réserver</a>
         {% endif %}
     </div>
+    {% if reservation_success is defined %}
+    <div class="alert alert-success">{{ reservation_success }}</div>
+    {% endif %}
+    {% if reservation_error is defined %}
+        <div class="alert alert-danger">{{ reservation_error }}</div>
+    {% endif %}
 
     <div class="comments-section">
     <h3>Commentaires ({{ comments|length }})</h3>

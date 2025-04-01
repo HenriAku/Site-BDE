@@ -355,4 +355,26 @@ class EvenementRepository {
             $stmt->execute([':eventId' => $eventId]);
         }
     }
+
+    public function isAlreadyRegistered(int $userId, int $eventId): bool
+    {
+        $query = "SELECT COUNT(*) FROM Participe WHERE n_etu = :userId AND n_event = :eventId";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([
+            ':userId' => $userId,
+            ':eventId' => $eventId
+        ]);
+        
+        return (int)$stmt->fetchColumn() > 0;
+    }
+
+    public function registerForEvent(int $userId, int $eventId): bool
+    {
+        $query = "INSERT INTO Participe (n_etu, n_event) VALUES (:userId, :eventId)";
+        $stmt = $this->db->prepare($query);
+        return $stmt->execute([
+            ':userId' => $userId,
+            ':eventId' => $eventId
+        ]);
+    }
 }

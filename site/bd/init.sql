@@ -130,7 +130,7 @@ CREATE TABLE Participe (
                          PRIMARY KEY (n_etu, n_event),
                          FOREIGN KEY (n_event) REFERENCES Evenement(n_event) ON DELETE CASCADE,
                          FOREIGN KEY (n_etu) REFERENCES Adherent(n_etu) ON DELETE CASCADE
-)
+);
 
 
 -- Suppression des tables existantes (gardez votre partie DROP TABLE existante)
