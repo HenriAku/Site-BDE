@@ -1,7 +1,7 @@
 <?php
 class User {
    
-    public function __construct(private ?int $id, private string $firstname,private string $lastname,private string $email, private ?string $password, private ?string $netu, private bool $estValide)
+    public function __construct(private ?int $id, private string $firstname,private string $lastname,private string $email, private ?string $password, private ?string $netu, private bool $estvalide)
     {}
 
     public function getId(): ?int
@@ -61,12 +61,12 @@ class User {
 
     public function getValide(): ?bool
     {
-        return $this->estValide;
+        return $this->estvalide;
     }
 
-    public function setValide(?bool $estValide): void
+    public function setValide(?bool $estvalide): void
     {
-        $this->estValide = $estValide;
+        $this->estvalide = $estvalide;
     }
 
     public function __serialize(): array
@@ -78,7 +78,7 @@ class User {
             'email' => $this->email,
             'password' => $this->password,
             'netu' => $this->netu,
-            'estValide' => $this->estValide
+            'estvalide' => $this->estvalide
         ];
     }
 
@@ -90,7 +90,7 @@ class User {
         $this->email = $data['email'];
         $this->password = $data['password'];
         $this->netu = $data['netu'];
-        $this->estValide = $data['estValide'];
+        $this->estvalide = $data['estvalide'];
 
     }
 }

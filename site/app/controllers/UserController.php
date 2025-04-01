@@ -19,9 +19,13 @@ class UserController extends Controller {
         $this->view('/user/index.html.twig',  ['users' => $users]);
     }
 
-    public function create() {
+    public function create() 
+    {
+        echo "<script>console.log('test');</script>";
+
         $data = $this->getAllPostParams(); // Récupération des données soumises
         $errors = [];
+
 
         if (!empty($data)) {
             try {
@@ -42,7 +46,7 @@ class UserController extends Controller {
                     $errors[] = 'Le mot de passe doit contenir au moins 6 caractères.';
                 }
 
-                if (empty($data['conf_password']) || !($data['conf_password']) === ($data['password'])) {
+                if (empty($data['conf_password']) || $data['conf_password'] !== $data['password']) {
                     $errors[] = 'Le mot de passe doit être identique.';
                 }
 
