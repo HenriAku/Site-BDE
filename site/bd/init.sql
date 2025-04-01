@@ -197,13 +197,3 @@ Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','37 Place Charles de Gaulle', 3);
 
-
-
-/*=
--- Insertion d'un utilisateur standard
-INSERT INTO 'User' (firstname, lastname, email, password) VALUES
-    ('John', 'Doe', 'john.doe@example.com', 'securePassword123');
-
--- Insertion d'un administrateur
-INSERT INTO 'User' (firstname, lastname, email, password) VALUES
-    ('root', 'toor', 'ro@ot.fr', 'adminPassword456');*/
