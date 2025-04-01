@@ -23,20 +23,21 @@ class EvenementController extends Controller {
         }
     }
     public function show() {
-        if (!isset($_GET['id']) ){
+        if (!isset($_GET['id'])) {
             die("ID invalide !");
         }
     
         $id = (int)$_GET['id'];
         $eventRepository = new EvenementRepository();
-        $event = $eventRepository->findByIdWithAverageRating($id); 
+        $data = $eventRepository->findByIdWithComments($id);
     
-        if (!$event) {
+        if (!$data['event']) {
             die("Événement non trouvé !");
         }
     
         $this->view('/evenement/show.html.twig', [
-            'event' => $event
+            'event' => $data['event'],
+            'comments' => $data['comments']
         ]);
     }
     

@@ -3,22 +3,6 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="../asset/css/event.css">
-    <style>
-        .rating {
-            margin: 15px 0;
-            font-size: 1.2em;
-        }
-        .stars {
-            color: #FFD700;
-            font-size: 1.5em;
-            letter-spacing: 2px;
-        }
-        .nb-avis {
-            font-size: 0.9em;
-            color: #666;
-            font-style: italic;
-        }
-    </style>
 {% endblock %}
 
 {% block body %}
@@ -35,24 +19,51 @@
 
     <div class="event-body">
         <p>{{ event.description }}</p>
-        
+
         <div class="rating">
-        {% if event.note_moyenne > 0 %}
-            <div class="stars">
-                {% for i in 1..5 %}
-                    {% if i <= event.note_moyenne %}
-                        ★
-                    {% else %}
-                        ☆
-                    {% endif %}
-                {% endfor %}
-            </div>
-            <span>{{ event.note_moyenne|number_format(1) }}/5</span>
-            <span class="nb-avis">({{ event.nb_avis }} avis)</span>
+            {% if event.note_moyenne > 0 %}
+                <div class="stars">
+                    {% for i in 1..5 %}
+                        {% if i <= event.note_moyenne|round %}
+                            ★
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <span>{{ event.note_moyenne|number_format(1) }}/5 ({{ comments|length }} avis)</span>
+            {% else %}
+                <p>Pas encore noté</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="comments-section">
+       <h3>Commentaires ({{ comments|length }})</h3>
+    
+        {% if comments|length > 0 %}
+            {% for comment in comments %}
+                <div class="comment">
+                    <div class="comment-header">
+                        <span class="comment-user">{{ comment.prenom }} {{ comment.nom }}</span>
+                        <span class="comment-rating">
+                            Note: {{ comment.note }}/5
+                            {% for i in 1..5 %}
+                                {% if i <= comment.note %}
+                                    ★
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <p class="comment-text">{{ comment.avis }}</p>
+                </div>
+            {% endfor %}
         {% else %}
-            <p>Pas encore noté</p>
+            <p class="no-comments">Aucun commentaire pour cet événement</p>
         {% endif %}
-</div>
     </div>
 
     <a href="/event.php" class="btn">Retour à la liste</a>

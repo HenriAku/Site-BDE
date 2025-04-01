@@ -63,38 +63,62 @@ class EvenementRepository {
         );
     }
 
-    public function findByIdWithAverageRating(int $id) {
-        $query = "SELECT e.*, 
-                  COALESCE(AVG(c.note), 0) as note_moyenne,
-                  COUNT(c.note) as nb_avis
-                  FROM evenement e
-                  LEFT JOIN Commente c ON e.n_event = c.n_event
-                  WHERE e.n_event = :id
-                  GROUP BY e.n_event";
+    public function findByIdWithComments(int $id) {
+        // Requête pour l'événement avec sa note moyenne
+        $queryEvent = "SELECT e.*, 
+                      COALESCE(AVG(c.note), 0) as note_moyenne,
+                      COUNT(DISTINCT c.n_etu) as nb_avis
+                      FROM evenement e
+                      LEFT JOIN Commente c ON e.n_event = c.n_event
+                      WHERE e.n_event = :id
+                      GROUP BY e.n_event";
         
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
+        $stmtEvent = $this->db->prepare($queryEvent);
+        $stmtEvent->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmtEvent->execute();
+        $eventData = $stmtEvent->fetch(PDO::FETCH_ASSOC);
     
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        if (!$row) {
+        if (!$eventData) {
             return null;
         }
     
         $event = new Evenement(
-            $row['n_event'],
-            $row['nom_event'],
-            $row['date_debut_event'],
-            $row['description_event'],
-            $row['adr_event'],
-            $row['prix_event']
+            $eventData['n_event'],
+            $eventData['nom_event'],
+            $eventData['date_debut_event'],
+            $eventData['description_event'],
+            $eventData['adr_event'],
+            $eventData['prix_event']
         );
-        
-        $event->note_moyenne = round($row['note_moyenne'], 1);
-        $event->nb_avis = $row['nb_avis'];
-        
-        return $event;
-    }
+        $event->note_moyenne = round($eventData['note_moyenne'], 1);
+        $event->nb_avis = $eventData['nb_avis'];
     
+        // Requête pour les commentaires
+        $queryComments = "SELECT c.avis, c.note, 
+                         a.prenom_etu, a.nom_etu
+                         FROM Commente c
+                         JOIN Adherent a ON c.n_etu = a.n_etu
+                         WHERE c.n_event = :id
+                         ORDER BY c.note DESC";
+        
+        $stmtComments = $this->db->prepare($queryComments);
+        $stmtComments->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmtComments->execute();
+    
+        $comments = [];
+        while ($row = $stmtComments->fetch(PDO::FETCH_ASSOC)) {
+            $comments[] = [
+                'prenom' => $row['prenom_etu'],
+                'nom' => $row['nom_etu'],
+                'avis' => $row['avis'],
+                'note' => $row['note']
+            ];
+        }
+    
+        return [
+            'event' => $event,
+            'comments' => $comments,
+            'nb_avis' => count($comments) // Nombre réel de commentaires
+        ];
+    }
 }
