@@ -19,24 +19,36 @@
 
     <div class="section2">
         <h2>ÉVÉNEMENT DU BDE</h2>
-        <div class="card">
-            {% for event in evenements|slice(0, 3) %}
-                <div class="event-card">
-                    <h2 class="event-title">{{ event.getNom() }}</h2>
-
-                    <hr>
-                    <p class="event-description">{{ event.getDescription() }}</p>
-                    <hr>
-
-                    <p class="event-date">
-                        {{ event.getDateDebut() }} - {{ event.getAdresse() }}
-                    </p>
-
-                    <p class="event-note">
-                    </p>
-                </div>
-
-            {% endfor %}
+        <div id="eventCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for i in 0..(evenements|length - 3) %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <div class="row g-4">
+                            {% for event in evenements|slice(i, 3) %}
+                                <div class="col-md-4">
+                                    <div class="event-carte">
+                                        <h2 class="event-title">{{ event.nom }}</h2>
+                                        <hr>
+                                        <p class="event-description">{{ event.description }}</p>
+                                        <hr>
+                                        <p class="event-date">
+                                            {{ event.dateDebut|date('d/m/Y') }} - {{ event.adresse }}
+                                        </p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#eventCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#eventCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Suivant</span>
+            </button>
         </div>
     </div>
 
@@ -52,21 +64,37 @@
 
     <div class="section4">
         <h2>NEWS</h2>
-        <div class="card">
-            {# Correction syntaxique de la boucle #}
-            {% for newsItem in news %}
-                <div class="new-card">
-                    <h2 class="new-title">{{ newsItem.getTitre() }}</h2>
-
-                    <hr>
-                    <p class="new-description">{{ newsItem.getContenu() }}</p>
-                    <hr>
-
-                    <p class="new-date">
-                        {{ newsItem.getDate() }}
-                    </p>
-                </div>
-            {% endfor %}
+        <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for i in 0..(news|length - 3) %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <div class="row g-4">
+                            {% for new in news|slice(i, 3) %}
+                                <div class="col-md-4">
+                                    <div class="new-carte">
+                                        <h2 class="new-title">{{ new.titre }}</h2>
+                                        <hr>
+                                        <p class="new-description">{{ new.contenu }}</p>
+                                        <hr>
+                                        <p class="new-date">
+                                            {{ new.date|date('d/m/Y') }}
+                                        </p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Suivant</span>
+            </button>
         </div>
-    </div>
+</div>
+    
 {% endblock %}

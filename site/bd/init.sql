@@ -31,7 +31,7 @@ CREATE TABLE Produit(
 CREATE TABLE Article (
                          n_art SERIAL PRIMARY KEY,
                          titre_art VARCHAR(255) NOT NULL,
-                         contenu_art TEXT NOT NULL,
+                         contenu_art TEXT NOT NULL, 
                          date_publi_art TIMESTAMP DEFAULT NOW()
 );
 
@@ -197,8 +197,30 @@ Nullam in neque in nisi elementum iaculis eget vel justo. Sed
  elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
  vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','37 Place Charles de Gaulle', 3);
 
+INSERT INTO Article VALUES (1,'Lorem Ipsum5', 
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','2028-12-14 16:42:43');
 
 
+INSERT INTO Article VALUES (2,'Lorem Ipsum5', 
+ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','2028-12-14 16:42:43');
+
+ INSERT INTO Article VALUES (3,'Lorem Ipsum5', 
+ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Nullam in neque in nisi elementum iaculis eget vel justo. Sed
+ nec arcu ac urna interdum egestas at at lectus. Praesent iaculis 
+ rutrum fermentum. Morbi iaculis gravida cursus. Suspendisse 
+ elementum at ante nec sagittis. Integer et augue vel arcu malesuada 
+ vestibulum nec nec ex. Nullam suscipit massa sem, id molestie velit rutrum a.','2028-12-14 16:42:43');
 /*=
 -- Insertion d'un utilisateur standard
 INSERT INTO 'User' (firstname, lastname, email, password) VALUES

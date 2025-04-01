@@ -5,7 +5,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.navbar {
+.barnavigation {
     background-color: #094C5F;
     position: fixed;
     top: 0;
@@ -15,11 +15,11 @@ body {
     padding: 15px 0;
 }
 
-.container {
+.conteneur {
     padding-top: 70px; 
 }
 
-.navbar-nav {
+.barnavigation-nav {
     list-style: none;
     display: flex;
     margin: 0;
@@ -54,7 +54,7 @@ body {
 
 
 /* Footer */
-.footer-container {
+.footer-conteneur {
     background-color: #094C5F;
     padding: 30px 50px 15px; /* Plus de padding en bas */
     display: flex;

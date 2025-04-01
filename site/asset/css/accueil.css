@@ -12,51 +12,80 @@ body {
 
 .section1 h1{
     padding: 20px;
-    padding-top: 170px;
+    padding-top: 300px;
     padding-left: 15%;
 }
 
 .section1 h2{
     padding-left: 15%;
-    width: 26%;
+    width: 50%;
 }
 
 .section1 img{
     margin-left: auto;
     display: flex;
-    margin-top: -180px;
-    padding-bottom: 100px;
+    margin-top: -220px;
+    padding-bottom: 250px;
     padding-right: 10%;
-    width: 500px; /* Taille fixe recommandée */
+    width: 700px; /* Taille fixe recommandée */
     height: auto; /* Conserve les proportions */
 }
 
 .section2{
     margin-top: 40px;
     color: black;
-
 }
+
+.carousel-inner {
+    padding: 0 50px; /* Espace pour les flèches */
+    margin-bottom: 100px;
+    margin-top: 70px;
+}
+
+.event-carte {
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    min-height: 300px;
+}
+
+.event-carte:hover {
+    transform: translateY(-5px);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+}
+
 
 .section2 h2{
     text-align: center;
 }
 
-.card{
+.carte{
     display: flex;
     flex-direction: row;
 }
-.event-card{
+.event-carte{
     background-color: #EBEFF0;
     margin: 5%;
     padding: 1.2%;
     border-radius: 20px;
 }
 
-.event-card .event-description{
+.event-carte .event-description{
     height: 50%;
 }
 
-.event-card hr{
+.event-carte hr{
     color: #4E9EB4;
 }
 
@@ -88,3 +117,79 @@ body {
     margin-left: 20%;
 }
 
+.section4 {
+    position: relative;
+    text-align: center;
+    color: black;
+    margin-top: 40px;
+}
+
+.section4 h2{
+    text-align: center;
+}
+
+.new-carte{
+    background-color: #EBEFF0;
+    margin: 5%;
+    padding: 1.2%;
+    border-radius: 20px;
+}
+
+.event-carte .event-description{
+    height: 50%;
+}
+
+.event-carte hr{
+    color: #4E9EB4;
+}
+
+/* Styles spécifiques pour le carousel des news */
+#newsCarousel {
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+.new-carte {
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    min-height: 250px;
+    margin: 0 15px;
+    color: #333;
+}
+
+.new-carte:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.new-title {
+    color: #4E9EB4;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.new-description {
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.new-date {
+    font-style: italic;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .new-carte {
+        margin: 0 5px;
+        min-height: 200px;
+    }
+    
+    .new-title {
+        font-size: 1.2rem;
+    }
+}
