@@ -14,15 +14,17 @@ class ProduitController extends Controller{
     use FormTrait;
 
     public function index() {
-        //$this->checkAuth();
-
         $ProduitRepo = new ProduitRepository();
-
         $Produits = $ProduitRepo->findAll();
-        $images   = $ProduitRepo->getImg();
-
-        $this->view('/produit/index.html.twig',  ['Produits' => $Produits, 'images' => $images]);
-    }
+        $images = $ProduitRepo->getImg();
+    
+        // Créer une variable globale Twig
+        
+        $this->view('/produit/index.html.twig', [
+            'Produits' => $Produits,
+            'images' => $images
+        ]);
+    }   
 
     public function create() {
         //$this->checkAuth();

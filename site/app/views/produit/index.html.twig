@@ -9,11 +9,11 @@
 <h1>Panel D'administration</h1>
 
 <div class="Menu-administrateur">
-    <a href="">Event</a>
+    <a href="create_event.php">Event</a>
     <a href="">Actu</a>
-    <a href="">Boutique</a>
+    <a href="produit.php">Boutique</a>
     <a href="">Vente</a>
-    <a href="">Gestion</a>
+    <a href="users.php">Gestion</a>
     <a href="">Adhésion</a>
     <a href="">Participation</a>
 </div>
@@ -21,16 +21,17 @@
 <div class="Formulaire">
     <label for="ListeProduit">Liste Produit</label>
     <div class="LstProduits">    
-        <select id="LstProduits" name="ListeProduit">
-            <option value=""></option>
-            {% for Produit in Produits %}
-                <option 
-                    value="{{ Produit.name }}" 
-                    data-color="{{ Produit.color }}" >
-                    {{ Produit.name }}
-                </option>
-            {% endfor %}
-        </select>
+    <select id="LstProduits" name="ListeProduit">
+        <option value=""></option>
+        {% for Produit in Produits %}
+            <option 
+                value="{{ Produit.n_prod }}"  {# Utiliser l'ID du produit #}
+                data-color="{{ Produit.color }}"
+                data-price="{{ Produit.price }}">
+                {{ Produit.name }}
+            </option>
+        {% endfor %}
+    </select>
     </div>
 
     <form>
@@ -42,19 +43,21 @@
 
 
     
-    <div class="zoneDepotImage" onclick="triggerFileInput()">
+   <div class="zoneDepotImage" onclick="triggerFileInput()">
+    <div id="zoneDepTxt">
         {% set imageFound = false %}
         {% for image in images %}
-            {% if image.n_prod == Produit.n_prod %}
-                <img src="../asset/images/produit/"{{ image.nom_image }} alt={{ Produit.name }} style="max-width: 100px; max-height: 100px;">
+            {% if image.n_prod == Produit.n_produit %}
                 {% set imageFound = true %}
+                <img src="../asset/images/produit/{{ image.nom_image }}" style="max-width: 100%; max-height: 100%;">
             {% endif %}
         {% endfor %}
         {% if not imageFound %}
-            <p id="zoneDepTxt">Cliquez ici pour déposer une image</p>
+            Cliquez ici pour déposer une image
         {% endif %}
-        <input type="file" id="fileInput" style="display: none;">
     </div>
+    <input type="file" id="fileInput" style="display: none;" accept="image/*">
+</div>
     
 
     <label for="zoneDescription">Description Produit :</label>
