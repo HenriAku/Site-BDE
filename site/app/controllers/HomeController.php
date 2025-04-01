@@ -6,6 +6,7 @@ require_once './app/repositories/ArticleRepository.php';
 require_once './app/repositories/CategoryRepository.php';
 require_once './app/trait/FormTrait.php';
 require_once './app/repositories/EvenementRepository.php';
+require_once './app/repositories/NewRepository.php';
 
 
 class HomeController extends Controller
@@ -15,8 +16,14 @@ class HomeController extends Controller
     {
         $evenementRepo = new EvenementRepository();
         $evenements = $evenementRepo->findAll();
-
-        $this->view('index.html.twig', ['evenements' => $evenements]);
+    
+        $newRepo = new NewRepository();
+        $news = $newRepo->findAll();
+    
+        $this->view('index.html.twig', [
+            'evenements' => $evenements,
+            'news' => $news
+        ]);
     }
 
     public function purchase()
