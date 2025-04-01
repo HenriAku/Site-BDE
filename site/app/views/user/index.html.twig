@@ -3,73 +3,131 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="../asset/css/users.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+
+    </style>
 {% endblock %}
 
 {% block body %}
-<table class="table table-striped table-hover">
-    <thead>
-    <tr>
-        <th scope="col">#ID</th>
-        <th scope="col">Prénom</th>
-        <th scope="col">Nom</th>
-        <th scope="col">Email</th>
-        <th scope="col">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for user in users %}
-        <tr id="user-row-{{ user.id }}">
-            <td>{{ user.id }}</td>
-            <td>{{ user.firstname }}</td>
-            <td>{{ user.lastname }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-                <button class="favorite styled delete-user" type="button" data-user-id="{{ user.id }}">Supprimer</button>
-            </td>
-            <td>
-                <a href="user_update.php?id={{ user.id }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                <a href="user_delete.php?id={{ user.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<div class="d-flex flex-row-reverse">
-    <a href="user_create.php" class="btn btn-success">
-        <i class="fa fa-plus"></i> Ajouter un utilisateur
-    </a>
+<div class="Menu-administrateur">
+    <a href="">Event</a>
+    <a href="">Actu</a>
+    <a href="">Boutique</a>
+    <a href="">Vente</a>
+    <a href="">Gestion</a>
+    <a href="">Adhésion</a>
+    <a href="">Participation</a>
 </div>
 
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4"> <!-- Flex pour aligner -->
+        <h1>Gestion des utilisateurs</h1>
+        <a href="#" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Ajouter un utilisateur
+        </a>
+    </div>
+    <!-- ... (le reste) ... -->
+</div>
+
+    <div class="row mb-3 search-bar">
+        <input type="text" id="searchInput" placeholder="Rechercher un utilisateur...">
+    </div>
+
+    <div class="row flex-grow-1">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="userTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">#ID</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Email</th>
+                            <th scope="col" class="actions-cell">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        {% for user in users %}
+                            <tr id="user-row-{{ user.id }}">
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.firstname }}</td>
+                                <td>{{ user.lastname }}</td>
+                                <td>{{ user.email }}</td>
+                                <td class="actions-cell">
+                                    <div class="d-flex justify-content-center gap-1">
+                                        <a href="user_update.php?id={{ user.id }}" class="btn btn-sm btn-outline-primary btn-action">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger btn-action delete-user" data-user-id="{{ user.id }}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">Aucun utilisateur trouvé</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-auto py-3 bg-light">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <p class="mb-0">Total: {{ users|length }} utilisateur(s)</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
-document.querySelectorAll('.delete-user').forEach(button => {
-    button.addEventListener('click', function() {
-        const userId = this.getAttribute('data-user-id');
-        if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
-            fetch('/users.php?action=delete', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'id=' + encodeURIComponent(userId)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(err => { throw err; });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('user-row-' + userId).remove();
-                } else {
-                    alert('Erreur lors de la suppression : ' + (data.error || 'Erreur inconnue'));
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-                alert('Erreur lors de la suppression : ' + (error.error || error.message || 'Erreur inconnue'));
-            });
-        }
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const tableBody = document.getElementById('userTableBody');
+    searchInput.addEventListener('keyup', function() {
+        const filter = searchInput.value.toLowerCase();
+        const rows = tableBody.getElementsByTagName('tr');
+        Array.from(rows).forEach(row => {
+            const cells = row.getElementsByTagName('td');
+            const match = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filter));
+            row.style.display = match ? '' : 'none';
+        });
+    });
+
+    document.querySelectorAll('.delete-user').forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            const row = document.getElementById(`user-row-${userId}`);
+            if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
+                fetch('/users.php?action=delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'id=' + encodeURIComponent(userId)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        row.remove();
+                        Toastify({ text: 'Utilisateur supprimé avec succès', duration: 3000, close: true, backgroundColor: '#28a745' }).showToast();
+                    } else {
+                        alert('Erreur lors de la suppression');
+                    }
+                })
+                .catch(error => {
+                    alert('Une erreur est survenue');
+                    console.error('Erreur:', error);
+                });
+            }
+        });
     });
 });
 </script>

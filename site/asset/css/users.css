@@ -1,3 +1,67 @@
 .mb-3, .mb-4{
     color: black;
 }
+
+        /* Menu Administrateur */
+        .Menu-administrateur {
+            background-color: #75C9E1;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border-radius: 50px;
+            height: 5vh;
+            width: 70vw;
+            margin: 20px auto;
+            padding: 0;
+        }
+        .Menu-administrateur a {
+            font-size: 18px;
+            text-decoration: none;
+            color: white;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .search-bar input {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 300px;
+        }
+        .table-container {
+            min-height: calc(100vh - 250px);
+            margin-bottom: 20px;
+        }
+        .btn-action {
+            padding: 0.25rem 0.5rem !important;  /* Plus compact */
+            font-size: 0.75rem !important;       /* Texte plus petit */
+            border-radius: 5px;
+            margin: 1px;
+            width: auto;                        /* Pas de largeur fixe */
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-add-user {
+            margin-bottom: 0; /* On enlève le margin-bottom précédent */
+            white-space: nowrap; /* Empêche le texte de passer à la ligne */
+            padding: 0.5rem 1rem; /* Padding confortable */
+            font-size: 0.9rem; /* Taille de police adaptée */
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        .table td, .table th {
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+        .actions-cell {
+            min-width: 120px;  /* Largeur minimale pour éviter le débordement */
+            white-space: nowrap;
+        }
+        .btn-group-actions {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 4px; /* Espacement entre les boutons */
+        }

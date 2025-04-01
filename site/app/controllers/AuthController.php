@@ -23,7 +23,7 @@ class AuthController extends Controller {
     
             $user = $userRepository->findByEmail($this->getPostParam('email'));
     
-    
+
             if($user !== null && $this->verify($this->getPostParam('password'),$user->getPassword()))
             {
                 $authService->setUser($user);
