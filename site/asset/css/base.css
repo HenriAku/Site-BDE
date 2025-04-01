@@ -59,6 +59,7 @@ body {
     padding: 30px 50px 15px; /* Plus de padding en bas */
     display: flex;
     flex-direction: column;
+    margin-top: auto; /* Pousse le footer vers le bas */
 }
 
 .footer-main-content {
@@ -94,6 +95,8 @@ body {
     margin-top: -50px;
 }
 
+
+
 .bde-text {
     color: white;
     font-size: 1.2em;
@@ -106,6 +109,11 @@ body {
     padding: 8px 25px;
     display: flex;
     align-items: center;
+}
+
+.contact-button a{
+    text-decoration: none;
+    color: #ffffff;
 }
 
 .social-icon {
