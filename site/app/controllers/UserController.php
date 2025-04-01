@@ -195,4 +195,9 @@ class UserController extends Controller {
 
 
     }
+
+    public function updatePassword(Request $request, Response $response)
+    {
+
+    }
 }
