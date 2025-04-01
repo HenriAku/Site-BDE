@@ -1,12 +1,13 @@
 const lstProduit = document.getElementById("LstProduits");
+
 lstProduit.addEventListener("change", () => {
 	updateNom();
 });
 
 function updateNom() {
-	const selectedProduit = document.getElementById('LstProduits').value;
-	
-	document.getElementById('nom').value = selectedProduit;
+    const select = document.getElementById('LstProduits');
+    const selectedProduit = select.options[select.selectedIndex].textContent;
+    document.getElementById('nom').value = selectedProduit;
 }
 
 function changeImageNameZoneTxt() {

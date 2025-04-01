@@ -68,6 +68,4 @@ class ProduitRepository {
     
         return $images; // Retourne le tableau des tuples
     }
-
-    
 }
