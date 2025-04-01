@@ -48,10 +48,10 @@
     <div class="comments-section">
     <h3>Commentaires ({{ comments|length }})</h3>
     
-    {% if  %}
+    {% if user %}
         <div class="add-comment">
             <h4>Ajouter un commentaire</h4>
-            <form action="/event/{{ event.id }}/comment" method="post">
+            <form action="/event.php?id={{ event.getId() }}" method="post">
                 <div class="form-group">
                     <label for="note">Note (entre 1 et 5)</label>
                     <select name="note" id="note" class="form-control" required>
