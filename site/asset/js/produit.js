@@ -83,6 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 prix.value = Produits[select.selectedIndex-1].price;
             else
                 prix.value = 0;
+
+            const textArea = document.getElementById("description");
+            if (select.selectedIndex-1 >= 0)    
+                textArea.value = Produits[select.selectedIndex-1].description;
+            else
+                textArea.value = "";
+
         }
     
     // Écouteur d'événement
