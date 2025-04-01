@@ -7,6 +7,7 @@ class Evenement {
     private $description;
     private $adresse;
     private $prix;
+    public $note_moyenne;
 
     public function __construct($id, $nom, $dateDebut, $description, $adresse, $prix) {
         $this->id = $id;
@@ -27,5 +28,9 @@ class Evenement {
 
     public function getNote() {
         return rand(3, 5); // À remplacer par une vraie requête SQL
+    }
+
+    public function getNoteMoyenne() {
+        return $this->note_moyenne;
     }
 }

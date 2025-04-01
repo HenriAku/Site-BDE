@@ -1,8 +1,24 @@
 {% extends "_template/base.html.twig" %}
 
 {% block stylesheets %}
-    {{ parent() }} {# Important pour conserver les styles du parent #}
+    {{ parent() }}
     <link rel="stylesheet" href="../asset/css/event.css">
+    <style>
+        .rating {
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+        .stars {
+            color: #FFD700;
+            font-size: 1.5em;
+            letter-spacing: 2px;
+        }
+        .nb-avis {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
@@ -20,11 +36,23 @@
     <div class="event-body">
         <p>{{ event.description }}</p>
         
-        {% if event.note %}
         <div class="rating">
-            Note: {{ event.note }}/5
-        </div>
+        {% if event.note_moyenne > 0 %}
+            <div class="stars">
+                {% for i in 1..5 %}
+                    {% if i <= event.note_moyenne %}
+                        ★
+                    {% else %}
+                        ☆
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <span>{{ event.note_moyenne|number_format(1) }}/5</span>
+            <span class="nb-avis">({{ event.nb_avis }} avis)</span>
+        {% else %}
+            <p>Pas encore noté</p>
         {% endif %}
+</div>
     </div>
 
     <a href="/event.php" class="btn">Retour à la liste</a>

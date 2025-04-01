@@ -22,14 +22,14 @@ class EvenementController extends Controller {
             $this->redirectTo('login.php');
         }
     }
-    public function show() { // Renommez showEvent en show pour correspondre à la convention
-        if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    public function show() {
+        if (!isset($_GET['id']) ){
             die("ID invalide !");
         }
     
-        $id = (int) $_GET['id'];
+        $id = (int)$_GET['id'];
         $eventRepository = new EvenementRepository();
-        $event = $eventRepository->findById($id);
+        $event = $eventRepository->findByIdWithAverageRating($id); 
     
         if (!$event) {
             die("Événement non trouvé !");

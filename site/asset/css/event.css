@@ -1,3 +1,15 @@
 .event-container, .event-container * {
     color: black !important;
 }
+.title  {
+    color: black !important;
+}
+
+.event-note {
+    color: #FFD700; 
+    font-weight: bold;
+}
+
+.event-note:before {
+    content: "★ ";
+}
