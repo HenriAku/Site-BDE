@@ -10,7 +10,7 @@ class UserRepository {
     }
 
     public function findAll(): array {
-        $stmt = $this->pdo->query('SELECT * FROM "User"');
+        $stmt = $this->pdo->query('SELECT * FROM "adherent"');
         $users = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $users[] = $this->createUserFromRow($row);
@@ -48,6 +48,15 @@ class UserRepository {
             'newPassword' => $user->getPassword(),
             'id' => $user->getId(),
         ]);
+    }
+    public function delete(int $id): bool {
+        if (!$this->pdo) {
+            throw new Exception('Connexion PDO non initialisée');
+        }
+        $stmt = $this->pdo->prepare('DELETE FROM adherent WHERE n_etu = :id');
+        $stmt->execute(['id' => $id]);
+        $rowsAffected = $stmt->rowCount();
+        return $rowsAffected > 0;
     }
 
     public function findByEmail(string $email): ?User {

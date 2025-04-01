@@ -31,30 +31,82 @@ body {
     height: auto; /* Conserve les proportions */
 }
 
-.section2{
-    margin-top: 40px;
+/* Section 2 - Événements */
+.section2 {
+    margin-top: 3%;
     color: black;
+    padding: 0 5%;
+}
+
+.section2 h2 {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
 }
 
 .carousel-inner {
-    padding: 0 50px; /* Espace pour les flèches */
+    padding: 0 50px;
     margin-bottom: 100px;
-    margin-top: 70px;
 }
 
+/* Cartes d'événements */
 .event-carte {
-    background: #fff;
-    border-radius: 15px;
-    padding: 20px;
+    background-color: #EBEFF0;
+    border-radius: 20px;
+    padding: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     transition: transform 0.3s ease;
-    min-height: 300px;
 }
 
 .event-carte:hover {
     transform: translateY(-5px);
 }
 
+.event-title {
+    color: #4E9EB4;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.event-description {
+    color: #333;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limite à 3 lignes */
+    -webkit-box-orient: vertical;
+    flex-grow: 1;
+    margin: 15px 0;
+}
+
+.event-carte hr {
+    border: 0;
+    height: 1px;
+    background-color: #4E9EB4;
+    margin: 10px 0;
+}
+
+.event-date {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.event-date img {
+    width: 16px;
+    height: 16px;
+}
+
+/* Contrôles du carousel */
 .carousel-control-prev,
 .carousel-control-next {
     width: 40px;
@@ -63,52 +115,28 @@ body {
     transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.3);
     border-radius: 50%;
+    opacity: 1;
 }
 
-
-.section2 h2{
-    text-align: center;
-}
-
-.carte{
-    display: flex;
-    flex-direction: row;
-}
-.event-carte{
-    background-color: #EBEFF0;
-    margin: 5%;
-    padding: 1.2%;
-    border-radius: 20px;
-}
-
-.event-carte .event-description{
-    height: 50%;
-}
-
-.event-carte hr{
-    color: #4E9EB4;
-}
-
+/* Section 3 - À propos */
 .section3 {
     position: relative;
-    text-align: center;
-    color: black;
-
+    margin: 80px 0;
 }
 
-.iut-container img{
-    height:300px;
+.iut-container img {
+    height: 300px;
     width: 100%;
-    opacity: 20%;
+    opacity: 0.2;
     object-fit: cover;
 }
 
-.text{
+.text {
     display: flex;
     flex-direction: row;
 }
 
-.text p{
+.text p {
     color: black;
     width: 20%;
     text-align: center;
@@ -117,47 +145,34 @@ body {
     margin-left: 20%;
 }
 
+.text p strong {
+    font-size: 1.4rem;
+}
+
+/* Section 4 - News */
 .section4 {
-    position: relative;
-    text-align: center;
     color: black;
-    margin-top: 40px;
-}
-
-.section4 h2{
-    text-align: center;
-}
-
-.new-carte{
-    background-color: #EBEFF0;
-    margin: 5%;
-    padding: 1.2%;
-    border-radius: 20px;
-}
-
-.event-carte .event-description{
-    height: 50%;
-}
-
-.event-carte hr{
-    color: #4E9EB4;
-}
-
-/* Styles spécifiques pour le carousel des news */
-#newsCarousel {
-    margin-top: 50px;
+    padding: 0 5%;
     margin-bottom: 100px;
 }
 
+.section4 h2 {
+    margin-top: 3%;
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+}
+
+/* Cartes de news */
 .new-carte {
-    background: #fff;
-    border-radius: 15px;
-    padding: 20px;
+    background-color: #EBEFF0;
+    border-radius: 20px;
+    padding: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     transition: transform 0.3s ease;
-    min-height: 250px;
-    margin: 0 15px;
-    color: #333;
 }
 
 .new-carte:hover {
@@ -169,27 +184,96 @@ body {
     color: #4E9EB4;
     font-size: 1.5rem;
     margin-bottom: 15px;
+    text-align: center;
 }
 
 .new-description {
+    color: #333;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Limite à 4 lignes */
+    -webkit-box-orient: vertical;
+    flex-grow: 1;
     margin: 15px 0;
-    line-height: 1.6;
 }
 
 .new-date {
-    font-style: italic;
+    text-align: center;
     color: #666;
+    font-style: italic;
     font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .new-carte {
-        margin: 0 5px;
-        min-height: 200px;
+.new-date img {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .section1 h1 {
+        font-size: 2.5rem;
+        padding-top: 200px;
     }
     
-    .new-title {
+    .section1 h2 {
         font-size: 1.2rem;
+    }
+    
+    .text p {
+        width: 40%;
+        font-size: 1rem;
+    }
+    
+    .text p strong {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .section1 {
+        text-align: center;
+    }
+    
+    .section1 h1,
+    .section1 h2 {
+        padding-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .section1 img {
+        position: static;
+        transform: none;
+        margin: 0 auto;
+        padding: 20px 0;
+        max-width: 80%;
+    }
+    
+    .text {
+        position: static;
+        transform: none;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .text p {
+        width: 80%;
+        margin: 15px 0;
+    }
+    
+    .carousel-inner {
+        padding: 0 20px;
+    }
+    
+    .event-description,
+    .new-description {
+        -webkit-line-clamp: 2; /* Moins de lignes sur mobile */
     }
 }
