@@ -12,12 +12,17 @@ class EvenementRepository {
 
     public function findAll() {
         // Requête pour récupérer les événements avec leur note moyenne
-        $query = "SELECT e.*, COALESCE(AVG(c.note), 0) as note_moyenne 
-                  FROM evenement e
-                  LEFT JOIN Commente c ON e.n_event = c.n_event
-                  GROUP BY e.n_event
-                  ORDER BY e.date_debut_event DESC";
-        
+        $query = "SELECT e.*, 
+              COALESCE(AVG(c.note), 0) as note_moyenne,
+              COUNT(c.note) as nb_avis,
+              f.nom_image as image
+              FROM evenement e
+              LEFT JOIN Commente c ON e.n_event = c.n_event
+              LEFT JOIN contient_evenement ce ON e.n_event = ce.n_event
+              LEFT JOIN Fichier f ON ce.nom_image = f.nom_image
+              GROUP BY e.n_event, f.nom_image
+              ORDER BY e.date_debut_event DESC";
+
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         
@@ -29,13 +34,16 @@ class EvenementRepository {
                 $row['date_debut_event'],
                 $row['description_event'],
                 $row['adr_event'],
-                $row['prix_event']
+                $row['prix_event'],
+                $row['image']
             );
             
             // Ajoutez la note moyenne à l'objet Evenement
             $evenement->note_moyenne = round($row['note_moyenne'], 1);
             
             $evenements[] = $evenement;
+
+            
         }
     
         return $evenements;
@@ -64,12 +72,15 @@ class EvenementRepository {
     }
 
     public function findByIdWithComments(int $id) {
-        // Requête pour l'événement avec sa note moyenne
+        // Requête pour l'événement avec image
         $queryEvent = "SELECT e.*, 
                       COALESCE(AVG(c.note), 0) as note_moyenne,
-                      COUNT(DISTINCT c.n_etu) as nb_avis
+                      COUNT(DISTINCT c.n_etu) as nb_avis,
+                      f.nom_image as image
                       FROM evenement e
                       LEFT JOIN Commente c ON e.n_event = c.n_event
+                      LEFT JOIN contient_evenement ce ON e.n_event = ce.n_event
+                      LEFT JOIN Fichier f ON ce.nom_image = f.nom_image
                       WHERE e.n_event = :id
                       GROUP BY e.n_event";
         
@@ -88,7 +99,8 @@ class EvenementRepository {
             $eventData['date_debut_event'],
             $eventData['description_event'],
             $eventData['adr_event'],
-            $eventData['prix_event']
+            $eventData['prix_event'],
+            $eventData['image']
         );
         $event->note_moyenne = round($eventData['note_moyenne'], 1);
         $event->nb_avis = $eventData['nb_avis'];

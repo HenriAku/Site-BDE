@@ -7,15 +7,17 @@ class Evenement {
     private $description;
     private $adresse;
     private $prix;
+    private $image;
     public $note_moyenne;
 
-    public function __construct($id, $nom, $dateDebut, $description, $adresse, $prix) {
+    public function __construct($id, $nom, $dateDebut, $description, $adresse, $prix, $image) {
         $this->id = $id;
         $this->nom = $nom;
         $this->dateDebut = $dateDebut;
         $this->description = $description;
         $this->adresse = $adresse;
         $this->prix = $prix;
+        $this->image = $image;
     }
 
     // Getters
@@ -26,8 +28,8 @@ class Evenement {
     public function getAdresse() { return $this->adresse; }
     public function getPrix() { return $this->prix; }
 
-    public function getNote() {
-        return rand(3, 5); // À remplacer par une vraie requête SQL
+    public function getImage() {
+        return $this->image ?? 'default-event.jpg'; 
     }
 
     public function getNoteMoyenne() {

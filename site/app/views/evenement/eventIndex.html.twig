@@ -15,6 +15,13 @@
 {% for event in evenements %}
 <div class="event-card">
     <h2 class="event-title">{{ event.getNom() }}</h2>
+
+    {% if event.getImage() %}
+    <div class="event-image">
+        <img src="../asset/images/evenements/{{ event.getImage() }}" alt="{{ event.getNom() }}">
+    </div>
+    {% endif %}
+
     <p class="event-description">{{ event.getDescription() }}</p>
     <p class="event-date">
         {{ event.getDateDebut() }} - {{ event.getAdresse() }}

@@ -8,6 +8,12 @@
 {% block body %}
 <article class="event-container">
     <h1>{{ event.nom }}</h1>
+
+    {% if event.getImage() %}
+    <div class="event-main-image">
+        <img src="../asset/images/evenements/{{ event.getImage() }}" alt="{{ event.getNom() }}">
+    </div>
+    {% endif %}
     
     <div class="event-header">
         <div class="event-meta">
