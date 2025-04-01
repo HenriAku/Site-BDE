@@ -7,7 +7,7 @@ require_once './app/core/Controller.php';
 class EvenementController extends Controller {
 
     public function index() {
-        //$this->checkAuth();
+        $this->checkAuth();
 
         $evenementRepo = new EvenementRepository();
         $evenements = $evenementRepo->findAll();
@@ -17,7 +17,7 @@ class EvenementController extends Controller {
     }
 
     private function checkAuth() {
-        //$auth = new AuthService();
+        $auth = new AuthService();
         if (!$auth->isLoggedIn()) {
             $this->redirectTo('login.php');
         }

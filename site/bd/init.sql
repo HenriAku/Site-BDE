@@ -288,6 +288,7 @@ INSERT INTO Fichier (nom_image) VALUES
 ('sweat_bde.jpg'),
 ('gourde_bde.jpg'),
 ('soiree_rentree.jpg'),
+('default-event.jpg'),
 ('tournoi_jeux.jpg');
 
 -- Relations contient_produit
@@ -299,7 +300,10 @@ INSERT INTO contient_produit (nom_image, n_prod) VALUES
 -- Relations contient_evenement
 INSERT INTO contient_evenement (nom_image, n_event) VALUES
 ('soiree_rentree.jpg', 1),
-('tournoi_jeux.jpg', 2);
+('tournoi_jeux.jpg', 2),
+('default-event.jpg', 3),
+('default-event.jpg', 4),
+('default-event.jpg', 5);
 
 -- Commentaires
 INSERT INTO Commente (n_event, n_etu, note, avis) VALUES
