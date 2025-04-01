@@ -28,10 +28,12 @@
     {% endif %}
 
     <form method="post" action="contact.php">
-        <div class="div-form">
-            <label for="email">Email :</label>
-            <input type="email" name="email" id="email" value="{{ data.email ?? '' }}" required>
-        </div>
+		{% if not log %}
+			<div class="div-form">
+				<label for="email">Email :</label>
+				<input type="email" name="email" id="email" value="{{ data.email ?? '' }}" required>
+			</div>
+		{% endif %}
 
         <div class="div-form">
             <label for="objet">Objet :</label>

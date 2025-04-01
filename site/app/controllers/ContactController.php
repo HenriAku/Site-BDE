@@ -3,6 +3,7 @@
 require_once './app/core/Controller.php';
 require_once './app/trait/FormTrait.php';
 require_once './vendor/autoload.php';
+require_once './app/services/AuthService.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -17,16 +18,29 @@ class ContactController extends Controller
     }
 
     public function create() {
+        $log = $this->isLoggedIn();
+        if($this->isLoggedIn())
+        {
+            $authService = new AuthService();
+            $user = $authService->getUser();
+        }
+  
+
         $data = $this->getAllPostParams(); 
         $errors = [];
 
         if (!empty($data)) {
             try {
                 // Validation des champs
-                if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                    $errors[] = 'Un email valide est requis.';
-                }
 
+                if(!$user){
+                    if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                        $errors[] = 'Un email valide est requis.';
+                    }
+                }else
+                {
+                    $data['email']=$user->getEmail();
+                }
                 if (empty($data['objet'])) {
                     $errors[] = 'Un objet est requis.';
                 }
@@ -86,7 +100,15 @@ class ContactController extends Controller
         $this->view('/contact/contact.html.twig',  [
             'data' => $data,
             'errors' => $errors,
-            'success' => $success ?? null
+            'success' => $success ?? null,
+            'log' => $log
         ]);
+    }
+
+    public function isLoggedIn():bool
+    {
+        $authService = new AuthService();
+
+        return $authService-> isLoggedIn();
     }
 }
