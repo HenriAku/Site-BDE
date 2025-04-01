@@ -176,33 +176,38 @@ class EvenementRepository {
         string $description, 
         string $adresse, 
         float $prix,
-        int $places,  // On garde le paramètre mais ne l'utilisera pas dans la requête
+        int $places,
         ?array $imageFile = null
     ): bool {
+        $this->db->beginTransaction();
+        
         try {
-            // Requête adaptée au schéma actuel (sans places_disponibles)
+            // 1. Insérer l'événement
             $query = "INSERT INTO evenement 
                      (nom_event, date_debut_event, description_event, adr_event, prix_event)
                      VALUES (:nom, :date, :description, :adresse, :prix)";
             
             $stmt = $this->db->prepare($query);
-            $params = [
+            $stmt->execute([
                 ':nom' => $nom,
                 ':date' => $date,
                 ':description' => $description,
                 ':adresse' => $adresse,
-                ':prix' => (int)$prix  // Conversion en integer pour correspondre au schéma
-            ];
+                ':prix' => (int)$prix
+            ]);
             
-            if (!$stmt->execute($params)) {
-                throw new RuntimeException("Erreur lors de l'insertion de l'événement");
-            }
-    
-            // Gestion de l'image si fournie
+            $eventId = $this->db->lastInsertId();
+            
+            // 2. Gérer l'image si elle existe
             if ($imageFile && $imageFile['error'] === UPLOAD_ERR_OK) {
-                $eventId = $this->db->lastInsertId();
                 $filename = $this->handleImageUpload($imageFile, $eventId);
                 
+                // Insérer d'abord dans Fichier
+                $query = "INSERT INTO Fichier (nom_image) VALUES (:filename)";
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([':filename' => $filename]);
+                
+                // Puis dans contient_evenement
                 $query = "INSERT INTO contient_evenement (n_event, nom_image)
                          VALUES (:eventId, :filename)";
                 $stmt = $this->db->prepare($query);
@@ -211,9 +216,12 @@ class EvenementRepository {
                     ':filename' => $filename
                 ]);
             }
-    
+            
+            $this->db->commit();
             return true;
+            
         } catch (Exception $e) {
+            $this->db->rollBack();
             error_log("Erreur création événement: " . $e->getMessage());
             return false;
         }
@@ -308,7 +316,14 @@ class EvenementRepository {
     // Méthodes utilitaires privées
     private function handleImageUpload(array $imageFile, int $eventId): string
     {
-        $uploadDir = __DIR__ . '/../../public/uploads/events/';
+        // Chemin vers le dossier des images (modifié)
+        $uploadDir = __DIR__ . '/../../asset/images/evenements/';
+        
+        // Créer le dossier s'il n'existe pas
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
         $extension = pathinfo($imageFile['name'], PATHINFO_EXTENSION);
         $filename = 'event_' . $eventId . '_' . time() . '.' . $extension;
         
@@ -318,6 +333,7 @@ class EvenementRepository {
         
         return $filename;
     }
+
 
     private function deleteEventImage(int $eventId): void {
         // 1. Récupérer le nom de l'image

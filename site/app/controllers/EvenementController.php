@@ -204,17 +204,22 @@ class EvenementController extends Controller {
         try {
             $data = $this->validateEventData($_POST);
             
-            $prix = (int)round($data['prix']);
-            
+            // Vérification du fichier uploadé
+            $imageFile = $_FILES['image'] ?? null;
+            if ($imageFile && $imageFile['error'] !== UPLOAD_ERR_OK && $imageFile['error'] !== UPLOAD_ERR_NO_FILE) {
+                throw new RuntimeException("Erreur lors de l'upload de l'image: " . $imageFile['error']);
+            }
+
             if ($repo->create(
                 $data['nom'],
                 $data['date'],
                 $data['description'],
                 $data['adresse'],
-                $prix,
-                0,
-                $_FILES['image']
+                $data['prix'],
+                0, // places non utilisées
+                $imageFile['error'] === UPLOAD_ERR_OK ? $imageFile : null
             )) {
+    
             } else {
                 throw new RuntimeException("Erreur lors de la création");
             }
@@ -258,5 +263,7 @@ class EvenementController extends Controller {
             $_SESSION['admin_messages']['error'] = "Erreur lors de la suppression";
         }
     }
+
+    
     
 }
