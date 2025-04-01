@@ -66,7 +66,7 @@ class UserController extends Controller {
                 }
 
 
-                $this->redirectTo('users.php'); // Redirection après création
+                $this->redirectTo('index.php'); // Redirection après création
             } catch (Exception $e) {
                 $errors = explode(', ', $e->getMessage()); // Récupération des erreurs
             }
@@ -138,7 +138,7 @@ class UserController extends Controller {
                     throw new Exception('Error updating the user.');
                 }
 
-                $this->redirectTo('users.php'); // Redirect after update
+                $this->redirectTo('index.php'); // Redirect after update
 
             } catch (Exception $e) {
                 $errors = explode(', ', $e->getMessage()); // Error retrieval
