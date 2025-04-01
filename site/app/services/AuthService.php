@@ -21,7 +21,13 @@ class AuthService {
 
     public function logout(): void
     {
+        echo "<script>console.log('déconnexion');</script>";
+        
+        session_start();
+        session_unset();
         session_destroy();
+        header("Location: index.php");
+        exit();
     }
 
     public function isLoggedIn(): bool {
