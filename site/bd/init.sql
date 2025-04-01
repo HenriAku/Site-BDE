@@ -49,6 +49,7 @@ CREATE TABLE Evenement (
 CREATE TABLE Adherent (
                          n_etu SERIAL PRIMARY KEY,
                          num_etu VARCHAR(255) NOT NULL,
+                         estValide boolean DEFAULT false,
                          nom_etu VARCHAR(255) NOT NULL,
                          prenom_etu VARCHAR(255) NOT NULL,
                          admin BOOLEAN DEFAULT false,
@@ -129,12 +130,12 @@ CREATE TABLE Consulte (
 -- [...] (conservez toutes les parties DROP TABLE et CREATE TABLE précédentes)
 
 -- Adhérents (inchangé)
-INSERT INTO Adherent (num_etu, nom_etu, prenom_etu, admin, mdp_etu, mail_etu) VALUES
-('230001', 'Dupont', 'Jean', true, '$2y$10$examplehash', 'jean.dupont@univ.fr'),
-('230002', 'Martin', 'Sophie', false, '$2y$10$examplehash', 'sophie.martin@univ.fr'),
-('230003', 'Bernard', 'Pierre', false, '$2y$10$examplehash', 'pierre.bernard@univ.fr'),
-('230004', 'Petit', 'Marie', false, '$2y$10$examplehash', 'marie.petit@univ.fr'),
-('230005', 'Durand', 'Luc', true, '$2y$10$examplehash', 'luc.durand@univ.fr');
+INSERT INTO Adherent (num_etu, nom_etu,estValide, prenom_etu, admin, mdp_etu, mail_etu) VALUES
+('230001', 'Dupont', true, 'Jean', true, '$2y$10$examplehash', 'jean.dupont@univ.fr'),
+('230002', 'Martin',true, 'Sophie', false, '$2y$10$examplehash', 'sophie.martin@univ.fr'),
+('230003', 'Bernard', false,'Pierre', false, '$2y$10$examplehash', 'pierre.bernard@univ.fr'),
+('230004', 'Petit', false,'Marie', false, '$2y$10$examplehash', 'marie.petit@univ.fr'),
+('230005', 'Durand',false, 'Luc', true, '$2y$10$examplehash', 'luc.durand@univ.fr');
 
 -- Produits avec couleurs hexa et descriptions étendues
 INSERT INTO Produit (libelle_prod, stock_prod, categorie_prod, prix_prod, description_prod, couleur_prod, taille_prod) VALUES

@@ -19,9 +19,9 @@ class EvenementController extends Controller {
     public function createEvent()
     {
         $auth = new AuthService();
-        if (!$auth->isLoggedIn()) {
+        /*if (!$auth->isLoggedIn()) {
             $this->redirectTo('login.php');
-        }
+        }*/
 
         $repo = new EvenementRepository();
         $events = $repo->findAll();
