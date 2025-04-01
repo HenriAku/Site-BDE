@@ -49,6 +49,12 @@ class UserRepository {
             'id' => $user->getId(),
         ]);
     }
+
+    public function updatePassword(int $userId, string $hashedPassword): bool
+{
+    $stmt = $this->pdo->prepare('UPDATE adherent SET mdp_etu = ? WHERE n_etu = ?');
+    return $stmt->execute([$hashedPassword, $userId]);
+}
     public function delete(int $id): bool {
         if (!$this->pdo) {
             throw new Exception('Connexion PDO non initialisée');

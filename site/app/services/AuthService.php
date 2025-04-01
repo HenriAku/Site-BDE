@@ -19,6 +19,11 @@ class AuthService {
         $_SESSION['user'] = serialize($user);
     }
 
+    public function updatePassword(string $mdp, string $netu)
+    {
+
+    }
+
     public function logout(): void
     {
         echo "<script>console.log('déconnexion');</script>";

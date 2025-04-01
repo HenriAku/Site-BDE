@@ -3,25 +3,62 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="../asset/css/profil.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
 
-<h1>profil</h1>
-<div>
-    <p>{{user.firstname}} {{user.lastname}}</p>
-    <p>{{user.email}}</p>
-    <p>{{user.password}}</p>
-    <p>{{user.netu}}</p>
+<h1>Profil</h1>
+<div class="profile-info">
+    <div class="info-item">
+        <span class="label">Prénom:</span>
+        <span class="value">{{user.firstname}}</span>
+    </div>
+    
+    <div class="info-item">
+        <span class="label">Nom:</span>
+        <span class="value">{{user.lastname}}</span>
+    </div>
+    
+    <div class="info-item">
+        <span class="label">Email:</span>
+        <span class="value">{{user.email}}</span>
+    </div>
+    
+    <div class="info-item">
+        <span class="label">Numéro étudiant:</span>
+        <span class="value">{{user.netu}}</span>
+    </div>
+    
+    <div class="password-field">
+        <form method="POST" action="./update_password.php" id="passwordForm" onsubmit="return confirm('Voulez-vous vraiment changer votre mot de passe ?');">
+            <label>Mot de passe:
+                <div class="password-input-wrapper">
+                    <input 
+                        type="password" 
+                        name="new_password" 
+                        id="passwordInput"
+                        required>
+                </div>
+            </label>
+            <button type="submit" class="btn-save-password">
+                <i class="fas fa-save"></i> Enregistrer
+            </button>
+        </form>
+    </div>
 </div>
 
-<div>
-    <form method="POST" action="./logout.php">
-        <button type="submit">Déconnexion</button>
+<div class="action-buttons">
+    <form method="POST" action="./logout.php" class="logout-form">
+        <button type="submit" class="btn logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
+        </button>
     </form>
 
-    <button>supprimer profil</button>
+    <button class="btn delete-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre profil ?')">
+        <i class="fas fa-trash-alt"></i> Supprimer le profil
+    </button>
 </div>
+
 
 {% endblock %}

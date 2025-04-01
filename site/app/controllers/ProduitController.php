@@ -1,35 +1,31 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require_once './app/services/AuthService.php';
-require_once './app/repositories/ArticleRepository.php';
-require_once './app/repositories/CategoryRepository.php';
+require_once './app/repositories/ProduitRepository.php';
 require_once './app/core/Controller.php';
 require_once './app/trait/FormTrait.php';
 
-class ArticleController extends Controller{
+
+class ProduitController extends Controller{
 
     use FormTrait;
 
     public function index() {
-        $this->checkAuth();
+        //$this->checkAuth();
 
-        $articleRepo = new ArticleRepository();
-        $categoryRepo = new CategoryRepository();
+        $ProduitRepo = new ProduitRepository();
 
-        $articles = $articleRepo->findAll();
+        $Produits = $ProduitRepo->findAll();
+        $images   = $ProduitRepo->getImg();
 
-        foreach ($articles as $article) {
-            $category = $categoryRepo->findByArticle($article);
-            $article->setCategory($category);
-        }
-
-        $this->view('/article/index.html.twig',  ['articles' => $articles]);
+        $this->view('/produit/index.html.twig',  ['Produits' => $Produits, 'images' => $images]);
     }
 
     public function create() {
-        $this->checkAuth();
-        $repository = new CategoryRepository();
-        $categories =  $repository->findAll();
+        //$this->checkAuth();
 
         $data = $this->getAllPostParams();
         $errors = [];
@@ -40,9 +36,6 @@ class ArticleController extends Controller{
                 $errors = [];
 
                 // Validation des données
-                if (empty($data['category_id'])) {
-                    $errors[] = 'La catégorie est requise.';
-                }
                 if (empty($data['name'])) {
                     $errors[] = 'Le nom est requis.';
                 }
@@ -57,7 +50,7 @@ class ArticleController extends Controller{
                     throw new Exception(implode(', ', $errors));
                 }
 
-                $article = new Article(
+                $Produit = new Produit(
                     null,
                     $data['name'],
                     (float)$data['price'],
@@ -65,21 +58,14 @@ class ArticleController extends Controller{
                     (int)$data['stock']
                 );
 
-                $article->setCategory(new Category((int)$data['category_id'], ''));
 
-                $repository = new ArticleRepository();
-                if (!$repository->create($article)) {
-                    throw new Exception('Erreur lors de la création de l\'article.');
-                }
-
-                $this->redirectTo('articles.php');
+                $this->redirectTo('Produits.php');
             } catch (Exception $e) {
                 $errors = explode(', ', $e->getMessage());
             }
         }
 
-        $this->view('/article/form', [
-            'categories' => $categories,
+        $this->view('/Produit/form', [
             'data' => $data,
             'errors' => $errors
         ]);
@@ -94,33 +80,25 @@ class ArticleController extends Controller{
 
     public function update()
     {
-        $this->checkAuth();
+        //$this->checkAuth();
 
         $id = $this->getQueryParam('id');
 
         if ($id === null) {
-            throw new Exception('Article ID is required.');
+            throw new Exception('Produit ID is required.');
         }
-        $repository = new ArticleRepository();
-        $categoryRepo = new CategoryRepository();
-        $article = $repository->findById($id);
 
-        $category = $categoryRepo->findByArticle($article);
-        $article->setCategory($category);
-
-        if ($article === null) {
-            throw new Exception('Article not found');
+        if ($Produit === null) {
+            throw new Exception('Produit not found');
         }
 
         $data = array_merge([
-            'name'=>$article->getName(),
-            'stock'=>$article->getStock(),
-            'price'=>$article->getPrice(),
-            'description'=>$article->getDescription(),
-            'category_id'=>$article->getCategory()->getId()
+            'name'=>$Produit->getName(),
+            'stock'=>$Produit->getStock(),
+            'price'=>$Produit->getPrice(),
+            'description'=>$Produit->getDescription(),
         ],$this->getAllPostParams()); //Get submitted data
 
-        $categories =  $categoryRepo->findAll();
 
         $errors = [];
 
@@ -130,9 +108,6 @@ class ArticleController extends Controller{
                 $errors = [];
 
                 // Validation des données
-                if (empty($data['category_id'])) {
-                    $errors[] = 'La catégorie est requise.';
-                }
                 if (empty($data['name'])) {
                     $errors[] = 'Le nom est requis.';
                 }
@@ -147,7 +122,7 @@ class ArticleController extends Controller{
                     throw new Exception(implode(', ', $errors));
                 }
 
-                $article = new Article(
+                $Produit = new Produit(
                     null,
                     $data['name'],
                     (float)$data['price'],
@@ -155,21 +130,13 @@ class ArticleController extends Controller{
                     (int)$data['stock']
                 );
 
-                $article->setCategory(new Category((int)$data['category_id'], ''));
-
-                $repository = new ArticleRepository();
-                if (!$repository->create($article)) {
-                    throw new Exception('Erreur lors de la création de l\'article.');
-                }
-
-                $this->redirectTo('articles.php');
+                $this->redirectTo('Produits.php');
             } catch (Exception $e) {
                 $errors = explode(', ', $e->getMessage());
             }
         }
 
-        $this->view('/article/form.html.twig', [
-            'categories' => $categories,
+        $this->view('/produit/form.html.twig', [
             'data' => $data,
             'errors' => $errors
         ]);

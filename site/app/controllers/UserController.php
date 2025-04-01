@@ -195,4 +195,17 @@ class UserController extends Controller {
 
 
     }
+
+    public function getUser():?User
+    {
+        $authServ = new AuthService();
+
+        return $authServ->getUser();
+
+    }
+
+    public function updatePassword(string $mdp, string $netu)
+    {
+        
+    }
 }
