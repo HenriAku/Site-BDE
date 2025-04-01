@@ -19,10 +19,7 @@ class AuthService {
         $_SESSION['user'] = serialize($user);
     }
 
-    public function updatePassword(string $mdp, string $netu)
-    {
 
-    }
 
     public function logout(): void
     {

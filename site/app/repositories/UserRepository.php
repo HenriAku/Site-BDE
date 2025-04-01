@@ -20,7 +20,7 @@ class UserRepository {
 
     private function createUserFromRow(array $row): User
     {
-        return new User($row['n_etu'],  $row['nom_etu'], $row['prenom_etu'], $row['mail_etu'], $row['mdp_etu'], $row['num_etu']);
+        return new User($row['n_etu'],  $row['nom_etu'], $row['prenom_etu'], $row['mail_etu'], $row['mdp_etu'], $row['num_etu'], $row['estValide']);
     }
 
     public function create(User $user): bool 
@@ -51,10 +51,11 @@ class UserRepository {
     }
 
     public function updatePassword(int $userId, string $hashedPassword): bool
-{
-    $stmt = $this->pdo->prepare('UPDATE adherent SET mdp_etu = ? WHERE n_etu = ?');
-    return $stmt->execute([$hashedPassword, $userId]);
-}
+    {
+        $stmt = $this->pdo->prepare('UPDATE adherent SET mdp_etu = ? WHERE n_etu = ?');
+        return $stmt->execute([$hashedPassword, $userId]);
+    } 
+
     public function delete(int $id): bool {
         if (!$this->pdo) {
             throw new Exception('Connexion PDO non initialisée');
