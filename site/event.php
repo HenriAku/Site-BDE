@@ -3,9 +3,12 @@ require_once './app/controllers/EvenementController.php';
 
 $controller = new EvenementController();
 
-// Si on a un paramètre id, on affiche le détail, sinon la liste
 if (isset($_GET['id'])) {
-    $controller->show();
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['note'])) {
+        $controller->addComment();
+    } else {
+        $controller->show();
+    }
 } else {
     $controller->index();
 }

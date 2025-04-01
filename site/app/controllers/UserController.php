@@ -178,14 +178,12 @@ class UserController extends Controller {
     {
 
         $authServ = new AuthService();
-        $user = $authServ->getUser();
-
-        echo "<script>console.log('".$user->getNetu()."');</script>";
 
 
         if($authServ->isLoggedIn())
         {
             echo "<script>console.log('sa passe');</script>";
+            $user = $authServ->getUser();
             $this->view('/user/profil.html.twig', ['user' => $user]);
         }
         else
