@@ -26,10 +26,22 @@ class AuthController extends Controller {
 
             if($user !== null && $this->verify($this->getPostParam('password'),$user->getPassword()))
             {
-                $authService->setUser($user);
-                $this->redirectTo('index.php');
+                if($user->getValide())
+                {
+                    $authService->setUser($user);
+                    $this->redirectTo('index.php');
+                }
+                else
+                {
+                    $data= empty($postData) ? []:['error'=>'Compte non vérifié'];
+                }                
+
             }
-            $data= empty($postData) ? []:['error'=>'Email ou mot de passe invalide'];// si des données existent, elles ne sont pas valide
+            else
+            {
+                $data= empty($postData) ? []:['error'=>'Email ou mot de passe invalide'];// si des données existent, elles ne sont pas valide
+            }
+
     
         }
     

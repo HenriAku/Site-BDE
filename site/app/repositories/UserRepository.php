@@ -12,7 +12,8 @@ class UserRepository {
     public function findAll(): array {
         $stmt = $this->pdo->query('SELECT * FROM "adherent"');
         $users = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) 
+        {
             $users[] = $this->createUserFromRow($row);
         }
         return $users;
@@ -20,7 +21,7 @@ class UserRepository {
 
     private function createUserFromRow(array $row): User
     {
-        return new User($row['n_etu'],  $row['nom_etu'], $row['prenom_etu'], $row['mail_etu'], $row['mdp_etu'], $row['num_etu'], $row['estValide']);
+        return new User($row['n_etu'],  $row['nom_etu'], $row['prenom_etu'], $row['mail_etu'], $row['mdp_etu'], $row['num_etu'], $row['estvalide']);
     }
 
     public function create(User $user): bool 
