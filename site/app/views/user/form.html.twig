@@ -1,5 +1,8 @@
 {% extends '_template/base.html.twig' %}
-
+{% block stylesheets %}
+    {{ parent() }} {# Important pour conserver les styles du parent #}
+    <link rel="stylesheet" href="../asset/css/users.css">
+{% endblock %}
 {% block body %}
 
 <form method="POST" action="{{ id ? 'user_update.php?id=' ~ id :  'user_create.php'}}" class="container mt-5">
