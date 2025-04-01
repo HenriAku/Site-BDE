@@ -148,4 +148,27 @@ class UserController extends Controller {
         // Display update form
         $this->view('/user/form.html.twig',  ['data' => $data, 'errors' => $errors, 'id' => $id]);
     }
+    public function delete() {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+                $repository = new UserRepository(); // Ajoutez cette ligne
+                $userId = (int) $_POST['id'];
+                $success = $repository->delete($userId); // Utilisez $repository au lieu de $this->userRepository
+                if ($success) {
+                    http_response_code(200);
+                    echo json_encode(['success' => true, 'message' => 'Utilisateur supprimé']);
+                } else {
+                    http_response_code(404);
+                    echo json_encode(['success' => false, 'error' => 'Utilisateur non trouvé']);
+                }
+            } else {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'Requête invalide']);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
+        }
+        exit;
+    }
 }
