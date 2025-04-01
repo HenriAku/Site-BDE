@@ -1,15 +1,15 @@
 <?php
-class Article {
+class Produit {
 
     public function __construct(
-        private ?int $n_produit,
-        private string $name,
-        private int $stock,
-        private string $category,
-        private float $price,
-        private string $description,
-        private string $color,
-        private string $size){}
+        public ?int $n_produit,
+        public string $name,
+        public int $stock,
+        public string $category,
+        public float $price,
+        public string $description,
+        public string $color,
+        public string $size){}
 
     public function getn_produit(): ?int {
         return $this->n_produit;

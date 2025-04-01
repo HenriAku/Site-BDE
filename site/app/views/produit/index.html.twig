@@ -1,0 +1,83 @@
+{% extends '_template/base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }} {# Important pour conserver les styles du parent #}
+    <link rel="stylesheet" href="../asset/css/produit.css">
+{% endblock %}
+
+{% block body %}
+<h1>Panel D'administration</h1>
+
+<div class="Menu-administrateur">
+    <a href="">Event</a>
+    <a href="">Actu</a>
+    <a href="">Boutique</a>
+    <a href="">Vente</a>
+    <a href="">Gestion</a>
+    <a href="">Adhésion</a>
+    <a href="">Participation</a>
+</div>
+
+<div class="Formulaire">
+    <label for="ListeProduit">Liste Produit</label>
+    <div class="LstProduits">    
+        <select id="LstProduits" name="ListeProduit">
+            <option value=""></option>
+            {% for Produit in Produits %}
+                <option 
+                    value="{{ Produit.name }}" 
+                    data-color="{{ Produit.color }}" >
+                    {{ Produit.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <form>
+        <label for="nom">Nom Produit :</label>
+        <input type="text" id="nom" name="nom" value="{{ nom }}">
+    </form>
+
+    <label for="zoneDepotImage">Image (PNG,JPG) :</label>
+
+
+    
+    <div class="zoneDepotImage" onclick="triggerFileInput()">
+        {% set imageFound = false %}
+        {% for image in images %}
+            {% if image.n_prod == Produit.n_prod %}
+                <img src="../asset/images/produit/"{{ image.nom_image }} alt={{ Produit.name }} style="max-width: 100px; max-height: 100px;">
+                {% set imageFound = true %}
+            {% endif %}
+        {% endfor %}
+        {% if not imageFound %}
+            <p id="zoneDepTxt">Cliquez ici pour déposer une image</p>
+        {% endif %}
+        <input type="file" id="fileInput" style="display: none;">
+    </div>
+    
+
+    <label for="zoneDescription">Description Produit :</label>
+    <textarea id="description" name="description" rows="4" cols="50" placeholder="Entrez votre description ici..."></textarea>
+
+    <div class="prixCoul">
+        <label for="prix">Prix :</label>
+        <input type="number" step="any" id="prix" name="prix" value="">
+
+        <label for="coul">Couleur :</label>
+        <input type="color" id="colorPicker" name="colorPicker" value="#ff0000">
+    </div>
+    
+    
+</div>
+
+{% block javascripts %}
+    <script src="../asset/js/produit.js"></script>
+    <script>
+        const images   = {{ images|json_encode|raw }};
+        const Produits = {{ Produits|json_encode|raw}};
+    </script>
+{% endblock %}
+
+{% endblock %}
+
