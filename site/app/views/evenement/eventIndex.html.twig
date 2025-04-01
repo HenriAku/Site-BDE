@@ -11,23 +11,26 @@
 <h1 class="title">Événements à venir</h1>
 
 <div class="event-container">
-    {% for event in evenements %}
-    <div class="event-card">
-        <h2 class="event-title">{{ event.getNom() }}</h2>
 
-        <p class="event-description">{{ event.getDescription() }}</p>
-
-        <p class="event-date">
-            {{ event.getDateDebut() }} - {{ event.getAdresse() }}
-        </p>
-
-        <p class="event-note">
-            *Note : {% if event.getNote() is defined %}{{ event.getNote() }}/5{% else %}Non noté{% endif %}
-        </p>
-  
-        <a href="/event.php?id={{ event.getId() }}" class="btn">Voir plus</a>
-    </div>
-    {% endfor %}
+{% for event in evenements %}
+<div class="event-card">
+    <h2 class="event-title">{{ event.getNom() }}</h2>
+    <p class="event-description">{{ event.getDescription() }}</p>
+    <p class="event-date">
+        {{ event.getDateDebut() }} - {{ event.getAdresse() }}
+    </p>
+    <p class="event-note">
+        Note : 
+        {% if event.note_moyenne > 0 %}
+            {{ event.note_moyenne }}/5
+            ({{ event.note_moyenne|round(1) }} ★)
+        {% else %}
+            Pas encore noté
+        {% endif %}
+    </p>
+    <a href="/event.php?id={{ event.getId() }}" class="btn">Voir plus</a>
 </div>
-
+{% endfor %}
+</div>
+ 
 {% endblock %}
