@@ -1,7 +1,7 @@
 {% extends '_template/base.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }} {# Important pour conserver les styles du parent #}
+    {{ parent() }}
     <link rel="stylesheet" href="../asset/css/create_produit.css">
 {% endblock %}
 
@@ -15,39 +15,46 @@
     <a href="">Vente</a>
     <a href="users.php">Gestion</a>
     <a href="">Adhésion</a>
-    <a href="">Participation</a>
+    <a href="participation.php">Participation</a>
 </div>
 
+<<<<<<< HEAD
 <form method="post" action="produit.php">
+=======
+<form method="post" action="produit.php" enctype="multipart/form-data">
+
+>>>>>>> 29b2e35900821954da8f45877f7c9c05301535fd
     <div class="Formulaire">
+        <input type="hidden" id="prodId" name="prodId" value="">    
         <label for="ListeProduit">Liste Produit</label>
         <div class="LstProduits">    
             <select id="LstProduits" name="ListeProduit">
                 <option value=""></option>
                 {% for Produit in Produits %}
                     <option 
-                        value="{{ Produit.n_prod }}"  
-                        data-color="{{ Produit.color }}"
-                        data-price="{{ Produit.price }}">
-                        {{ Produit.name }}
+                        value="{{ Produit.getn_produit() }}"
+                        data-price="{{ Produit.getPrice() }}"
+                        data-color="{{ Produit.getColor() }}"
+                        data-stock="{{ Produit.getStock() }}"
+                        data-categorie="{{ Produit.getCategorie() }}"
+                        data-taille="{{ Produit.getTaille() }}"
+                        data-description="{{ Produit.getDescription() }}"
+                        {% if index == Produit.getn_produit() %}selected{% endif %}>
+                        {{ Produit.getName() }}
                     </option>
                 {% endfor %}
             </select>
         </div>
 
-        
         <label for="nom">Nom Produit :</label>
         <input type="text" id="nom" name="nom" value="{{ nom }}">
 
         <label for="zoneDepotImage">Image (PNG,JPG) :</label>
-
-
-        
-    <div class="zoneDepotImage" onclick="triggerFileInput()">
+        <div class="zoneDepotImage" onclick="triggerFileInput()">
             <div id="zoneDepTxt">
                 {% set imageFound = false %}
                 {% for image in images %}
-                    {% if image.n_prod == Produit.n_produit %}
+                    {% if image.n_prod == index %}
                         {% set imageFound = true %}
                         <img src="../asset/images/produit/{{ image.nom_image }}" style="max-width: 100%; max-height: 100%;">
                     {% endif %}
@@ -56,45 +63,62 @@
                     Cliquez ici pour déposer une image
                 {% endif %}
             </div>
-            <input type="file" id="fileInput" style="display: none;" accept="image/*">
+            <input type="file" id="fileInput" name="image" style="display: none;" accept="image/*">
         </div>
-        
 
         <label for="zoneDescription">Description Produit :</label>
-        <textarea id="description" name="description" rows="4" cols="50" placeholder="Entrez votre description ici..."></textarea>
+        <textarea id="description" name="description" rows="4" cols="50" placeholder="Entrez votre description ici...">{{ description }}</textarea>
 
         <div class="prixCoul">
             <label for="prix">Prix :</label>
-            <input type="number" step="any" id="prix" name="prix" value="">
+            <input type="number" step="any" id="prix" name="prix" value="{{ prix }}">
 
             <label for="coul">Couleur :</label>
-            <input type="color" id="colorPicker" name="colorPicker" value="#ff0000">
+            <input type="color" id="colorPicker" name="colorPicker" value="{{ colorPicker|default('#ff0000') }}">
         </div>
 
         <label for="stock">Stock :</label>
-        <input type="number" step="any" id="stock" name="stock" value="">
+        <input type="number" step="any" id="stock" name="stock" value="{{ stock }}">
 
-            
         <label for="categorie">Categorie :</label>
-        <input type="text" id="categorie" name="categorie" value="">
+        <input type="text" id="categorie" name="categorie" value="{{ categorie }}">
 
         <label for="taille">Taille :</label>
-        <input type="text" id="taille" name="taille" placeholder="exemple : L,M,XXL">
+        <input type="text" id="taille" name="taille" placeholder="exemple : L,M,XXL" value="{{ taille }}">
         
+<<<<<<< HEAD
         <input type="submit" id="crée" name="crée" value="add">
         <input type="submit" id="modifier" name="modifier" value="update">
         <input type="submit" id="suppr" name="suppr" value="delete">
         
+=======
+        <div class="actions">
+            <button type="submit" name="action" value="add">créer</button>
+            <button type="submit" name="action" value="update">modifier</button>
+            <button type="submit" name="action" value="delete">supprimer</button>
+        </div>
+>>>>>>> 29b2e35900821954da8f45877f7c9c05301535fd
     </div>
 </form>
 
 {% block javascripts %}
     <script src="../asset/js/produit.js"></script>
     <script>
-        const images   = {{ images|json_encode|raw }};
-        const Produits = {{ Produits|json_encode|raw}};
+        const images = {{ images|json_encode|raw }};
+        const Produits = {{ Produits|json_encode|raw }};
+        const selectedProduct = {{ selectedProduct|json_encode|raw|default('null') }};
+        
+        // Initialisation des valeurs si un produit est sélectionné
+        if (selectedProduct) {
+            document.getElementById('nom').value = selectedProduct.name || '';
+            document.getElementById('description').value = selectedProduct.description || '';
+            document.getElementById('prix').value = selectedProduct.price || '';
+            document.getElementById('stock').value = selectedProduct.stock || '';
+            document.getElementById('categorie').value = selectedProduct.categorie || '';
+            document.getElementById('taille').value = selectedProduct.taille || '';
+            document.getElementById('colorPicker').value = selectedProduct.color || '#ff0000';
+        }
     </script>
 {% endblock %}
 
 {% endblock %}
-

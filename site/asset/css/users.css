@@ -1,6 +1,28 @@
 .mb-3, .mb-4{
     color: black;
 }
+.btn-payment {
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-paid {
+    background-color: #28a745; /* Vert */
+}
+
+.btn-unpaid {
+    background-color: #dc3545; /* Rouge */
+}
+
+.btn-payment:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
 
         /* Menu Administrateur */
         .Menu-administrateur {

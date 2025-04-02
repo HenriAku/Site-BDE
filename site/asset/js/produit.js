@@ -1,8 +1,15 @@
 const lstProduit = document.getElementById("LstProduits");
 
 lstProduit.addEventListener("change", () => {
-	updateNom();
+    updateNom();
+    updateProdId(); // Ajout de cette ligne
 });
+
+function updateProdId() {
+    const select = document.getElementById('LstProduits');
+    const selectedOption = select.options[select.selectedIndex];
+    document.getElementById('prodId').value = selectedOption.value;
+}
 
 function updateNom() {
     const select = document.getElementById('LstProduits');
@@ -43,71 +50,64 @@ document.addEventListener('DOMContentLoaded', () => {
     colorBox.style.height = '12px';
     colorBox.style.marginLeft = '8px';
     colorBox.style.verticalAlign = 'middle';
-    colorBox.style.border = '1px solid #ccc'; // Bordure optionnelle
+    colorBox.style.border = '1px solid #ccc';
     
-    // Ajoute le carré après le select
     select.insertAdjacentElement('afterend', colorBox);
     
-    // Fonction de mise à jour
     function updateProduit() {
-            const selectedOption = select.options[select.selectedIndex];
-            const color = selectedOption.dataset.color;
-            
-            if (color) {
-                colorBox.style.backgroundColor = color;
-                colorBox.style.visibility = 'visible';
-            } else {
-                // Cache le carré si pas de couleur (option vide)
-                colorBox.style.visibility = 'hidden';
-                colorBox.style.backgroundColor = 'transparent';
-            }
-            
-            const zoneDepotImageTxt = document.getElementById("zoneDepTxt");
-            let imgNameChanged = false;
-            
-            for (let index = 0; index < images.length; index++) {
-                if (images[index]['n_prod'] == select.selectedIndex) {
-                    imgNameChanged = true;
-                    // Modification ici pour mieux afficher l'image
-                    zoneDepotImageTxt.innerHTML = `<img src="../asset/images/produit/${images[index]['nom_image']}" style="max-width: 100%; max-height: 100%;">`;
-                }
-            }
-            
-            if (!imgNameChanged) {
-                zoneDepotImageTxt.textContent = "Cliquez ici pour déposer une image";
-            }
+        const selectedOption = select.options[select.selectedIndex];
+        const color = selectedOption.dataset.color;
         
-            const prix = document.getElementById("prix");
-            const textArea = document.getElementById("description");
-            const stock = document.getElementById("stock");
-            const categorie = document.getElementById("categorie");
-            const taille = document.getElementById("taille");
-
-            if (select.selectedIndex-1 >= 0){
-                prix.value = Produits[select.selectedIndex-1].price;
-                textArea.value = Produits[select.selectedIndex-1].description;
-                stock.value = Produits[select.selectedIndex-1].stock;
-                categorie.value = Produits[select.selectedIndex-1].category;
-                taille.value = Produits[select.selectedIndex-1].size;
-            } 
-            else{
-                prix.value = 0;
-                textArea.value = "";
-                stock.value = 0;
-                categorie.value = "";
-                taille.value = "";
-            }
-
+        // Mise à jour de l'ID du produit
+        const prodIdInput = document.getElementById('prodId');
+        prodIdInput.value = selectedOption.value;
             
-
+        if (color) {
+            colorBox.style.backgroundColor = color;
+            colorBox.style.visibility = 'visible';
+        } else {
+            colorBox.style.visibility = 'hidden';
+            colorBox.style.backgroundColor = 'transparent';
+        }
+        
+        const zoneDepotImageTxt = document.getElementById("zoneDepTxt");
+        let imgNameChanged = false;
+        
+        for (let index = 0; index < images.length; index++) {
+            if (images[index]['n_prod'] == selectedOption.value) { // Modification ici pour utiliser la valeur plutôt que l'index
+                imgNameChanged = true;
+                zoneDepotImageTxt.innerHTML = `<img src="../asset/images/produit/${images[index]['nom_image']}" style="max-width: 100%; max-height: 100%;">`;
+            }
+        }
+        
+        if (!imgNameChanged) {
+            zoneDepotImageTxt.textContent = "Cliquez ici pour déposer une image";
         }
     
-    // Écouteur d'événement
-    select.addEventListener('change', updateProduit);
-    
-    // Initialisation
-    updateProduit();
+        const prix = document.getElementById("prix");
+        const textArea = document.getElementById("description");
+        const stock = document.getElementById("stock");
+        const categorie = document.getElementById("categorie");
+        const taille = document.getElementById("taille");
 
+        if (select.selectedIndex > 0){ // Modification de la condition
+            prix.value = Produits[select.selectedIndex-1].price;
+            textArea.value = Produits[select.selectedIndex-1].description;
+            stock.value = Produits[select.selectedIndex-1].stock;
+            categorie.value = Produits[select.selectedIndex-1].category;
+            taille.value = Produits[select.selectedIndex-1].size;
+        } 
+        else {
+            prix.value = 0;
+            textArea.value = "";
+            stock.value = 0;
+            categorie.value = "";
+            taille.value = "";
+        }
+    }
+    
+    select.addEventListener('change', updateProduit);
+    updateProduit(); // Initialisation
 });
   
 function triggerFileInput() {

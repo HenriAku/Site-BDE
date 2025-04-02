@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS Commente CASCADE;
 DROP TABLE IF EXISTS Consulte CASCADE;
 DROP TABLE IF EXISTS Contient_evenement CASCADE;
 DROP TABLE IF EXISTS Contient_produit CASCADE;
+DROP TABLE IF EXISTS Participe CASCADE;
 
 
 DROP TABLE IF EXISTS Produit CASCADE;
@@ -22,6 +23,7 @@ CREATE TABLE Produit(
                           stock_prod     INTEGER,
                           categorie_prod VARCHAR(255) NOT NULL CHECK (categorie_prod IN ('Vetement', 'Accessoire', 'Consommable')),
                           prix_prod      INTEGER NOT NULL,
+                          code_hexa VARCHAR(255),
                           description_prod TEXT NOT NULL,
                           couleur_prod  VARCHAR(255) NOT NULL,
                           taille_prod VARCHAR(255) NOT NULL CHECK (taille_prod IN ('XS', 'S', 'M', 'L', 'XL', 'XXL'))
@@ -61,6 +63,7 @@ CREATE TABLE Adherent (
 CREATE TABLE Fichier (
                          nom_image VARCHAR(255) PRIMARY KEY
 );
+
 
 --CREATION DES RELATIONS 
 -- Création de la relation 'Achete'
@@ -127,15 +130,13 @@ CREATE TABLE Consulte (
 CREATE TABLE Participe (
                          n_etu INT NOT NULL,
                          n_event INT NOT NULL,
+                         a_payer boolean DEFAULT false,
                          PRIMARY KEY (n_etu, n_event),
                          FOREIGN KEY (n_event) REFERENCES Evenement(n_event) ON DELETE CASCADE,
                          FOREIGN KEY (n_etu) REFERENCES Adherent(n_etu) ON DELETE CASCADE
 );
 
 
--- Suppression des tables existantes (gardez votre partie DROP TABLE existante)
-
--- [...] (conservez toutes les parties DROP TABLE et CREATE TABLE précédentes)
 
 -- Adhérents (inchangé)
 INSERT INTO Adherent (num_etu, nom_etu,estValide, prenom_etu, admin, mdp_etu, mail_etu) VALUES
