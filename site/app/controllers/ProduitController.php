@@ -76,7 +76,7 @@ class ProduitController extends Controller {
                 switch ($action) 
                 {
                     case 'add':
-                        $newId = $ProduitRepo->create($Produit);
+                        $ProduitRepo->create($Produit);
                         break;
                     case 'update':
                         $success = $ProduitRepo->updateProduit($Produit, $index);
