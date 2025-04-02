@@ -15,7 +15,7 @@
     <a href="">Vente</a>
     <a href="users.php">Gestion</a>
     <a href="">Adhésion</a>
-    <a href="">Participation</a>
+    <a href="participation.php">Participation</a>
 </div>
 
 <div class="container-fluid">
@@ -54,8 +54,8 @@
                                     </button>
                                 {% else %}
                                     <form method="post" action="/payer_participation.php" style="display: inline;">
-                                        <input type="hidden" name="idEvent" value="{{ participation.n_event }}">
-                                        <input type="hidden" name="idEtu" value="{{ participation.n_etu }}">
+                                        <input type="hidden" name="idEvent" value="{{ participation.getIdEvent() }}">
+                                        <input type="hidden" name="idEtu" value="{{ participation.getIdAdherent() }}">
                                         <button type="submit" class="btn-payment btn-unpaid">
                                             <i class="fas fa-exclamation-circle"></i> À payer
                                         </button>

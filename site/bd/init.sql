@@ -6,12 +6,10 @@ DROP TABLE IF EXISTS Consulte CASCADE;
 DROP TABLE IF EXISTS Contient_evenement CASCADE;
 DROP TABLE IF EXISTS Contient_produit CASCADE;
 DROP TABLE IF EXISTS Participe CASCADE;
-DROP TABLE IF EXISTS lier_couleur CASCADE;
 
 
 DROP TABLE IF EXISTS Produit CASCADE;
 DROP TABLE IF EXISTS Article CASCADE;
-DROP TABLE IF EXISTS Couleur CASCADE;
 DROP TABLE IF EXISTS Fichier CASCADE;
 DROP TABLE IF EXISTS Evenement CASCADE;
 DROP TABLE IF EXISTS Adherent CASCADE;
@@ -25,6 +23,7 @@ CREATE TABLE Produit(
                           stock_prod     INTEGER,
                           categorie_prod VARCHAR(255) NOT NULL CHECK (categorie_prod IN ('Vetement', 'Accessoire', 'Consommable')),
                           prix_prod      INTEGER NOT NULL,
+                          code_hexa VARCHAR(255),
                           description_prod TEXT NOT NULL,
                           couleur_prod  VARCHAR(255) NOT NULL,
                           taille_prod VARCHAR(255) NOT NULL CHECK (taille_prod IN ('XS', 'S', 'M', 'L', 'XL', 'XXL'))
@@ -65,9 +64,7 @@ CREATE TABLE Fichier (
                          nom_image VARCHAR(255) PRIMARY KEY
 );
 
-CREATE TABLE Couleur (
-                         code_hexa VARCHAR(255) PRIMARY KEY
-);
+
 --CREATION DES RELATIONS 
 -- Création de la relation 'Achete'
 CREATE TABLE Achete (
@@ -88,14 +85,6 @@ CREATE TABLE Detail_panier (
                          quantite_dp INTEGER NOT NULL CHECK (quantite_dp > 0),
                          FOREIGN KEY (n_prod) REFERENCES Produit(n_prod) ON DELETE CASCADE,
                          FOREIGN KEY (n_etu) REFERENCES Adherent(n_etu) ON DELETE CASCADE
-);
-
-CREATE TABLE lier_couleur (
-                         code_hexa  VARCHAR(255) NOT NULL,
-                         n_prod     INTEGER NOT NULL,
-                         PRIMARY KEY (code_hexa, n_prod),
-                         FOREIGN KEY (code_hexa) REFERENCES Couleur(code_hexa) ON DELETE CASCADE,
-                         FOREIGN KEY (n_prod)    REFERENCES Produit(n_prod) ON DELETE CASCADE
 );
 
 -- Création de la relation 'Commente'

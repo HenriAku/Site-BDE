@@ -39,16 +39,13 @@ class ParticipationRepesitory {
 
     public function payerParticipation(int $idEvent, int $idEtu): bool {
         try {
-            error_log("Exécution SQL: UPDATE Participe SET a_payer=true WHERE n_event=$idEvent AND n_etu=$idEtu");
             
             $query = "UPDATE Participe SET a_payer = true WHERE n_event = :idEvent AND n_etu = :idEtu";
             $stmt = $this->db->prepare($query);
             $result = $stmt->execute([':idEvent' => $idEvent, ':idEtu' => $idEtu]);
             
-            error_log("Lignes affectées: ".$stmt->rowCount());
             return $result;
         } catch (Exception $e) {
-            error_log("Erreur SQL: ".$e->getMessage());
             return false;
         }
     }
