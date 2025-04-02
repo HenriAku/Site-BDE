@@ -25,7 +25,6 @@ CREATE TABLE Produit(
                           prix_prod      INTEGER NOT NULL,
                           code_hexa VARCHAR(255),
                           description_prod TEXT NOT NULL,
-                          couleur_prod  VARCHAR(255) NOT NULL,
                           taille_prod VARCHAR(255) NOT NULL CHECK (taille_prod IN ('XS', 'S', 'M', 'L', 'XL', 'XXL'))
 );
 
@@ -82,6 +81,8 @@ CREATE TABLE Detail_panier (
                          n_dp SERIAL PRIMARY KEY,
                          n_prod INT NOT NULL,
                          n_etu INT NOT NULL,
+                         taille_prod VARCHAR(255),
+                         couleur_prod VARCHAR(255),
                          quantite_dp INTEGER NOT NULL CHECK (quantite_dp > 0),
                          FOREIGN KEY (n_prod) REFERENCES Produit(n_prod) ON DELETE CASCADE,
                          FOREIGN KEY (n_etu) REFERENCES Adherent(n_etu) ON DELETE CASCADE

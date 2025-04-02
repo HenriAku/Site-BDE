@@ -2,16 +2,16 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="../asset/css/produit.css">
+    <link rel="stylesheet" href="/asset/css/produit.css">
 {% endblock %}
 
 {% block body %}
 <h1>Panel D'administration des news</h1>
 
-{% if messages.success %}
+{% if messages.success is defined %}
     <div class="alert alert-success">{{ messages.success }}</div>
 {% endif %}
-{% if messages.error %}
+{% if messages.error is defined %}
     <div class="alert alert-danger">{{ messages.error }}</div>
 {% endif %}
 
@@ -25,22 +25,22 @@
     <a href="participation.php">Participation</a>
 </div>
 
-
-<form method="post" enctype="multipart/form-data" action="/ajouter_news.php">
+<form method="post" action="/traiter_news.php">
     <input type="hidden" name="id" id="newsId" value="">
 
     <div class="Formulaire">
         <label for="LstNews">Liste des news</label>
         <div class="LstNews">    
-            <select id="LstNews" name="news_select" onchange="loadEventData(this)">
+            <select id="LstNews" name="news_select" onchange="loadNewsData(this)">
                 <option value="">-- Sélectionner une news --</option>
                 {% for new in news %}
-                    <option value="{{ new.getId() }}" 
-                            data-titre="{{ new.getTitre() }}"
-                            data-date="{{ new.getDate()|date('Y-m-d\\TH:i') }}"
-                            data-contenu="{{ new.getContenu() }}"
-                        {{ new.getTitre() }} ({{ new.getDate()|date('d/m/Y') }})
+                    <option value="{{ new.id }}" 
+                            data-titre="{{ new.titre }}"
+                            data-contenu="{{ new.contenu }}">
+                        {{ new.titre }} ({{ new.date|date('d/m/Y') }})
                     </option>
+                {% else %}
+                    <option value="">Aucune news disponible</option>
                 {% endfor %}    
             </select>
         </div>
@@ -51,8 +51,8 @@
         </div>
 
         <div class="form-group">
-            <label for="adresse">Contenu :</label>
-            <input type="text" id="contenu" name="contenu" required>
+            <label for="contenu">Contenu :</label>
+            <textarea id="contenu" name="contenu" required></textarea>
         </div>
 
         <div class="actions">
@@ -65,15 +65,13 @@
 
 {% block javascripts %}
 <script>
-function loadEventData(select) {
+function loadNewsData(select) {
     const option = select.selectedOptions[0];
     if (!option.value) return;
     
     document.getElementById('newsId').value = option.value;
     document.getElementById('titre').value = option.dataset.titre;
-    document.getElementById('date').value = option.dataset.date;
     document.getElementById('contenu').value = option.dataset.contenu;
-
 }
 </script>
 {% endblock %}

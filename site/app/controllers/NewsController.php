@@ -10,28 +10,44 @@ class Newscontroller extends Controller {
 
         $newsRepo = new NewsRepository();
         $news = $newsRepo->findAll();
+        $messages = [];
+        if (isset($_SESSION['messages'])) {
+            $messages = $_SESSION['messages'];
+            unset($_SESSION['messages']);
+        }
 
-        $this->view('/news/ajouter_news.html.twig', ['news' => $news]);
+        $this->view('news/ajouter_news.html.twig', [
+            'news' => $news,
+            'messages' => $messages
+        ]);
+
     }
 
-    public function payerParticipation() {
+    public function addNews(){
+        $action = $_POST['action'] ?? '';
+        $newsRepo = new NewsRepository();
         
-        $participationRep = new NewsRepository();
-        $idEvent = $_POST['idEvent'] ?? null;
-        $idEtu = $_POST['idEtu'] ?? null;
-    
-        if (!$idEvent || !$idEtu) {
-            $this->view('/evenement/participation.html.twig', [
-                'participations' => $participationRep->findAll(),
-                'error' => 'Identifiants manquants'
-            ]);
-            return;
+        switch ($action) {
+            case 'add':
+                // Ajouter une nouvelle news
+                $newsRepo->create($_POST['titre'], $_POST['contenu']);
+                $_SESSION['messages']['success'] = "News ajoutée avec succès";
+                break;
+                
+            case 'update':
+                // Mettre à jour une news existante
+                $newsRepo->update($_POST['id'], $_POST['titre'], $_POST['contenu']);
+                $_SESSION['messages']['success'] = "News mise à jour avec succès";
+                break;
+                
+            case 'delete':
+                // Supprimer une news
+                $newsRepo->delete($_POST['id']);
+                $_SESSION['messages']['success'] = "News supprimée avec succès";
+                break;
         }
         
-        $success = $participationRep->payerParticipation($idEvent, $idEtu);
-        $this->view('/evenement/participation.html.twig', [
-            'participations' => $participationRep->findAll()
-        ]);
-      
+        header('Location: /ajouter_news.php');
+        exit();
     }
 }
