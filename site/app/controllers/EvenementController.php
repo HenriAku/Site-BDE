@@ -233,7 +233,6 @@ class EvenementController extends Controller {
         try {
             $data = $this->validateEventData($_POST);
             
-            // Fournir une valeur par défaut pour places
             $places = (int)($_POST['places'] ?? 0);
             
             if ($repo->update(
@@ -243,7 +242,7 @@ class EvenementController extends Controller {
                 $data['description'],
                 $data['adresse'],
                 $data['prix'],
-                $places, // Maintenant toujours un int
+                $places, 
                 $_FILES['image']
             )) {
                 $_SESSION['admin_messages']['success'] = "Événement mis à jour";

@@ -1,22 +1,22 @@
 <?php
 
 require_once './app/services/AuthService.php';
-require_once './app/repositories/ParticipationRepesitory.php';
+require_once './app/repositories/NewsRepository.php';
 require_once './app/core/Controller.php';
 
-class ParticipationController extends Controller {
+class Newscontroller extends Controller {
 
-    public function afficherParticipation() {
+    public function creerNews() {
 
-        $participationRep = new ParticipationRepesitory();
-        $participations = $participationRep->findAll();
+        $newsRepo = new NewsRepository();
+        $news = $newsRepo->findAll();
 
-        $this->view('/evenement/participation.html.twig', ['participations' => $participations]);
+        $this->view('/news/ajouter_news.html.twig', ['news' => $news]);
     }
 
     public function payerParticipation() {
         
-        $participationRep = new ParticipationRepesitory();
+        $participationRep = new NewsRepository();
         $idEvent = $_POST['idEvent'] ?? null;
         $idEtu = $_POST['idEtu'] ?? null;
     
