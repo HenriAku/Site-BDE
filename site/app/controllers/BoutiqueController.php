@@ -9,7 +9,8 @@ class BoutiqueController extends Controller
         $ProduitRepo = new ProduitRepository();
 
         $Produits = $ProduitRepo->findAll();
+        $images = $ProduitRepo->getImg();
 
-        $this->view('/boutique/boutique.html.twig', ['Produits' => $Produits]);
+        $this->view('/boutique/boutique.html.twig', ['Produits' => $Produits, 'images' => $images]);
     }
 }

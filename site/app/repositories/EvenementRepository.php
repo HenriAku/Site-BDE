@@ -234,11 +234,10 @@ class EvenementRepository {
         string $description, 
         string $adresse, 
         float $prix,
-        ?int $places = null,  // Rendre le paramètre optionnel
+        ?int $places = null,  
         ?array $image = null
     ): bool {
         try {
-            // Requête UPDATE adaptée (sans places_disponibles)
             $query = "UPDATE evenement SET
                      nom_event = :nom,
                      date_debut_event = :date,
@@ -253,7 +252,7 @@ class EvenementRepository {
                 ':date' => $date,
                 ':description' => $description,
                 ':adresse' => $adresse,
-                ':prix' => (int)$prix, // Conversion en integer
+                ':prix' => (int)$prix, 
                 ':id' => $id
             ];
             
