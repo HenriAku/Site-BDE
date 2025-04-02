@@ -38,10 +38,15 @@
                                     <td>{{ produit.getSize() }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Couleur</th>
+                                    <th>Couleur(s)</th>
                                     <td>
-                                        <div style="display: inline-block; width: 20px; height: 20px; background: {{ produit.getColor() }}; border: 1px solid #000;"></div>
-                                        {{ produit.getColor() }}
+                                        <div class="color-container">
+                                            {% for color in panier.getCouleur()|split(',') %}
+                                                <div class="color-box" style="background-color: {{ color }};" 
+                                                     title="{{ color }}"></div>
+                                            {% endfor %}
+                                        </div>
+                                        <small>{{ panier.getCouleur() }}</small>
                                     </td>
                                 </tr>
                                 <tr>

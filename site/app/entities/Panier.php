@@ -6,6 +6,8 @@ class Panier {
         public int $n_panier,
         public int $n_produit,
         public int $n_user,
+        public string $taille,
+        public string $couleur,
         public int $qte
     )
     {}
@@ -36,6 +38,22 @@ class Panier {
 
     public function setqte(int $qte): void {
         $this->qte = $qte;
+    }
+
+    public function gettaile(): string {
+        return $this->taille;
+    }
+
+    public function settaille(string $taille): void {
+        $this->taille = $taille;
+    }
+
+    public function getcouleur(): string {
+        return $this->couleur;
+    }
+
+    public function setcouleur(string $couleur): void {
+        $this->couleur = $couleur;
     }
 
 }

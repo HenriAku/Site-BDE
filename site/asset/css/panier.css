@@ -36,3 +36,15 @@ body{
 .arrow.down {
     transform: rotate(180deg);
 }
+
+.color-container {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+.color-box {
+    width: 25px;
+    height: 25px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}

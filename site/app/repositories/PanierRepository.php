@@ -41,18 +41,22 @@ class PanierRepository {
             $row['n_dp'],
             $row['n_prod'],
             $row['n_etu'],
+            $row['taille_prod'],
+            $row['couleur_prod'],
             $row['quantite_dp']
         );
     }
 
     public function create(Panier $panier): bool 
     {
-        $stmt = $this->pdo->prepare('INSERT INTO detail_panier (n_dp, n_prod, n_etu, quantite_dp) 
-                                     VALUES (:n_dp, :n_prod, :n_etu, :quantite_dp)');
+        $stmt = $this->pdo->prepare('INSERT INTO detail_panier (n_dp, n_prod, n_etu,taille_prod, couleur_prod, quantite_dp) 
+                                     VALUES (:n_dp, :n_prod, :n_etu, :taille_prod, :couleur_prod :quantite_dp)');
         return $stmt->execute([
             'n_dp' => $panier->getn_panier(),
             'n_prod' => $panier->getn_produit(),
             'n_etu' => $panier->getn_user(),
+            'taille_prod' => $panier->gettaille(),
+            'couleur_prod' => $panier->getcouleur(),
             'quantite_dp' => $panier->getqte()
         ]);
     }
@@ -61,11 +65,14 @@ class PanierRepository {
 
     public function update(Panier $panier): bool
     {
-        $stmt = $this->pdo->prepare('UPDATE detail_panier SET n_prod = :n_prod, n_etu = :n_etu, quantite_dp = :quantite_dp WHERE n_dp = :n_dp');
+        $stmt = $this->pdo->prepare('UPDATE detail_panier SET n_prod = :n_prod, n_etu = :n_etu, quantite_dp = :quantite_dp, taille_prod = :taille_prod,
+                                            couleur_prod = :couleur_prod WHERE n_dp = :n_dp');
         return $stmt->execute([
             'n_prod' => $panier->getn_produit(),
             'n_etu' => $panier->getn_user(),
             'quantite_dp' => $panier->getqte(),
+            'taille_prod' => $panier->gettaille(),
+            'couleur_prod' => $panier->getcouleur(),
             'n_dp' => $panier->getn_panier()
         ]);
     }
