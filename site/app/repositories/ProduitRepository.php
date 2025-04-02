@@ -39,7 +39,7 @@ class ProduitRepository {
         ]);
     }
 
-    private function createProduitFromRow(array $row): Produit
+    public function createProduitFromRow(array $row): Produit
     {
         return new Produit($row['n_prod'], $row['libelle_prod'], $row['stock_prod'], $row['categorie_prod'], $row['prix_prod'], $row['description_prod'], $row['couleur_prod'], $row['taille_prod']);
     }
