@@ -22,7 +22,6 @@ class ProduitController extends Controller {
         $errors = [];
         $index = null;
         $selectedProduct = null;
-    
 
         if (!empty($data)) {
             try {
@@ -56,6 +55,11 @@ class ProduitController extends Controller {
                 if (!empty($_FILES['image']['name'])) {
                     $imagePath = $this->handleImageUpload($_FILES['image']);
                 }
+
+                $colors = null;
+                foreach ($data['colorPicker'] as $color) {
+                    $colors .= $color.","; 
+                }
     
                 $Produit = new Produit(
                     null, 
@@ -64,37 +68,21 @@ class ProduitController extends Controller {
                     $data['categorie'],
                     (float)$data['prix'],
                     $data['description'],
-                    $data['colorPicker'],
+                    $colors,
                     $data['taille']
                 );
+                
     
-                switch ($action) {
+                switch ($action) 
+                {
                     case 'add':
-                        $newId = $ProduitRepo->create($Produit);
-                        if ($imagePath) {
-                            $ProduitRepo->saveImage($newId, basename($imagePath));
-                        }
+                        $ProduitRepo->create($Produit);
                         break;
                     case 'update':
-                        if ($index <= 0) {
-                            throw new Exception('Aucun produit sélectionné pour la mise à jour');
-                        }
                         $success = $ProduitRepo->updateProduit($Produit, $index);
-                        if ($imagePath) {
-                            $ProduitRepo->saveImage($index, basename($imagePath));
-                        }
-                        if (!$success) {
-                            throw new Exception('Échec de la mise à jour du produit');
-                        }
                         break;
                     case 'delete':
-                        if ($index <= 0) {
-                            throw new Exception('Aucun produit sélectionné pour la suppression');
-                        }
                         $success = $ProduitRepo->deleteProduit($index);
-                        if (!$success) {
-                            throw new Exception('Échec de la suppression du produit');
-                        }
                         break;
                 }
     

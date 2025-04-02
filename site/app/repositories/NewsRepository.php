@@ -33,4 +33,11 @@ class NewsRepository {
         }
         return $news;
     }
+
+    public function create (
+        string $nom, 
+        string $date
+    ) : bool {
+
+    }
 }

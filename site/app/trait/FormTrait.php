@@ -3,8 +3,11 @@
 trait FormTrait {
 
     // Nettoie l'entrée utilisateur pour éviter les failles XSS
-    private function sanitizeInput(string $input): string {
-        return htmlspecialchars(strip_tags(trim($input)));
+    private function sanitizeInput(string|array $input): string|array {
+        if(is_string($input))
+            return htmlspecialchars(strip_tags(trim($input)));
+        else
+            return array_map([$this, 'sanitizeInput'], $input);
     }
 
     // Récupère un paramètre POST nettoyé
