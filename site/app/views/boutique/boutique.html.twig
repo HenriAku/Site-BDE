@@ -14,9 +14,9 @@
 	</div>
 
 	<div class="btn-tri">
-		<button>Type ▼</button>
-		<button>Taille ▼</button>
-		<button>Prix ▼</button>
+		<button id="btn1">Type ▼</button>
+		<button id="btn2">Taille ▼</button>
+		<button id="btn3">Prix ▼</button>
 	</div>
 
 	<div class="Produits">
@@ -40,4 +40,10 @@
 			</div>
 		{% endfor %}
 	</div>
+
+{% block javascripts %}
+    <script src="../asset/js/boutique.js"></script>
+
+{% endblock %}
+
 {% endblock %}

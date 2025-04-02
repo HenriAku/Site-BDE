@@ -21,6 +21,7 @@ body{
 .btn-tri button{
 	all: unset;
     cursor: pointer;
+    user-select: none;
 
 	background-color: #F2F2F2;
 	border: 2px solid black;
