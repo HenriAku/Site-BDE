@@ -26,59 +26,33 @@
 </div>
 
 
-<form method="post" enctype="multipart/form-data" action="/create_event.php">
-    <input type="hidden" name="id" id="eventId" value="">
+<form method="post" enctype="multipart/form-data" action="/ajouter_news.php">
+    <input type="hidden" name="id" id="newsId" value="">
 
     <div class="Formulaire">
-        <label for="LstEvenements">Liste des news</label>
-        <div class="LstEvenements">    
-            <select id="LstEvenements" name="event_select" onchange="loadEventData(this)">
-                <option value="">-- Sélectionner un événement --</option>
-                {% for event in events %}
-                    <option value="{{ event.getId() }}" 
-                            data-nom="{{ event.getNom() }}"
-                            data-date="{{ event.getDateDebut()|date('Y-m-d\\TH:i') }}"
-                            data-adresse="{{ event.getAdresse() }}"
-                            data-description="{{ event.getDescription() }}"
-                            data-prix="{{ event.getPrix() }}"
-                            data-places="{{ event.getPlaces() }}">
-                        {{ event.getNom() }} ({{ event.getDateDebut()|date('d/m/Y') }})
+        <label for="LstNews">Liste des news</label>
+        <div class="LstNews">    
+            <select id="LstNews" name="news_select" onchange="loadEventData(this)">
+                <option value="">-- Sélectionner une news --</option>
+                {% for new in news %}
+                    <option value="{{ new.getId() }}" 
+                            data-titre="{{ new.getTitre() }}"
+                            data-date="{{ new.getDate()|date('Y-m-d\\TH:i') }}"
+                            data-contenu="{{ new.getContenu() }}"
+                        {{ new.getTitre() }} ({{ new.getDate()|date('d/m/Y') }})
                     </option>
                 {% endfor %}    
             </select>
         </div>
 
         <div class="form-group">
-            <label for="nom">Nom de l'événement :</label>
-            <input type="text" id="nom" name="nom" required>
+            <label for="titre">Titre de la news :</label>
+            <input type="text" id="titre" name="titre" required>
         </div>
 
         <div class="form-group">
-            <label for="date">Date et heure :</label>
-            <input type="datetime-local" id="date" name="date" required>
-        </div>
-
-        <div class="form-group">
-            <label for="adresse">Adresse :</label>
-            <input type="text" id="adresse" name="adresse" required>
-        </div>
-
-        <div class="form-group">
-            <label for="image">Image :</label>
-            <input type="file" id="image" name="image" accept="image/*">
-        </div>
-
-        <div class="form-group">
-            <label for="description">Description :</label>
-            <textarea id="description" name="description" required></textarea>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="prix">Prix :</label>
-                <input type="number" step="0.01" id="prix" name="prix" min="0" required>
-            </div>
-
+            <label for="adresse">Contenu :</label>
+            <input type="text" id="contenu" name="contenu" required>
         </div>
 
         <div class="actions">
@@ -95,13 +69,11 @@ function loadEventData(select) {
     const option = select.selectedOptions[0];
     if (!option.value) return;
     
-    document.getElementById('eventId').value = option.value;
-    document.getElementById('nom').value = option.dataset.nom;
+    document.getElementById('newsId').value = option.value;
+    document.getElementById('titre').value = option.dataset.titre;
     document.getElementById('date').value = option.dataset.date;
-    document.getElementById('adresse').value = option.dataset.adresse;
-    document.getElementById('description').value = option.dataset.description;
-    document.getElementById('prix').value = option.dataset.prix;
-    document.getElementById('places').value = option.dataset.places;
+    document.getElementById('contenu').value = option.dataset.contenu;
+
 }
 </script>
 {% endblock %}
