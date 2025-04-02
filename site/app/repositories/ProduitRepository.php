@@ -1,4 +1,8 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once './app/core/Repository.php';
 require_once './app/entities/Produit.php';
 
@@ -30,8 +34,8 @@ class ProduitRepository {
             'category' => $Produit->getCategory(),
             'price' => $Produit->getPrice(),
             'description' => $Produit->getDescription(),
-            'color' => Produit->getColor(),
-            'size' => Produit->getSize()
+            'color' => $Produit->getColor(),
+            'size' => $Produit->getSize()
         ]);
     }
 
@@ -42,11 +46,13 @@ class ProduitRepository {
 
     public function findById(int $id): ?Produit
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM Produit WHERE n_produit = :n_produit');
-        $stmt->execute(['n_produit' => $n_produit]);
-        $Produit = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($Produit)
-            return $this->createProduitFromRow($Produit);
+        $stmt = $this->pdo->prepare('SELECT * FROM Produit WHERE n_prod = :id');
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            return $this->createProduitFromRow($row); // Convertit la ligne en objet Produit
+        }
         return null;
     }
 
@@ -67,5 +73,38 @@ class ProduitRepository {
         }
     
         return $images; // Retourne le tableau des tuples
+    }
+
+    public function updateProduit(Produit $Produit, int $id): bool
+    {
+        try {
+            $query = "UPDATE Produit SET
+                     libelle_prod = :nom,
+                     stock_prod = :stock,
+                     categorie_prod = :categorie,
+                     prix_prod = :prix,
+                     description_prod = :description,
+                     couleur_prod = :coul,
+                     taille_prod = :taille
+                     WHERE n_prod = :id";
+            
+            $stmt = $this->pdo->prepare($query); // Correction: utiliser $this->pdo
+            $params = [
+                ':nom' => $Produit->getName(),
+                ':stock' => $Produit->getStock(),
+                ':categorie' => $Produit->getCategory(),
+                ':prix' => $Produit->getPrice(),
+                ':description' => $Produit->getDescription(), 
+                ':coul' => $Produit->getColor(),
+                ':taille' => $Produit->getSize(),
+                ':id' => $id
+            ];
+            
+            return $stmt->execute($params); // Retourne directement le résultat
+            
+        } catch (Exception $e) {
+            error_log("Erreur lors de la mise à jour: " . $e->getMessage());
+            return false;
+        }
     }
 }

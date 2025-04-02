@@ -25,9 +25,6 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4"> <!-- Flex pour aligner -->
         <h1>Gestion des utilisateurs</h1>
-        <a href="#" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Ajouter un utilisateur
-        </a>
     </div>
 </div>
 
@@ -56,14 +53,28 @@
                                 <td>{{ user.lastname }}</td>
                                 <td>{{ user.email }}</td>
                                 <td class="actions-cell">
-                                    <div class="d-flex justify-content-center gap-1">
-                                        <a href="user_update.php?id={{ user.id }}" class="btn btn-sm btn-outline-primary btn-action">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button class="btn btn-sm btn-outline-danger btn-action delete-user" data-user-id="{{ user.id }}">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </div>
+                                    Statut : 
+                                    {% if user.getvalide() %}
+                                        <span class="text-success">Validé (valeur: {{ user.getvalide()|json_encode }})</span>
+                                    {% else %}
+                                        <span class="text-warning">En attente (valeur: {{ user.getvalide()|json_encode }})</span>
+                                    {% endif %}
+                                    {% if not user.getvalide() %}
+                                        <div class="d-flex justify-content-center gap-1">
+                                            <form method="POST" action="user_accept.php" class="m-0">
+                                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                                <button type="submit"  onclick="return confirm('Êtes-vous sûr de vouloir accepter le profil ?')">
+                                                    <i class="fas fa-check"></i> Accepter
+                                                </button>
+                                            </form>
+                                            <form method="POST" action="user_refuse.php" class="m-0">
+                                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                                <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir refuser le profil ?')">
+                                                    <i class="fas fa-times"></i> Refuser
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% else %}
@@ -90,45 +101,29 @@
 
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const tableBody = document.getElementById('userTableBody');
-    searchInput.addEventListener('keyup', function() {
-        const filter = searchInput.value.toLowerCase();
-        const rows = tableBody.getElementsByTagName('tr');
-        Array.from(rows).forEach(row => {
-            const cells = row.getElementsByTagName('td');
-            const match = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filter));
-            row.style.display = match ? '' : 'none';
-        });
-    });
+    // Script pour la barre de recherche
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#userTableBody tr');
 
-    document.querySelectorAll('.delete-user').forEach(button => {
-        button.addEventListener('click', function() {
-            const userId = this.getAttribute('data-user-id');
-            const row = document.getElementById(`user-row-${userId}`);
-            if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
-                fetch('/users.php?action=delete', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: 'id=' + encodeURIComponent(userId)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        row.remove();
-                        Toastify({ text: 'Utilisateur supprimé avec succès', duration: 3000, close: true, backgroundColor: '#28a745' }).showToast();
-                    } else {
-                        alert('Erreur lors de la suppression');
-                    }
-                })
-                .catch(error => {
-                    alert('Une erreur est survenue');
-                    console.error('Erreur:', error);
-                });
+        rows.forEach(row => {
+            const id = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+            const firstname = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            const lastname = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+            const email = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+
+            // Vérifie si le terme de recherche correspond à l'ID, prénom, nom ou email
+            if (id.includes(searchTerm) || firstname.includes(searchTerm) || lastname.includes(searchTerm) || email.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
             }
         });
+
+        // Met à jour le footer avec le nombre de lignes visibles
+        const visibleRows = document.querySelectorAll('#userTableBody tr:not([style*="display: none"])').length;
+        document.querySelector('footer p').textContent = `Total: ${visibleRows} utilisateur(s)`;
     });
-});
 </script>
+
 {% endblock %}

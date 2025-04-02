@@ -1,7 +1,7 @@
 <?php
 class User {
    
-    public function __construct(private ?int $id, private string $firstname,private string $lastname,private string $email, private ?string $password, private ?string $netu, private bool $estvalide)
+    public function __construct(private ?int $id, private string $firstname,private string $lastname,private string $email, private ?string $password, private ?string $netu, private bool $estvalide = false)
     {}
 
     public function getId(): ?int
@@ -59,12 +59,12 @@ class User {
         $this->netu = $netu;
     }
 
-    public function getValide(): ?bool
+    public function getValide(): bool
     {
         return $this->estvalide;
     }
 
-    public function setValide(?bool $estvalide): void
+    public function setValide(bool $estvalide): void
     {
         $this->estvalide = $estvalide;
     }

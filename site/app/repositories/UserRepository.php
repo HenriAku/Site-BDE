@@ -19,9 +19,26 @@ class UserRepository {
         return $users;
     }
 
-    private function createUserFromRow(array $row): User
+    private function createUserFromRow(array $row): User 
     {
-        return new User($row['n_etu'],  $row['nom_etu'], $row['prenom_etu'], $row['mail_etu'], $row['mdp_etu'], $row['num_etu'], $row['estvalide']);
+        error_log("User data: " . print_r($row, true));
+        
+        $estValide = false;
+        if (isset($row['estvalide'])) {
+            $estValide = filter_var($row['estvalide'], FILTER_VALIDATE_BOOLEAN);
+        }
+        
+        error_log("Conversion estvalide: {$row['estvalide']} -> " . ($estValide ? 'true' : 'false'));
+        
+        return new User(
+            $row['n_etu'],
+            $row['prenom_etu'],
+            $row['nom_etu'],
+            $row['mail_etu'],
+            $row['mdp_etu'],
+            $row['num_etu'],
+            $estValide
+        );
     }
 
     public function create(User $user): bool 
@@ -57,6 +74,12 @@ class UserRepository {
         return $stmt->execute([$hashedPassword, $userId]);
     } 
 
+    public function validate(int $userId): bool
+    {
+        $stmt = $this->pdo->prepare('UPDATE adherent SET estvalide = ? WHERE n_etu = ?');
+        return $stmt->execute([true, $userId]);
+    } 
+
     public function delete(int $id): bool {
         if (!$this->pdo) {
             throw new Exception('Connexion PDO non initialisée');
@@ -77,11 +100,12 @@ class UserRepository {
     }
 
     public function findById(int $id): ?User {
-        $stmt = $this->pdo->prepare('SELECT * FROM "User" WHERE id = :id');
+        $stmt = $this->pdo->prepare('SELECT * FROM "adherent" WHERE n_etu = :id');
         $stmt->execute(['id' => $id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($user)
+        if ($user) {
             return $this->createUserFromRow($user);
+        }
         return null;
     }
 }

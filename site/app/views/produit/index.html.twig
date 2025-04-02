@@ -18,62 +18,76 @@
     <a href="">Participation</a>
 </div>
 
+<form method="POST" action="produit.php">
+    <div class="Formulaire">
+        <label for="ListeProduit">Liste Produit</label>
+        <div class="LstProduits">    
+            <select id="LstProduits" name="ListeProduit">
+                <option value=""></option>
+                {% for Produit in Produits %}
+                    <option 
+                        value="{{ Produit.n_prod }}"  
+                        data-color="{{ Produit.color }}"
+                        data-price="{{ Produit.price }}">
+                        {{ Produit.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
 
-<div class="Formulaire">
-    <label for="ListeProduit">Liste Produit</label>
-    <div class="LstProduits">    
-        <select id="LstProduits" name="ListeProduit">
-            <option value=""></option>
-            {% for Produit in Produits %}
-                <option 
-                    value="{{ Produit.n_prod }}"  
-                    data-color="{{ Produit.color }}"
-                    data-price="{{ Produit.price }}">
-                    {{ Produit.name }}
-                </option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <form>
+        
         <label for="nom">Nom Produit :</label>
         <input type="text" id="nom" name="nom" value="{{ nom }}">
-    </form>
 
-    <label for="zoneDepotImage">Image (PNG,JPG) :</label>
+        <label for="zoneDepotImage">Image (PNG,JPG) :</label>
 
 
-    
-   <div class="zoneDepotImage" onclick="triggerFileInput()">
-    <div id="zoneDepTxt">
-        {% set imageFound = false %}
-        {% for image in images %}
-            {% if image.n_prod == Produit.n_produit %}
-                {% set imageFound = true %}
-                <img src="../asset/images/produit/{{ image.nom_image }}" style="max-width: 100%; max-height: 100%;">
-            {% endif %}
-        {% endfor %}
-        {% if not imageFound %}
-            Cliquez ici pour déposer une image
-        {% endif %}
+        
+    <div class="zoneDepotImage" onclick="triggerFileInput()">
+            <div id="zoneDepTxt">
+                {% set imageFound = false %}
+                {% for image in images %}
+                    {% if image.n_prod == Produit.n_produit %}
+                        {% set imageFound = true %}
+                        <img src="../asset/images/produit/{{ image.nom_image }}" style="max-width: 100%; max-height: 100%;">
+                    {% endif %}
+                {% endfor %}
+                {% if not imageFound %}
+                    Cliquez ici pour déposer une image
+                {% endif %}
+            </div>
+            <input type="file" id="fileInput" style="display: none;" accept="image/*">
+        </div>
+        
+
+        <label for="zoneDescription">Description Produit :</label>
+        <textarea id="description" name="description" rows="4" cols="50" placeholder="Entrez votre description ici..."></textarea>
+
+        <div class="prixCoul">
+            <label for="prix">Prix :</label>
+            <input type="number" step="any" id="prix" name="prix" value="">
+
+            <label for="coul">Couleur :</label>
+            <input type="color" id="colorPicker" name="colorPicker" value="#ff0000">
+        </div>
+
+        <label for="stock">Stock :</label>
+        <input type="number" step="any" id="stock" name="stock" value="">
+
+            
+        <label for="categorie">Categorie :</label>
+        <input type="text" id="categorie" name="categorie" value="">
+
+        <label for="taille">Taille :</label>
+        <input type="text" id="taille" name="taille" placeholder="exemple : L,M,XXL">
+        
+        <div class="actions">
+            <button type="submit" id="crée" name="crée" value="add">créer</button>
+            <button type="submit" id="modifier" name="modifier" value="update">modifier</button>
+            <button type="submit" id="suppr" name="suppr" value="delete">supprimer</button>
+        </div>
     </div>
-    <input type="file" id="fileInput" style="display: none;" accept="image/*">
-</div>
-    
-
-    <label for="zoneDescription">Description Produit :</label>
-    <textarea id="description" name="description" rows="4" cols="50" placeholder="Entrez votre description ici..."></textarea>
-
-    <div class="prixCoul">
-        <label for="prix">Prix :</label>
-        <input type="number" step="any" id="prix" name="prix" value="">
-
-        <label for="coul">Couleur :</label>
-        <input type="color" id="colorPicker" name="colorPicker" value="#ff0000">
-    </div>
-    
-    
-</div>
+</form>
 
 {% block javascripts %}
     <script src="../asset/js/produit.js"></script>

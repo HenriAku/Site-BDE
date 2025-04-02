@@ -78,18 +78,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         
             const prix = document.getElementById("prix");
-                
-            if (select.selectedIndex-1 >= 0)
-                prix.value = Produits[select.selectedIndex-1].price;
-            else
-                prix.value = 0;
-
             const textArea = document.getElementById("description");
-            if (select.selectedIndex-1 >= 0)    
-                textArea.value = Produits[select.selectedIndex-1].description;
-            else
-                textArea.value = "";
+            const stock = document.getElementById("stock");
+            const categorie = document.getElementById("categorie");
+            const taille = document.getElementById("taille");
 
+            if (select.selectedIndex-1 >= 0){
+                prix.value = Produits[select.selectedIndex-1].price;
+                textArea.value = Produits[select.selectedIndex-1].description;
+                stock.value = Produits[select.selectedIndex-1].stock;
+                categorie.value = Produits[select.selectedIndex-1].category;
+                taille.value = Produits[select.selectedIndex-1].size;
+            } 
+            else{
+                prix.value = 0;
+                textArea.value = "";
+                stock.value = 0;
+                categorie.value = "";
+                taille.value = "";
+            }
         }
     
     // Écouteur d'événement
@@ -97,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialisation
     updateProduit();
-
 });
   
 function triggerFileInput() {
