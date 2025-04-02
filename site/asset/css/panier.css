@@ -1,0 +1,38 @@
+body{
+    color: black;
+}
+
+.produit-accordion {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.produit-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+.produit-details {
+    padding: 0 15px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: white;
+}
+
+.produit-details table {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.arrow {
+    transition: transform 0.3s;
+}
+
+.arrow.down {
+    transform: rotate(180deg);
+}

@@ -91,30 +91,32 @@
                                         </button>
                                     </div>
                                 </div>
-                                
-                            
-                                <div class="modal fade" id="newsModal{{ new.id }}" tabindex="-1" aria-labelledby="newsModalLabel{{ new.id }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="newsModalLabel{{ new.id }}">{{ new.titre }}</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>{{ new.contenu }}</p>
-                                                <hr>
-                                                <p>
-                                                    <strong>Date :</strong> {{ new.date|date('d/m/Y') }}
-                                                    <img src="../../asset/images/calendar.png" class="iut">
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
+                            {% endfor %}    
                         </div>
                     </div>
                 {% endfor %}
+
+                {% for new in news %}
+                    <div class="modal fade" id="newsModal{{ new.id }}" tabindex="-1" aria-labelledby="newsModalLabel{{ new.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="newsModalLabel{{ new.id }}">{{ new.titre }}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>{{ new.contenu }}</p>
+                                    <hr>
+                                    <p>
+                                        <strong>Date :</strong> {{ new.date|date('d/m/Y') }}
+                                        <img src="../../asset/images/calendar.png" class="iut">
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
