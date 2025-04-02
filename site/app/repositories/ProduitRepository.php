@@ -22,11 +22,11 @@ class ProduitRepository {
         return $Produits;
     }
 
-    public function create(Produit $Produit): int {
+    public function create(Produit $Produit): int 
+    {
         $stmt = $this->pdo->prepare('
             INSERT INTO Produit (libelle_prod, stock_prod, categorie_prod, prix_prod, description_prod, couleur_prod, taille_prod)
-            VALUES (:name, :stock, :category, :price, :description, :color, :size)
-        ');
+            VALUES (:name, :stock, :category, :price, :description, :color, :size)');
 
         $stmt->execute([
             'name' => $Produit->getName(),

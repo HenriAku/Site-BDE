@@ -68,9 +68,12 @@
         <div class="prixCoul">
             <label for="prix">Prix :</label>
             <input type="number" step="any" id="prix" name="prix" value="{{ prix }}">
-
+            
             <label for="coul">Couleur :</label>
-            <input type="color" id="colorPicker" name="colorPicker" value="{{ colorPicker|default('#ff0000') }}">
+            <input type="submit" id="addcolor" name="addcolor" value="+">
+            <div id="lstColor">
+                <input type="color" id="colorPicker" name="colorPicker[]" value="{{ colorPicker|default('#ff0000') }}">
+            </div>
         </div>
 
         <label for="stock">Stock :</label>

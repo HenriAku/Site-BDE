@@ -125,4 +125,11 @@ function changeImageNameZoneTxt(){
 	txtZoneDepot.textContent = inputfile.name;
 }
 
+document.getElementById('addcolor').addEventListener('click', (event) => {
+    event.preventDefault(); 
+    const div = document.getElementById("lstColor");
+
+    div.innerHTML += '<input type="color" id="colorPicker" name="colorPicker[]" value="{{ colorPicker|default('+'#ff0000'+') }}"></input>';
+})
+
 
