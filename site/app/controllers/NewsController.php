@@ -47,7 +47,6 @@ class Newscontroller extends Controller {
                 break;
         }
         
-        header('Location: /ajouter_news.php');
-        exit();
+        $this->redirectTo('/ajouter_news.php');
     }
 }

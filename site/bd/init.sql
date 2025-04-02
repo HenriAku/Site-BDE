@@ -21,11 +21,11 @@ CREATE TABLE Produit(
                           n_prod SERIAL PRIMARY KEY,
                           libelle_prod VARCHAR(255) NOT NULL,
                           stock_prod     INTEGER,
-                          categorie_prod VARCHAR(255) NOT NULL CHECK (categorie_prod IN ('Vetement', 'Accessoire', 'Consommable')),
+                          categorie_prod VARCHAR(255) NOT NULL ,
                           prix_prod      INTEGER NOT NULL,
                           description_prod TEXT NOT NULL,
                           couleur_prod  VARCHAR(255) NOT NULL,
-                          taille_prod VARCHAR(255) NOT NULL CHECK (taille_prod IN ('XS', 'S', 'M', 'L', 'XL', 'XXL'))
+                          taille_prod VARCHAR(255) NOT NULL 
 );
 
 -- Création de la table 'Article'
