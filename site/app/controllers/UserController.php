@@ -14,9 +14,9 @@ class UserController extends Controller {
     public function index() {
         $repository = new UserRepository();
         $users = $repository->findAll();
-
-        // Ensuite, affiche la vue
-        $this->view('/user/index.html.twig',  ['users' => $users]);
+        
+        
+        $this->view('/user/index.html.twig', ['users' => $users]);
     }
 
     public function create() 
@@ -204,4 +204,10 @@ class UserController extends Controller {
             return false;
         }
     }
+
+    public function validate(int $userId): bool
+    {
+        $userRepo = new UserRepository();
+        return $userRepo->validate($userId);
+    } 
 }
