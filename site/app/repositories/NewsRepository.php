@@ -36,8 +36,31 @@ class NewsRepository {
 
     public function create (
         string $nom, 
-        string $date
+        string $contenu
     ) : bool {
+        $this->db->beginTransaction();
 
+        try {
+            // 1. Insérer l'événement
+            $query = "INSERT INTO Article 
+                     (titre_art, contenu_art)
+                     VALUES (:titre, :contenu)";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                ':titre' => $nom,
+                ':contenu' => $contenu
+            ]);
+
+            $this->db->commit();
+
+            return true;
+
+        }catch (Exception $e) {
+            $this->db->rollBack();
+            error_log("Erreur création événement: " . $e->getMessage());
+            return false;
+        }
+            
     }
 }
