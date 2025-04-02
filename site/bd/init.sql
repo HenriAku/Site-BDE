@@ -23,8 +23,8 @@ CREATE TABLE Produit(
                           stock_prod     INTEGER,
                           categorie_prod VARCHAR(255) NOT NULL CHECK (categorie_prod IN ('Vetement', 'Accessoire', 'Consommable')),
                           prix_prod      INTEGER NOT NULL,
-                          code_hexa VARCHAR(255),
                           description_prod TEXT NOT NULL,
+                          couleur_prod  VARCHAR(255) NOT NULL,
                           taille_prod VARCHAR(255) NOT NULL CHECK (taille_prod IN ('XS', 'S', 'M', 'L', 'XL', 'XXL'))
 );
 
