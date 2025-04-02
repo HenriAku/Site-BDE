@@ -5,10 +5,13 @@ DROP TABLE IF EXISTS Commente CASCADE;
 DROP TABLE IF EXISTS Consulte CASCADE;
 DROP TABLE IF EXISTS Contient_evenement CASCADE;
 DROP TABLE IF EXISTS Contient_produit CASCADE;
+DROP TABLE IF EXISTS Participe CASCADE;
+DROP TABLE IF EXISTS lier_couleur CASCADE;
 
 
 DROP TABLE IF EXISTS Produit CASCADE;
 DROP TABLE IF EXISTS Article CASCADE;
+DROP TABLE IF EXISTS Couleur CASCADE;
 DROP TABLE IF EXISTS Fichier CASCADE;
 DROP TABLE IF EXISTS Evenement CASCADE;
 DROP TABLE IF EXISTS Adherent CASCADE;
@@ -62,6 +65,9 @@ CREATE TABLE Fichier (
                          nom_image VARCHAR(255) PRIMARY KEY
 );
 
+CREATE TABLE Couleur (
+                         code_hexa VARCHAR(255) PRIMARY KEY
+);
 --CREATION DES RELATIONS 
 -- Création de la relation 'Achete'
 CREATE TABLE Achete (
@@ -82,6 +88,14 @@ CREATE TABLE Detail_panier (
                          quantite_dp INTEGER NOT NULL CHECK (quantite_dp > 0),
                          FOREIGN KEY (n_prod) REFERENCES Produit(n_prod) ON DELETE CASCADE,
                          FOREIGN KEY (n_etu) REFERENCES Adherent(n_etu) ON DELETE CASCADE
+);
+
+CREATE TABLE lier_couleur (
+                         code_hexa  VARCHAR(255) NOT NULL,
+                         n_prod     INTEGER NOT NULL,
+                         PRIMARY KEY (code_hexa, n_prod),
+                         FOREIGN KEY (code_hexa) REFERENCES Couleur(code_hexa) ON DELETE CASCADE,
+                         FOREIGN KEY (n_prod)    REFERENCES Produit(n_prod) ON DELETE CASCADE
 );
 
 -- Création de la relation 'Commente'
@@ -127,15 +141,13 @@ CREATE TABLE Consulte (
 CREATE TABLE Participe (
                          n_etu INT NOT NULL,
                          n_event INT NOT NULL,
+                         a_payer boolean DEFAULT false,
                          PRIMARY KEY (n_etu, n_event),
                          FOREIGN KEY (n_event) REFERENCES Evenement(n_event) ON DELETE CASCADE,
                          FOREIGN KEY (n_etu) REFERENCES Adherent(n_etu) ON DELETE CASCADE
 );
 
 
--- Suppression des tables existantes (gardez votre partie DROP TABLE existante)
-
--- [...] (conservez toutes les parties DROP TABLE et CREATE TABLE précédentes)
 
 -- Adhérents (inchangé)
 INSERT INTO Adherent (num_etu, nom_etu,estValide, prenom_etu, admin, mdp_etu, mail_etu) VALUES

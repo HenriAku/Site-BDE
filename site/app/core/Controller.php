@@ -11,6 +11,8 @@ abstract class Controller {
             'cache' => false, // Mettre un dossier ('cache/') en production pour améliorer les performances
         ]);
 
+       
+
 // Rendu du template accueil.twig avec des variables
         echo $twig->render($viewName,$data);
     }
