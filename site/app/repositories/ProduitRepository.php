@@ -46,11 +46,13 @@ class ProduitRepository {
 
     public function findById(int $id): ?Produit
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM Produit WHERE n_produit = :n_produit');
-        $stmt->execute(['n_produit' => $n_produit]);
-        $Produit = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($Produit)
-            return $this->createProduitFromRow($Produit);
+        $stmt = $this->pdo->prepare('SELECT * FROM Produit WHERE n_prod = :id');
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            return $this->createProduitFromRow($row); // Convertit la ligne en objet Produit
+        }
         return null;
     }
 

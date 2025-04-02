@@ -97,9 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 categorie.value = "";
                 taille.value = "";
             }
-
-            
-
         }
     
     // Écouteur d'événement
@@ -107,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialisation
     updateProduit();
-
 });
   
 function triggerFileInput() {

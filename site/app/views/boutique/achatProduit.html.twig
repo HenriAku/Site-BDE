@@ -1,0 +1,39 @@
+{% extends '_template/base.html.twig' %}
+
+{% block title %}<title>Produit</title>{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }} {# Important pour conserver les styles du parent #}
+	
+    <link rel="stylesheet" href="../asset/css/achatProduit.css">
+{% endblock %}
+
+{% block body %}
+
+	<div class="info-prod">
+		<img src="../asset/images/produit/{{ images[produit.n_produit-1].nom_image }}" alt="Image du produit">
+		<div class="info">
+			<h1>{{produit.name}}</h1>
+			<!-- couleurs -->
+			<select id="LstTaille" name="ListeTaille">
+				<option>XXL</option>
+				<option>XL</option>
+				<option>L</option>
+				<option>M</option>
+				<option>S</option>
+			</select>
+			<p>{{produit.price}}€</p>
+			<p>Stock : {{produit.stock}}</p>
+			<label for="QuantiteAchat">Quantité</label>
+			<input type="number" id="quantite" name="quantie" value="1">
+		</div>
+	</div>
+
+	<h1>Détails du produit</h1>
+    <p>Nom : {{ produit.name }}</p>
+    <p>Prix : {{ produit.price }}€</p>
+    <p>Description : {{ produit.description }}</p>
+    <p>Stock : {{ produit.stock }}</p>
+    <p>Catégorie : {{ produit.category }}</p>
+
+{% endblock %}
