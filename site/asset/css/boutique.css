@@ -1,0 +1,91 @@
+body{
+	color: black;
+}
+
+.titreEtTris{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.titreEtTris h1{
+	color: #374B6E;
+}
+
+.btn-tri{
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.btn-tri button{
+	all: unset;
+    cursor: pointer;
+    user-select: none;
+
+	background-color: #F2F2F2;
+	border: 2px solid black;
+	height: 5vh;
+	width: 6vw;
+
+	border-radius: 50px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+
+.Produits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px; /* Espacement entre les cartes */
+    padding: 20px;
+}
+
+.carte-produit {
+    background-color: #F2F2F2;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    
+    height: 40vh;
+    width: 12vw;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Répartit l'espace entre les éléments */
+}
+
+.carte-produit img {
+    width: 100%;
+    height: auto;
+    max-height: 50%;
+    object-fit: cover;
+}
+
+.carte-produit p {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.carte-produit select {
+    width: 90%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.carte-produit button {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+

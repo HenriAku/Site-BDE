@@ -1,12 +1,13 @@
 const lstProduit = document.getElementById("LstProduits");
+
 lstProduit.addEventListener("change", () => {
 	updateNom();
 });
 
 function updateNom() {
-	const selectedProduit = document.getElementById('LstProduits').value;
-	
-	document.getElementById('nom').value = selectedProduit;
+    const select = document.getElementById('LstProduits');
+    const selectedProduit = select.options[select.selectedIndex].textContent;
+    document.getElementById('nom').value = selectedProduit;
 }
 
 function changeImageNameZoneTxt() {
@@ -77,11 +78,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         
             const prix = document.getElementById("prix");
-                
-            if (select.selectedIndex-1 >= 0)
+            const textArea = document.getElementById("description");
+            const stock = document.getElementById("stock");
+            const categorie = document.getElementById("categorie");
+            const taille = document.getElementById("taille");
+
+            if (select.selectedIndex-1 >= 0){
                 prix.value = Produits[select.selectedIndex-1].price;
-            else
+                textArea.value = Produits[select.selectedIndex-1].description;
+                stock.value = Produits[select.selectedIndex-1].stock;
+                categorie.value = Produits[select.selectedIndex-1].category;
+                taille.value = Produits[select.selectedIndex-1].size;
+            } 
+            else{
                 prix.value = 0;
+                textArea.value = "";
+                stock.value = 0;
+                categorie.value = "";
+                taille.value = "";
+            }
+
+            
+
         }
     
     // Écouteur d'événement

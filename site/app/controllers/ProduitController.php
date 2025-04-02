@@ -29,6 +29,7 @@ class ProduitController extends Controller{
     public function create() {
         //$this->checkAuth();
 
+        $ProduitRepo = new ProduitRepository();
         $data = $this->getAllPostParams();
         $errors = [];
 
@@ -38,14 +39,26 @@ class ProduitController extends Controller{
                 $errors = [];
 
                 // Validation des données
-                if (empty($data['name'])) {
+                if (empty($data['nom'])) {
                     $errors[] = 'Le nom est requis.';
                 }
-                if (empty($data['price']) || $data['price'] <= 0) {
+                if (empty($data['prix']) || $data['prix'] <= 0) {
                     $errors[] = 'Le prix doit être supérieur à 0.';
                 }
                 if (empty($data['stock']) || $data['stock'] < 0) {
                     $errors[] = 'Le stock ne peut pas être négatif.';
+                }
+                if (empty($data['description']) || $data['description'] < 0) {
+                    $errors[] = 'La description ne peut pas etre vide .';
+                }
+
+                if (empty($data['stock']) || $data['stock'] < 0) {
+                    $errors[] = 'La description ne peut pas etre vide .';
+                }
+
+                
+                if (empty($data['taille']) || $data['taille'] < 0) {
+                    $errors[] = 'La description ne peut pas etre vide .';
                 }
 
                 if (!empty($errors)) {
@@ -54,14 +67,35 @@ class ProduitController extends Controller{
 
                 $Produit = new Produit(
                     null,
-                    $data['name'],
-                    (float)$data['price'],
+                    $data['nom'],
+                    (int)$data['stock'],
+                    $data['categorie'],
+                    (float)$data['prix'],
                     $data['description'] ?? '',
-                    (int)$data['stock']
+                    $data['colorPicker'],
+                    $data['taille']
                 );
 
+                // Gérer les soumissions du formulaire
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $action = $_POST['action'] ?? '';
+                    $id = $_POST['id'] ?? 0;
 
-                $this->redirectTo('Produits.php');
+                    switch ($action) {
+                        case 'add':
+                            $this->addEvent($repo,$Produit);
+                            break;
+                        case 'update':
+                            $this->updateEvent($repo, $Produit);
+                            break;
+                        case 'delete':
+                            $this->deleteEvent($repo, $Produit);
+                            break;
+                    }
+                    $this->redirectTo('Produits.php');
+                }
+
+
             } catch (Exception $e) {
                 $errors = explode(', ', $e->getMessage());
             }
