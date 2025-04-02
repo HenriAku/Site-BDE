@@ -18,7 +18,7 @@
     <a href="">Participation</a>
 </div>
 
-<form method="post" action="produit.php">
+<form method="POST" action="produit.php">
     <div class="Formulaire">
         <label for="ListeProduit">Liste Produit</label>
         <div class="LstProduits">    
@@ -81,10 +81,11 @@
         <label for="taille">Taille :</label>
         <input type="text" id="taille" name="taille" placeholder="exemple : L,M,XXL">
         
-        <input type="submit" id="crée" name="crée" value="add">
-        <input type="submit" id="modifier" name="modifier" value="update">
-        <input type="submit" id="suppr" name="suppr" value="delete">
-        
+        <div class="actions">
+            <button type="submit" id="crée" name="crée" value="add">créer</button>
+            <button type="submit" id="modifier" name="modifier" value="update">modifier</button>
+            <button type="submit" id="suppr" name="suppr" value="delete">supprimer</button>
+        </div>
     </div>
 </form>
 
