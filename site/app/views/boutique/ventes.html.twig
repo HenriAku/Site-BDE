@@ -2,12 +2,17 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="../asset/css/user.css">
+    <link rel="stylesheet" href="../asset/css/vente.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
+
+
+<h1>Gestion des Ventes</h1>
+ 
+
 <div class="Menu-administrateur">
     <a href="create_event.php">Event</a>
     <a href="ajouter_news.php">Actu</a>
@@ -18,17 +23,11 @@
     <a href="participation.php">Participation</a>
 </div>
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Gestion des Ventes</h1>
-    </div>
-</div>
-
 <form method="post" enctype="multipart/form-data" action="/valider_ventes.php">
 <div class="row flex-grow-1">
     <div class="col">
         <div class="table-responsive">
-            <table class="table table-hover table-striped" id="userTable">
+            <table id="userTable">
                 <thead class="table-light">
                     <tr>
                         <th scope="col">Nom</th>
@@ -53,13 +52,13 @@
                             <td>{{ vente.quantite_vente }}</td>
                             <td class="actions-cell">
                                 {% if vente.estPayee %} 
-                                    <button class="btn-payment btn-paid" disabled>
+                                    <button class="btnPayer" disabled>
                                         <i class="fas fa-check-circle"></i> Payé
                                     </button>
                                 {% else %}
                                     <form method="post" action="/valider_ventes.php" style="display: inline;">
                                         <input type="hidden" name="idVente" value="{{ vente.getN_event() }}">
-                                        <button type="submit" class="btn-payment btn-unpaid">
+                                        <button type="submit" class="btnAPayer">
                                             <i class="fas fa-exclamation-circle"></i> À payer
                                         </button>
                                     </form>
