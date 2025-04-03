@@ -1,7 +1,7 @@
 {% extends "_template/base.html.twig" %}
 
 {% block stylesheets %}
-    {{ parent() }} {# Important pour conserver les styles du parent #}
+    {{ parent() }}
     <link rel="stylesheet" href="../asset/css/event.css">
 {% endblock %}
 
@@ -12,32 +12,49 @@
 
 <div class="event-container">
 
-{% for event in evenements %}
-<div class="event-card">
-    <h2 class="event-title">{{ event.getNom() }}</h2>
+    {% for event in evenements %}
+    <div class="event-card">
+        <h2 class="event-title">{{ event.getNom()}}
+            {% if event.getPrix() <= 0 %}
+                <span class="prix"> Gratuit</span>
+            {% else %}
+                <span>{{ event.getPrix()}} €</span>
+            {% endif %}
+        </h2>
 
-    {% if event.getImage() %}
-    <div class="event-image">
-        <img src="/asset/images/evenements/{{ event.getImage() }}" alt="{{ event.getNom() }}">
-    </div>
-    {% endif %}
-
-    <p class="event-description">{{ event.getDescription() }}</p>
-    <p class="event-date">
-        {{ event.getDateDebut() }} - {{ event.getAdresse() }}
-    </p>
-    <p class="event-note">
-        Note : 
-        {% if event.note_moyenne > 0 %}
-            {{ event.note_moyenne }}/5
-            ({{ event.note_moyenne|round(1) }} ★)
-        {% else %}
-            Pas encore noté
+        {% if event.getImage() %}
+            <div class="event-image">
+                <img src="/asset/images/evenements/{{ event.getImage() }}" alt="{{ event.getNom() }}">
+            </div>
         {% endif %}
-    </p>
-    <a href="/event.php?id={{ event.getId() }}" class="btn">Voir plus</a>
-</div>
-{% endfor %}
+
+        <p class="event-description">{{ event.getDescription() }}</p>
+        <p class="event-date">
+            {{ event.getDateDebut()|date('d/m/Y') }}
+            <img src="../../asset/images/calendar.png" class="iut">
+                <span class="tiret">-</span>
+                 {{ event.getAdresse() }}
+            <img src="../../asset/images/geo.png" class="iut">
+        </p>
+        <p class="event-note">
+            Note : 
+            {% if event.note_moyenne > 0 %}
+                    {% for i in 1..5 %}
+                        {% if i <= event.note_moyenne|round %}
+                            ★
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    {% endfor %}
+            {% else %}
+                ☆☆☆☆☆
+            {% endif %}
+        </p>
+        <div class="voir-button">
+            <div class="voir-text"><a href="/event.php?id={{ event.getId() }}">Voir plus</a></div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
  
 {% endblock %}

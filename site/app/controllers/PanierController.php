@@ -20,10 +20,6 @@ use FormTrait;
 
         $nomProd = $repo->getProduit($paniers);
 
-
-
-        echo('<script>console.log("'.$paniers[10]->gettaile().'");</script>');
-
         if($authServ->isLoggedIn())
         {
             $user = $authServ->getUser();
@@ -59,4 +55,9 @@ use FormTrait;
         return true;
     }
 
+    public function delete($panier_id)
+    {
+        $repo = new PanierRepository();
+        $repo->delete($panier_id);
+    }
 }
