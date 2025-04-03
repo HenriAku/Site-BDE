@@ -63,9 +63,21 @@
             <input type="text" id="adresse" name="adresse" required>
         </div>
 
-        <div class="form-group">
-            <label for="image">Image :</label>
-            <input type="file" id="image" name="image" accept="image/*">
+        <label for="zoneDepotImage">Image (PNG,JPG) :</label>
+        <div class="zoneDepotImage" onclick="triggerFileInput()">
+            <div id="zoneDepTxt">
+                {% set imageFound = false %}
+                {% for image in images %}
+                    {% if image.n_prod == index %}
+                        {% set imageFound = true %}
+                        <img src="../asset/images/produit/{{ image.nom_image }}" style="max-width: 100%; max-height: 100%;">
+                    {% endif %}
+                {% endfor %}
+                {% if not imageFound %}
+                    Cliquez ici pour déposer une image
+                {% endif %}
+            </div>
+            <input type="file" id="fileInput" name="image" style="display: none;" accept="image/*">
         </div>
 
         <div class="form-group">
@@ -90,6 +102,7 @@
 </form>
 
 {% block javascripts %}
+<script src="../asset/js/event.js"></script>
 <script>
 function loadEventData(select) {
     const option = select.selectedOptions[0];

@@ -54,6 +54,7 @@ CREATE TABLE Adherent (
                          nom_etu VARCHAR(255) NOT NULL,
                          prenom_etu VARCHAR(255) NOT NULL,
                          admin BOOLEAN DEFAULT false,
+                         estConnecte BOOLEAN DEFAULT true,
                          mdp_etu VARCHAR(255) NOT NULL,
                          mail_etu VARCHAR(255) NOT NULL UNIQUE
 );
