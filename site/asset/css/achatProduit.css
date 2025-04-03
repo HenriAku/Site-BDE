@@ -1,5 +1,6 @@
 body{
 	color: black;
+	font-family: 'Inter', sans-serif;
 }
 
 .info-prod{
@@ -7,10 +8,107 @@ body{
 	justify-content: center;
 }
 
-.info-prod img{
+.form {
+    display: flex;
+    align-items: center;
+}
+
+.info-prod .form img{
+	background-color: #f2f2f2;
 	height: 60vh;
-	width: auto;
+	width: 20vw;
 	object-fit: contain;
 	border: 2px solid black;
 	border-radius: 50px;
+	margin-right: 5vw;
+}
+
+.couleurDispo{
+	display: flex;
+	justify-content: center;
+	gap: 25px;
+}
+
+.carre-couleur{
+	height: 25px;
+	width: 25px;
+	border: 2px solid black;
+	border-radius: 6px;
+}
+
+.select{
+	border: 4px solid #75C9E1;
+}
+
+.taille{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	margin-top: 2vh;
+}
+
+#prix{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	margin-top: 2vh;
+	font-size: 1.5rem;
+}
+
+.stock-quantite {
+    display: flex;
+    justify-content: space-between; /* Aligne le stock à gauche et la quantité à droite */
+    align-items: center; /* Centre verticalement */
+    width: 100%; /* Permet un bon alignement */
+}
+
+.quantite {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espacement entre "Quantité" et l'input */
+}
+
+.stock-quantite p{
+	font-size: 1.2rem;
+}
+
+.quantite input{
+	width: 70px;
+}
+
+.btns{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 10vw;
+	margin: 0 auto;
+	margin-top: 3vh;
+	gap: 3vh;
+}
+
+.btns button{
+	background-color: #75C9E1;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 25px;
+}
+
+.description{
+	display: flex;
+	justify-content: center;
+}
+
+.description p{
+	background-color: #d9d9d9;
+	border-radius: 32px;
+	padding: 15px;
+
+	width: 700px;
+	
+	margin-top: 5vh;
+	margin-bottom: 5vh;
 }

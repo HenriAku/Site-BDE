@@ -4,6 +4,7 @@ require_once './app/services/AuthService.php';
 require_once './app/repositories/EvenementRepository.php';
 require_once './app/core/Controller.php';
 
+
 class EvenementController extends Controller {
 
     public function index() {
@@ -12,8 +13,17 @@ class EvenementController extends Controller {
         $evenementRepo = new EvenementRepository();
         $evenements = $evenementRepo->findAll();
 
-        $this->view('/evenement/eventIndex.html.twig', ['evenements' => $evenements]);
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('/evenement/eventIndex.html.twig', ['evenements' => $evenements, 'admin' => null]);
 
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            
+            $this->view('/evenement/eventIndex.html.twig', ['evenements' => $evenements, 'admin' => $perm]);
+        }
     }
 
     public function createEvent()
@@ -47,11 +57,27 @@ class EvenementController extends Controller {
             $this->redirectTo('/create_event.php');
         }
 
+        if($auth->getUser() === null)
+        {
+            $this->view('/evenement/create_event.html.twig', [
+                'events' => $events,
+                'messages' => $_SESSION['user'] ?? [],
+                'admin' => null
+            ]);
+
+        }else{
+            $user = $auth->getUser();
+            $perm = $user->getAdmin();
+            
+            $this->view('/evenement/create_event.html.twig', [
+                'events' => $events,
+                'messages' => $_SESSION['user'] ?? [],
+                'admin' => $perm
+            ]);
+        }
+
         // Afficher la page avec la liste des événements
-        $this->view('/evenement/create_event.html.twig', [
-            'events' => $events,
-            'messages' => $_SESSION['user'] ?? []
-        ]);
+
 
     }
 
@@ -78,11 +104,28 @@ class EvenementController extends Controller {
         $isLoggedIn = $auth->isLoggedIn();
         $currentUser = $isLoggedIn ? $auth->getUser() : null;
 
-        $this->view('/evenement/show.html.twig', [
-            'event' => $data['event'],
-            'comments' => $data['comments'],
-            'user' => $currentUser
-        ]);
+
+        if($auth->getUser() === null)
+        {
+            $this->view('/evenement/show.html.twig', [
+                'event' => $data['event'],
+                'comments' => $data['comments'],
+                'user' => $currentUser,
+                'admin' => null
+            ]);
+
+        }else{
+            $user = $auth->getUser();
+            $perm = $user->getAdmin();
+
+            $this->view('/evenement/show.html.twig', [
+                'event' => $data['event'],
+                'comments' => $data['comments'],
+                'user' => $currentUser,
+                'admin' => $perm
+            ]);
+        }
+
     }
 
     public function addComment() {

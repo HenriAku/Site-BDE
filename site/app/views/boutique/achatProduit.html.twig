@@ -11,29 +11,49 @@
 {% block body %}
 
 	<div class="info-prod">
-		<img src="../asset/images/produit/{{ images[produit.n_produit-1].nom_image }}" alt="Image du produit">
-		<div class="info">
-			<h1>{{produit.name}}</h1>
-			<!-- couleurs -->
-			<select id="LstTaille" name="ListeTaille">
-				<option>XXL</option>
-				<option>XL</option>
-				<option>L</option>
-				<option>M</option>
-				<option>S</option>
-			</select>
-			<p>{{produit.price}}€</p>
-			<p>Stock : {{produit.stock}}</p>
-			<label for="QuantiteAchat">Quantité</label>
-			<input type="number" id="quantite" name="quantie" value="1">
-		</div>
+		<form class="form" id="productForm" method="POST" action="/testAjoutPanier.php">
+			<input type="hidden" id="selectedColor" name="selectedColor" value="">
+			<input type="hidden" id="idProduit" name="idProduit" value={{produit.n_produit}}>
+			<img src="../asset/images/produit/{{ images[produit.n_produit-1].nom_image }}" alt="Image du produit">
+			<div class="info">
+				<h1>{{produit.name}}</h1>
+				<div class="couleurDispo">
+					{% set couleurs = produit.color|split(',') %}
+					{% for couleur in couleurs %}
+						<div class="carre-couleur" style="background-color: {{ couleur }};" data-color="{{ couleur }}"></div>
+					{% endfor %}
+				</div>
+				<div class="taille">
+					<select id="LstTaille" name="ListeTaille">
+					<option>XXL</option>
+					<option>XL</option>
+					<option>L</option>
+					<option>M</option>
+					<option>S</option>
+				</select>
+				</div>
+
+				<p id="prix">{{produit.price}}€</p>
+				<div class="stock-quantite">
+					<p>Stock : {{produit.stock}}</p>
+					<div class="quantite">
+						<label for="QuantiteAchat">Quantité</label>
+						<input type="number" id="quantite" name="quantie" value="1"> <!-- bloquer négatif -->
+					</div>
+				</div>
+				<div class="btns">		
+					<button type="submit" id="btnAjoutPanier">Ajouter au panier</button>
+					<button id="btnAcheter">Acheter</button>
+				</div>
+			</div>
+		</form>
 	</div>
 
-	<h1>Détails du produit</h1>
-    <p>Nom : {{ produit.name }}</p>
-    <p>Prix : {{ produit.price }}€</p>
-    <p>Description : {{ produit.description }}</p>
-    <p>Stock : {{ produit.stock }}</p>
-    <p>Catégorie : {{ produit.category }}</p>
-
+	<div class="description">
+		<p>{{produit.description}}</p>
+	</div>
+	
+{% block javascripts %}
+	<script src="../asset/js/achatProduit.js"></script>
+{% endblock %}
 {% endblock %}

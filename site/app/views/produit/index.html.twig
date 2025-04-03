@@ -10,13 +10,14 @@
 
 <div class="Menu-administrateur">
     <a href="create_event.php">Event</a>
-    <a href="">Actu</a>
+    <a href="ajouter_news.php">Actu</a>
     <a href="produit.php">Boutique</a>
     <a href="">Vente</a>
-    <a href="users.php">Gestion</a>
-    <a href="">Adhésion</a>
+    <a href="">Gestion</a>
+    <a href="users.php">Adhésion</a>
     <a href="participation.php">Participation</a>
 </div>
+
 
 <form method="post" action="produit.php" enctype="multipart/form-data">
 
@@ -25,7 +26,7 @@
         <label for="ListeProduit">Liste Produit</label>
         <div class="LstProduits">    
             <select id="LstProduits" name="ListeProduit">
-                <option value=""></option>
+                <option value="">-- Sélectionner un événement --</option>
                 {% for Produit in Produits %}
                     <option 
                         value="{{ Produit.getn_produit() }}"

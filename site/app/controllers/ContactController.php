@@ -11,11 +11,6 @@ use PHPMailer\PHPMailer\Exception;
 class ContactController extends Controller
 {
     use FormTrait;
-    
-    public function index()
-    {
-        $this->view('/contact/contact.html.twig');
-    }
 
     public function create() {
         $log = $this->isLoggedIn();
@@ -97,12 +92,29 @@ class ContactController extends Controller
             }
         }
 
-        $this->view('/contact/contact.html.twig',  [
-            'data' => $data,
-            'errors' => $errors,
-            'success' => $success ?? null,
-            'log' => $log
-        ]);
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('/contact/contact.html.twig',  [
+                'data' => $data,
+                'errors' => $errors,
+                'success' => $success ?? null,
+                'log' => $log,
+                'admin' => null
+            ]);
+
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            
+            $this->view('/contact/contact.html.twig',  [
+                'data' => $data,
+                'errors' => $errors,
+                'success' => $success ?? null,
+                'log' => $log,
+                'admin' => $perm
+            ]);
+        }
     }
 
     public function isLoggedIn():bool

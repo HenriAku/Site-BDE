@@ -15,11 +15,26 @@ class Newscontroller extends Controller {
             $messages = $_SESSION['messages'];
             unset($_SESSION['messages']);
         }
+        
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('news/ajouter_news.html.twig', [
+                'news' => $news,
+                'messages' => $messages,
+                'admin' => null
+            ]);
 
-        $this->view('news/ajouter_news.html.twig', [
-            'news' => $news,
-            'messages' => $messages
-        ]);
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+
+            $this->view('news/ajouter_news.html.twig', [
+                'news' => $news,
+                'messages' => $messages,
+                'admin' => $perm
+            ]);
+        }
 
     }
 
@@ -29,24 +44,20 @@ class Newscontroller extends Controller {
         
         switch ($action) {
             case 'add':
-                // Ajouter une nouvelle news
                 $newsRepo->create($_POST['titre'], $_POST['contenu']);
-                $_SESSION['messages']['success'] = "News ajoutée avec succès";
                 break;
                 
             case 'update':
-                // Mettre à jour une news existante
                 $newsRepo->update($_POST['id'], $_POST['titre'], $_POST['contenu']);
-                $_SESSION['messages']['success'] = "News mise à jour avec succès";
                 break;
                 
             case 'delete':
-                // Supprimer une news
                 $newsRepo->delete($_POST['id']);
-                $_SESSION['messages']['success'] = "News supprimée avec succès";
                 break;
         }
         
         $this->redirectTo('/ajouter_news.php');
     }
+
+    
 }

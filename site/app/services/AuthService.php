@@ -5,11 +5,13 @@ class AuthService {
 
     use AuthTrait;
 
-    public function getUser():?User
+    public function getUser(): ?User
     {
-        if(session_status() == PHP_SESSION_NONE)
+        if(session_status() == PHP_SESSION_NONE) {
             session_start();
-        return unserialize($_SESSION['user']);
+        }
+        
+        return isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
     }
 
     public function setUser(User $user): void
