@@ -3,7 +3,7 @@
 {% block title %}<title>Boutique</title>{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }} {# Important pour conserver les styles du parent #}
+    {{ parent() }} 
     <link rel="stylesheet" href="../asset/css/boutique.css">
 {% endblock %}
 
@@ -24,7 +24,7 @@
 			</select>
 			<select id="lstOrdre" name="listeOrdre" >
 				<option>▼</option>
-				<option>▲</option>			
+				<option>▲</option>
 			</select>
 			<button type="submit">Trier</button>
 		</div>
@@ -32,11 +32,11 @@
 
 	<div class="Produits">
 		{% for Produit in Produits %}
-			<div class="carte-produit" onclick="window.location.href='/achatProduit.php?id={{ Produit.n_produit }}'">
+			<div class="carte-produit">
 				{% set imageTrouvee = false %}
 				{% for image in images %}
 					{% if image.n_prod == Produit.n_produit %}
-						<img id="{{ Produit.n_produit }}" class="image-prod" src="./asset/images/produit/{{image.nom_image}}">
+						<img id="{{ Produit.n_produit }}" class="image-prod" src="./asset/images/produit/{{image.nom_image}}" onclick="window.location.href='/achatProduit.php?id={{ Produit.n_produit }}'">
 						{% set imageTrouvee = true %}
 					{% endif %}
 				{% endfor %}
@@ -44,17 +44,18 @@
 		        {% if not imageTrouvee %}
                 	<img id="{{ Produit.n_produit }}" class="image-prod" src="">
            		{% endif %}
+
 				<p>{{ Produit.name }}</p>
 				<p>{{ Produit.price }}€</p>
 				<div class="taille-btn">
-					<select id="LstTaille" name="ListeTaille">
+					<select id="LstTaille_{{ Produit.n_produit }}" name="ListeTaille">
 						<option>XXL</option>
 						<option>XL</option>
 						<option>L</option>
 						<option>M</option>
 						<option>S</option>
 					</select>
-					<button>
+					<button class="btn-add-to-cart" data-id="{{ Produit.n_produit }}" data-colors="{{ Produit.color}}">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
 							<path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
 							<path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
