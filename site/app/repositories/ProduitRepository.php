@@ -13,8 +13,14 @@ class ProduitRepository {
         $this->pdo = Repository::getInstance()->getPDO();
     }
 
-    public function findAll(): array {
-        $stmt = $this->pdo->query('SELECT * FROM Produit');
+    public function findAll(
+        string $type,
+        bool $trie,
+    ): array {
+        $ordre = $trie ? 'ASC' : 'DESC';
+        
+        $sql = "SELECT * FROM Produit ORDER BY {$type} {$ordre}";
+        $stmt = $this->pdo->query($sql);        
         $Produits = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $Produits[] = $this->createProduitFromRow($row);
@@ -169,4 +175,5 @@ class ProduitRepository {
             'imageName' => $imageName
         ]);
     }
+
 }

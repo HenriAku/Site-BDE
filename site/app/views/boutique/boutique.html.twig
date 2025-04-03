@@ -13,11 +13,22 @@
 		<p>Trier article</p>
 	</div>
 
-	<div class="btn-tri">
-		<button id="btn1">Type ▼</button>
-		<button id="btn2">Taille ▼</button>
-		<button id="btn3">Prix ▼</button>
-	</div>
+	<form method="post" enctype="multipart/form-data" action="/trier_article.php ">
+		<div class="btn-tri">
+			<select id="lsttrie" name="ListeTrie" >
+				<option>Nom</option>
+				<option>Catégorie</option>
+				<option>Taille</option>
+				<option>Prix</option>
+				
+			</select>
+			<select id="lstOrdre" name="listeOrdre" >
+				<option>▼</option>
+				<option>▲</option>			
+			</select>
+			<button type="submit">Trier</button>
+		</div>
+	</form>
 
 	<div class="Produits">
 		{% for Produit in Produits %}
