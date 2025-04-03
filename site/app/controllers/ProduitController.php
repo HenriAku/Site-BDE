@@ -16,7 +16,7 @@ class ProduitController extends Controller {
         //$this->checkAuth();
         $ProduitRepo = new ProduitRepository();
         
-        $Produits = $ProduitRepo->findAll();
+        $Produits = $ProduitRepo->findAll("libelle_prod", true);
         $images = $ProduitRepo->getImg();
         $data = $this->getAllPostParams();
         $errors = [];

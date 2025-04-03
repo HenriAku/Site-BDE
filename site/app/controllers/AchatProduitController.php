@@ -13,7 +13,6 @@ class AchatProduitController extends Controller
             $images = $ProduitRepo->getImg();
             
             $AchatProduitRepo = new AchatProduitRepository();
-            //$couleurs = $AchatProduitRepo->findAll();
 
             $this->view('/boutique/achatProduit.html.twig', ['produit' => $produit, "images" => $images]);
         } else {

@@ -8,7 +8,7 @@
 
 {% block body %}
 <div class="panier-container">
-    <h1>Panier de {{ user.lastname }}</h1>
+    <h1>Panier de {{ user.firstname }}</h1>
     
     {% set total_general = 0 %}
     {% set paniers_user = paniers|filter(p => p.getn_user() == user.id) %}
@@ -35,7 +35,7 @@
                                 </tr>
                                 <tr>
                                     <th>Taille</th>
-                                    <td>{{ produit.getSize() }}</td>
+                                    <td>{{ panier.gettaile() }}</td>
                                 </tr>
                                 <tr>
                                     <th>Couleur(s)</th>

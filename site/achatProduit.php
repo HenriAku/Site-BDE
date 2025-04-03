@@ -17,3 +17,4 @@ if (isset($_GET['id'])) {
 } else {
     echo "Aucun produit sélectionné.";
 }
+
