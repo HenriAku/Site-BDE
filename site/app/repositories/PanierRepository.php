@@ -39,7 +39,7 @@ class PanierRepository {
     {
         $stmt = $this->pdo->prepare('INSERT INTO achete (n_prod, n_etu, quantite_vente) 
                                      VALUES (:n_prod, :n_etu, :qte)');
-
+ 
         return $stmt->execute([
             'n_prod' => $panierId,
             'n_etu' => $userId,

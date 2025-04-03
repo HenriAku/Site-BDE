@@ -36,7 +36,7 @@ use FormTrait;
     {
         $repo = new PanierRepository();
 
-        $repo->achete($userId, $panierId, $panierQte);
+        $repo->achete($userId, $produit_id, $panierQte);
 
         $repo->delete($panierId);
     }
