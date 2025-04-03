@@ -25,10 +25,16 @@ class PanierController extends Controller {
 
         $nomProd = $repo->getProduit($paniers);
 
-        if($authServ->isLoggedIn())
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
         {
-            $user = $authServ->getUser();
-            $this->view('/panier/index.html.twig', ['paniers' => $paniers, 'user' => $user, 'produits' => $nomProd]);
+            $this->view('/panier/index.html.twig', ['paniers' => $paniers, 'user' => $user, 'admin' => null, 'produits' => $nomProd]);
+
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            
+            $this->view('/panier/index.html.twig', ['paniers' => $paniers, 'user' => $user, 'admin' => $perm, 'produits' => $nomProd]);
         }
 
     }
@@ -125,7 +131,11 @@ class PanierController extends Controller {
                 <p>Cordialement,<br>L'équipe du BDE Informatique</p>
             ";
             
-            $mail->send();
+            if ($mail->send()) {
+                $this->setNotification('Un reçu a été envoyé à votre adresse email');
+            } else {
+                $this->setNotification("L'email n'a pas pu être envoyé", 'error');
+            }
         } catch (Exception $e) {
             error_log("Erreur d'envoi d'email: ".$e->getMessage());
         }
@@ -182,9 +192,11 @@ class PanierController extends Controller {
                 <p>Cordialement,<br>L'équipe du BDE Informatique</p>
             ";
             
-            echo "Envoi du mail en cours..."; // Débogage
-            $mail->send();
-            echo "Mail envoyé avec succès !";
+            if ($mail->send()) {
+                $this->setNotification('Un reçu a été envoyé à votre adresse email');
+            } else {
+                $this->setNotification("L'email n'a pas pu être envoyé", 'error');
+            }
         } catch (Exception $e) {
             error_log("Erreur d'envoi d'email: " . $e->getMessage());
             echo "Erreur lors de l'envoi : " . $e->getMessage(); // Afficher l'erreur
@@ -195,5 +207,12 @@ class PanierController extends Controller {
     {
         $repo = new PanierRepository();
         $repo->delete($panier_id);
+    }
+
+    private function setNotification($message, $type = 'success') {
+        $_SESSION['notification'] = [
+            'message' => $message,
+            'type' => $type
+        ];
     }
 }
