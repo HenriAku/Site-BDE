@@ -11,7 +11,16 @@ class ParticipationController extends Controller {
         $participationRep = new ParticipationRepesitory();
         $participations = $participationRep->findAll();
 
-        $this->view('/evenement/participation.html.twig', ['participations' => $participations]);
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('/evenement/participation.html.twig', ['participations' => $participations,'admin' => $perm]);
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            $this->view('/evenement/participation.html.twig', ['participations' => $participations,'admin' => $perm]);
+        }
+        
     }
 
     public function payerParticipation() {
@@ -29,11 +38,15 @@ class ParticipationController extends Controller {
         }
         
         $success = $participationRep->payerParticipation($idEvent, $idEtu);
-        $this->view('/evenement/participation.html.twig', [
-            'participations' => $participationRep->findAll()
-        ]);
-      
-    }
 
-    
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('/evenement/participation.html.twig', ['participations' => $participationRep->findAll(),'admin' => null]);
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            $this->view('/evenement/participation.html.twig', ['participations' => $participationRep->findAll(),'admin' => $perm]);
+        } 
+    }  
 }

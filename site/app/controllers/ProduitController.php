@@ -104,21 +104,45 @@ class ProduitController extends Controller {
             $selectedProduct = $ProduitRepo->findById($index);
         }
     
-        $this->view('/produit/index.html.twig', [
-            'Produits' => $Produits,
-            'images' => $images,
-            'index' => $index,
-            'selectedProduct' => $selectedProduct,
-            'nom' => $nom ?? ($selectedProduct->name ?? ''),
-            'description' => $description ?? ($selectedProduct->description ?? ''),
-            'prix' => $prix ?? ($selectedProduct->price ?? ''),
-            'stock' => $stock ?? ($selectedProduct->stock ?? ''),
-            'categorie' => $categorie ?? ($selectedProduct->categorie ?? ''),
-            'taille' => $taille ?? ($selectedProduct->taille ?? ''),
-            'colorPicker' => $colorPicker ?? ($selectedProduct->color ?? '#ff0000'),
-            'errors' => $errors,
-            'message' => $_SESSION['message'] ?? null
-        ]);
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('/produit/index.html.twig', [
+                'Produits' => $Produits,
+                'images' => $images,
+                'index' => $index,
+                'selectedProduct' => $selectedProduct,
+                'nom' => $nom ?? ($selectedProduct->name ?? ''),
+                'description' => $description ?? ($selectedProduct->description ?? ''),
+                'prix' => $prix ?? ($selectedProduct->price ?? ''),
+                'stock' => $stock ?? ($selectedProduct->stock ?? ''),
+                'categorie' => $categorie ?? ($selectedProduct->categorie ?? ''),
+                'taille' => $taille ?? ($selectedProduct->taille ?? ''),
+                'colorPicker' => $colorPicker ?? ($selectedProduct->color ?? '#ff0000'),
+                'errors' => $errors,
+                'message' => $_SESSION['message'] ?? null,
+                'admin' => null
+            ]);
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            $this->view('/produit/index.html.twig', [
+                'Produits' => $Produits,
+                'images' => $images,
+                'index' => $index,
+                'selectedProduct' => $selectedProduct,
+                'nom' => $nom ?? ($selectedProduct->name ?? ''),
+                'description' => $description ?? ($selectedProduct->description ?? ''),
+                'prix' => $prix ?? ($selectedProduct->price ?? ''),
+                'stock' => $stock ?? ($selectedProduct->stock ?? ''),
+                'categorie' => $categorie ?? ($selectedProduct->categorie ?? ''),
+                'taille' => $taille ?? ($selectedProduct->taille ?? ''),
+                'colorPicker' => $colorPicker ?? ($selectedProduct->color ?? '#ff0000'),
+                'errors' => $errors,
+                'message' => $_SESSION['message'] ?? null,
+                'admin' => $perm
+            ]);
+        } 
         
         // Effacer le message après l'avoir affiché
         unset($_SESSION['message']);
