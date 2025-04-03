@@ -34,6 +34,7 @@
 		{% for Produit in Produits %}
 			<div class="carte-produit" onclick="window.location.href='/achatProduit.php?id={{ Produit.n_produit }}'">
 				<img id="{{ Produit.n_produit }}" class="image-prod" src="">
+				<p>{{ Produit.name }}</p>
 				<p>{{ Produit.price }}€</p>
 				<div class="taille-btn">
 					<select id="LstTaille" name="ListeTaille">
