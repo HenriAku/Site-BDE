@@ -32,10 +32,13 @@ h1 {
 
 /* Élément d'information */
 .info-item {
+    align-items: center;
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
     border-bottom: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
 }
 
 .info-item:last-child {
@@ -45,18 +48,62 @@ h1 {
 .label {
     font-weight: bold;
     color: #34495e;
-    width: 40%;
+    width: 25%;
+    margin-right: 35%;
 }
 
-.value {
+.value, input{
     color: #7f8c8d;
     width: 60%;
     word-break: break-word;
+    text-align: center;
+    background-color: #D7EBF1;
+    border-radius: 20px;
 }
 
-/* Champ de mot de passe */
-.password-field {
+.password-input-wrapper{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    font-weight: bold;
+    color: #34495e;
+    width: 25%;
+    margin-right: 35%;
+}
+
+.enregistrer {
+    background: #75C9E1;
+    border-radius: 50px;
+    padding: 8px 25px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
     margin-top: 20px;
+}
+
+.enregistrer:hover {
+    background-color: #98e1f5;
+}
+
+.btnRouge {
+    background: #E05050;
+    border-radius: 50px;
+    padding: 8px 25px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.btnRouge:hover {
+    background-color: #3f1515;
 }
 
 .password-field label {
@@ -66,97 +113,12 @@ h1 {
     margin-bottom: 5px;
 }
 
-.password-input-wrapper {
-    position: relative;
-}
-
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1em;
-    transition: border-color 0.3s ease;
-}
-
-input[type="password"]:focus {
-    border-color: #3498db;
-    outline: none;
-}
-
-/* Bouton Enregistrer */
-.btn-save-password {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-}
-
-.btn-save-password:hover {
-    background-color: #2980b9;
-}
-
-.btn-save-password i {
-    margin-right: 5px;
-}
-
-/* Conteneur des boutons d'action */
 .action-buttons {
     max-width: 600px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     gap: 10px;
-}
-
-/* Style commun des boutons */
-.btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 1em;
-    cursor: pointer;
-    color: #fff;
-    transition: background-color 0.3s ease;
-}
-
-.btn i {
-    margin-right: 8px;
-}
-
-/* Bouton Déconnexion */
-.logout-btn {
-    background-color: #e74c3c;
-}
-
-.logout-btn:hover {
-    background-color: #c0392b;
-}
-
-/* Bouton Supprimer */
-.delete-btn {
-    background-color: #95a5a6;
-}
-
-.delete-btn:hover {
-    background-color: #7f8c8d;
-}
-
-/* Formulaire de déconnexion */
-.logout-form {
-    flex: 1;
 }
 
 /* Responsive */
