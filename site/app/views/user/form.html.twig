@@ -20,51 +20,49 @@
     {% endif %}
 
     <!-- Nom d'utilisateur -->
-    <div class="mb-3">
-        <label for="firstname" class="form-label">Prénom</label>
+    <div class="itemForm">
+    <label for="firstname">Prénom</label>
         <input type="text" name="firstname" id="firstname" class="form-control"
                value="{{ data.firstname }}" required>
     </div>
 
     <!-- Nom d'utilisateur -->
-    <div class="mb-3">
-        <label for="lastname" class="form-label">Nom</label>
+    <div class="itemForm">
+        <label for="lastname">Nom</label>
         <input type="text" name="lastname" id="lastname" class="form-control"
                value="{{ data.lastname }}" required>
     </div>
 
     <!-- Email -->
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
+    <div class="itemForm">
+        <label for="password">Mot de passe</label>
         <input type="email" name="email" id="email" class="form-control"
                value="{{ data.email }}" required>
     </div>
 
     <!-- Mot de passe -->
-    <div class="mb-3">
-        <label for="password" class="form-label">Mot de passe</label>
+    <div class="itemForm">
+        <label for="password">Mot de passe</label>
         <input type="password" name="password" id="password" class="form-control" required>
     </div>
 
     <!-- Confirmer Mot de passe -->
-    <div class="mb-3">
-        <label for="conf_password" class="form-label">Confirmer mot de passe</label>
+    <div class="itemForm">
+        <label for="conf_password">Confirmer mot de passe</label>
         <input type="password" name="conf_password" id="conf_password" class="form-control" required>
     </div>
 
     <!-- Num etudiant -->
-    <div class="mb-3">
-        <label for="netu" class="form-label">Numéro étudiant</label>
+    <div class="itemForm">
+        <label for="netu">Numéro étudiant</label>
         <input type="text" name="netu" id="netu" class="form-control"
                value="{{ data.netu }}" required>
     </div>
 
     <!-- Bouton -->
-    <div>
-
-        <button type="submit" class="btn btn-primary">Créer</button>
-        <a href="/login.php" class="btn btn-primary">Se connecter</a>
-        
+    <div class="btnForm">
+        <button type="submit" class="inscription">Inscription</button>
+        <a href="/login.php" class="connextion">Se connecter</a>
     </div>
 
 </form>
