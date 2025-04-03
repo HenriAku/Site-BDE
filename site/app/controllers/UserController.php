@@ -29,6 +29,25 @@ class UserController extends Controller {
         
     }
 
+    public function admin()
+    {
+        $repository = new UserRepository();
+        $admins = $repository->findAllAdmin();
+        $users = $repository->findAll();
+        
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('/user/gestion.html.twig', ['users' => $users, 'admins' => $admins, 'admin' => null]);
+
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            
+            $this->view('/user/gestion.html.twig', ['users' => $users, 'admins' => $admins, 'admin' => $perm]);
+        }
+    }
+
     public function create() 
     {
         echo "<script>console.log('test');</script>";
@@ -166,9 +185,19 @@ class UserController extends Controller {
     public function delete($id) 
     {
         $userRepo = new UserRepository();
-
         return $userRepo->delete($id);
+    }
 
+    public function supprAdmin($id) 
+    {
+        $userRepo = new UserRepository();
+        return $userRepo->supprAdmin($id);
+    }
+
+    public function ajoutAdmin($id) 
+    {
+        $userRepo = new UserRepository();
+        return $userRepo->ajoutAdmin($id);
     }
 
     public function profil()
@@ -227,4 +256,6 @@ class UserController extends Controller {
         $userRepo = new UserRepository();
         return $userRepo->validate($userId);
     } 
+
+    
 }

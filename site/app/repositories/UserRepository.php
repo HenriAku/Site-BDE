@@ -18,6 +18,15 @@ class UserRepository {
         return $users;
     }
 
+    public function findAllAdmin(): array {
+        $stmt = $this->pdo->query('SELECT * FROM "adherent" where estconnecte = true AND admin = true ');
+        $admins = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $admins[] = $this->createUserFromRow($row);
+        }
+        return $admins;
+    }
+
     private function createUserFromRow(array $row): User 
     {
         // Conversion robuste pour estadmin
@@ -89,6 +98,19 @@ class UserRepository {
         $stmt->execute(['id' => $id]);
         $rowsAffected = $stmt->rowCount();
         return $rowsAffected > 0;
+    }
+
+    
+    public function supprAdmin($id) : bool
+    {
+        $stmt = $this->pdo->prepare('UPDATE adherent SET admin = false WHERE n_etu = :id');
+        return $stmt->execute(['id' => $id,]);
+    }
+
+    public function ajoutAdmin($id) 
+    {
+        $stmt = $this->pdo->prepare('UPDATE adherent SET admin = true WHERE n_etu = :id');
+        return $stmt->execute(['id' => $id,]);
     }
 
     public function findByEmail(string $email): ?User {

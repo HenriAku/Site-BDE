@@ -1,0 +1,158 @@
+{% extends '_template/base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="../asset/css/users.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .search-results {
+            margin-top: 2rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            padding: 1rem;
+            display: none; /* Caché par défaut */
+			color : black;
+        }
+        .search-match {
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.25rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<div class="Menu-administrateur">
+    <a href="create_event.php">Event</a>
+    <a href="ajouter_news.php">Actu</a>
+    <a href="produit.php">Boutique</a>
+    <a href="">Vente</a>
+    <a href="gestion.php">Gestion</a>
+    <a href="users.php">Adhésion</a>
+    <a href="participation.php">Participation</a>
+</div>
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gestion des Admin</h1>
+    </div>
+</div>
+
+<div class="row mb-3 search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un utilisateur...">
+</div>
+
+<!-- Résultats de recherche (caché par défaut) -->
+<div id="searchResults" class="search-results">
+    <h3>Résultats de recherche</h3>
+    <div id="searchResultsContent"></div>
+</div>
+
+<!-- Tableau des admins (inchangé) -->
+<div class="row flex-grow-1">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped" id="userTable">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">#ID</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Email</th>
+                        <th scope="col" class="actions-cell">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    {% for admin in admins %}
+                        <tr id="user-row-{{ admin.id }}">
+                            <td>{{ admin.id }}</td>
+                            <td>{{ admin.firstname }}</td>
+                            <td>{{ admin.lastname }}</td>
+                            <td>{{ admin.email }}</td>
+                            <td class="actions-cell">    
+                                <div class="d-flex">
+                                    <form method="POST" action="supprAdmin.php" class="m-0">
+                                        <input type="hidden" name="user_id" value="{{ admin.id }}">
+                                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir refuser le profil ?')">
+                                            <i class="fas fa-times"></i> Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">Aucun administrateur trouvé</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="mt-auto py-3 bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <p class="mb-0">Total admins: {{ admins|length }} | Total utilisateurs: {{ users|length }}</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+    // Données des utilisateurs disponibles pour la recherche
+    const allUsers = [
+        {% for user in users %}
+        {
+            id: {{ user.id }},
+            firstname: "{{ user.firstname }}",
+            lastname: "{{ user.lastname }}",
+            email: "{{ user.email }}",
+            isAdmin: {{ user.isAdmin ? 'true' : 'false' }}
+        },
+        {% endfor %}
+    ];
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        const resultsContainer = document.getElementById('searchResults');
+        const resultsContent = document.getElementById('searchResultsContent');
+
+        // Masquer les résultats si la recherche est vide
+        if (searchTerm === '') {
+            resultsContainer.style.display = 'none';
+            return;
+        }
+
+        // Filtrer les utilisateurs
+        const filteredUsers = allUsers.filter(user => 
+            user.firstname.toLowerCase().includes(searchTerm) || 
+            user.lastname.toLowerCase().includes(searchTerm) ||
+            `${user.firstname} ${user.lastname}`.toLowerCase().includes(searchTerm)
+        );
+
+        // Afficher les résultats
+        if (filteredUsers.length > 0) {
+            resultsContent.innerHTML = filteredUsers.map(user => `
+                <div class="search-match">
+					<form method="POST" action="ajoute_admin.php" class="m-0">
+						<strong>${user.firstname} ${user.lastname}</strong>
+						<input type="hidden" name="user_id" value="${user.id}">
+						<button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir refuser le profil ?')">ajouter</button>
+					</form>
+                </div>
+            `).join('');
+            resultsContainer.style.display = 'block';
+        } else {
+            resultsContent.innerHTML = '<p>Aucun utilisateur trouvé</p>';
+            resultsContainer.style.display = 'block';
+        }
+    });
+</script>
+{% endblock %}
