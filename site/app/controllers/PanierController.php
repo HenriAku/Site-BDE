@@ -59,4 +59,9 @@ use FormTrait;
         return true;
     }
 
+    public function delete($panier_id)
+    {
+        $repo = new PanierRepository();
+        $repo->delete($panier_id);
+    }
 }

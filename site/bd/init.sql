@@ -359,9 +359,9 @@ INSERT INTO Commente (n_event, n_etu, note, avis) VALUES
 
 -- Achats
 INSERT INTO Achete (n_prod, n_etu, quantite_vente) VALUES
-(1, 2, 2),
-(3, 3, 1),
-(4, 4, 5);
+(1, 2, 'XL', '#45FA2C', 2),
+(3, 3, 'M', '#44FCDC', 1),
+(4, 4, 'XXL', '#71CA2C', 5);
 
 -- Panier
 INSERT INTO Detail_panier (n_prod, n_etu, quantite_dp) VALUES
