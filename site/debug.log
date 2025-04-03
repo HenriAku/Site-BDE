@@ -1,0 +1,8 @@
+Array
+(
+    [idProduit] => 20
+    [ListeTaille] => XXL
+    [selectedColor] => #000000
+    [quantie] => 1
+    [redirection] => false
+)
