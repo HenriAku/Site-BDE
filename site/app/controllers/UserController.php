@@ -29,7 +29,7 @@ class UserController extends Controller {
 
         if (!empty($data)) {
             try {
-                $errors = [];
+                $errors = []; 
 
                 // Validation des données
                 if (empty($data['firstname'])) {
@@ -60,7 +60,7 @@ class UserController extends Controller {
 
                 // Création de l'objet utilisateur
                 $hashedPassword = $this->hash($data['password']);
-                $user = new User(null, $data['firstname'], $data['lastname'], $data['email'], $hashedPassword, $data['netu'], false);
+                $user = new User(null, $data['firstname'], $data['lastname'], $data['email'], $hashedPassword, $data['netu'], false, false);
 
 
                 // Sauvegarde dans la base de données

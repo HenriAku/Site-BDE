@@ -21,15 +21,12 @@ class UserRepository {
 
     private function createUserFromRow(array $row): User 
     {
-        error_log("User data: " . print_r($row, true));
-        
-        $estValide = false;
-        if (isset($row['estvalide'])) {
-            $estValide = filter_var($row['estvalide'], FILTER_VALIDATE_BOOLEAN);
+        // Conversion robuste pour estadmin
+        $estAdmin = false;
+        if (isset($row['admin'])) {
+            $estAdmin = ($row['admin'] === true || $row['admin'] === 1 || $row['admin'] === '1' || strtolower($row['admin']) === 'true');
         }
-        
-        error_log("Conversion estvalide: {$row['estvalide']} -> " . ($estValide ? 'true' : 'false'));
-        
+
         return new User(
             $row['n_etu'],
             $row['prenom_etu'],
@@ -37,20 +34,23 @@ class UserRepository {
             $row['mail_etu'],
             $row['mdp_etu'],
             $row['num_etu'],
-            $estValide
+            (bool)($row['estvalide'] ?? false),
+            $estAdmin
         );
     }
 
     public function create(User $user): bool 
     {
-        $stmt = $this->pdo->prepare('INSERT INTO adherent (num_etu, nom_etu, prenom_etu, admin, mdp_etu, mail_etu) 
-                                     VALUES (:num_etu, :firstname, :lastname, false, :password, :email)');
+        $stmt = $this->pdo->prepare('INSERT INTO adherent (num_etu, nom_etu, prenom_etu, admin, mdp_etu, mail_etu, estvalide) 
+                                    VALUES (:num_etu, :lastname, :firstname, :admin, :password, :email, :estvalide)');
         return $stmt->execute([
             'num_etu' => $user->getNetu(),
             'firstname' => $user->getFirstname(),
             'lastname' => $user->getLastname(),
-            'email' => $user->getEmail(),
+            'admin' => $user->getAdmin() ? 1 : 0, // Convertit booléen en 1/0
             'password' => $user->getPassword(),
+            'email' => $user->getEmail(),
+            'estvalide' => $user->getValide() ? 1 : 0
         ]);
     }
     
