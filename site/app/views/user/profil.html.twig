@@ -32,33 +32,26 @@
     
     <div class="password-field">
         <form method="POST" action="./update_password.php" id="passwordForm" onsubmit="return confirm('Voulez-vous vraiment changer votre mot de passe ?');">
-            <label>Mot de passe:
                 <div class="password-input-wrapper">
+                    <label>Mot de passe:</label>
                     <input 
                         type="password" 
                         name="new_password" 
                         id="passwordInput"
                         required>
+                    <button type="submit" class="enregistrer">Enregistrer</button>
                 </div>
-            </label>
-            <button type="submit" class="btn-save-password">
-                <i class="fas fa-save"></i> Enregistrer
-            </button>
         </form>
     </div>
 </div>
 
 <div class="action-buttons">
     <form method="POST" action="./logout.php" class="logout-form">
-        <button type="submit" class="btn logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Déconnexion
-        </button>
+        <button type="submit" class="btnRouge">Déconnexion</button>
     </form>
 
     <form method="POST" action="./user_delete.php">
-        <button class="btn delete-btn"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre profil ?')">
-            <i class="fas fa-trash-alt"></i> Supprimer le profil
-        </button>
+        <button class="btnRouge"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre profil ?')">Supprimer le profil</button>
     </form>
 
 </div>

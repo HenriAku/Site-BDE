@@ -6,27 +6,30 @@
 {% endblock %}
 
 {% block body %}
-    <h2 class="mb-4">Connexion</h2>
 
     <!-- Message d'erreur à afficher si besoin -->
-{% if error %}
-    <div class="alert alert-danger text-center" role="alert">
-        {{ error }}
-    </div>
-{% endif %}
+
 
     <form method="post" action="login.php">
-        <div class="mb-3">
-            <label for="email" class="form-label">Adresse email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+        <h2 class="mb-4">Connexion</h2>
+
+        {% if error %}
+            <div class="alert alert-danger text-center" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <div class="itemForm">
+            <label for="email" >Adresse email</label>
+            <input type="email"  id="email" name="email" placeholder="name@example.com" required>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="password" name="password" required>
+        <div class="itemForm">
+            <label for="password" >Mot de passe</label>
+            <input type="password"  id="password" name="password" required>
         </div>
-        <div class="d-flex flex-row-reverse">
-            <button type="submit" class="btn btn-primary">Se connecter</button>
-            <a href="/user_create.php" class="btn btn-primary">S'inscrire</a>
+        <div class="btns">
+            <button type="submit" class="connection">Se connecter</button>
+            <a href="/user_create.php" class="inscription">S'inscrire</a>
         </div>
     </form>
 {% endblock %}
