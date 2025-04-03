@@ -153,7 +153,7 @@ INSERT INTO Adherent (num_etu, nom_etu,estValide, prenom_etu, admin, mdp_etu, ma
 INSERT INTO Produit (libelle_prod, stock_prod, categorie_prod, prix_prod, description_prod, couleur_prod, taille_prod) VALUES
 ('T-shirt BDE Premium', 50, 'Vetement', 19, 
 'Ce t-shirt en coton bio de haute qualité présente le logo du BDE brodé sur la poitrine. Matière douce et respirante, coupe unisexe. Lavage en machine à 30°C. Fabriqué en France dans le respect des normes environnementales.',
- '#000000', 'M'),
+ '#000000, "#FF0000', 'M'),
 
 ('Sweat à capuche BDE', 30, 'Vetement', 45, 
 'Sweat-shirt premium en coton/polyester avec capuche ajustable et poche kangourou. Logo sérigraphié haute résistance. Parfait pour les soirées fraîches ou le sport. Disponible en plusieurs tailles pour un confort optimal.',
@@ -299,7 +299,9 @@ Merci à tous d avoir fait de cette soirée un moment inoubliable !',
 INSERT INTO Fichier (nom_image) VALUES
 ('tshirt_bde.jpg'),
 ('sweat_bde.jpg'),
-('gourde_bde.jpg'),
+('bob_bde.jpg'),
+('casquette_bde.jpg'),
+('pull_linux.jpg'),
 ('soiree_rentree.jpg'),
 ('default-event.jpg'),
 ('tournoi_jeux.jpg');
@@ -308,7 +310,9 @@ INSERT INTO Fichier (nom_image) VALUES
 INSERT INTO contient_produit (nom_image, n_prod) VALUES
 ('tshirt_bde.jpg', 1),
 ('sweat_bde.jpg', 2),
-('gourde_bde.jpg', 3);
+('bob_bde.jpg', 3),
+('pull_linux.jpg', 4),
+('casquette_bde.jpg', 5);
 
 -- Relations contient_evenement
 INSERT INTO contient_evenement (nom_image, n_event) VALUES
@@ -364,9 +368,10 @@ INSERT INTO Achete (n_prod, n_etu, quantite_vente) VALUES
 (4, 4, 5);
 
 -- Panier
-INSERT INTO Detail_panier (n_prod, n_etu, quantite_dp) VALUES
-(2, 2, 1),
-(5, 3, 2);
+INSERT INTO Detail_panier VALUES
+(1, 2, 1, 'XL', '#45FA2C', 2),
+(3, 3, 2, 'M', '#44FCDC', 1),
+(4, 4, 3, 'XXL', '#71CA2C', 5); 
 
 -- Consultations
 INSERT INTO Consulte (n_art, n_event, n_etu) VALUES
