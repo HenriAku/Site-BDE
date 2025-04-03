@@ -26,11 +26,5 @@ class AchatProduitRepository {
             ':couleur' => $couleur,
             ':quantite' => $quantite
         ]);
-
-            // Redirection vers panier.php si $redirect est true
-        if ($redirect) {
-            header('Location: /panier.php');
-        exit; // Assurez-vous de terminer le script après la redirection
-    }
     }
 }
