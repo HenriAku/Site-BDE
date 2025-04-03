@@ -71,8 +71,8 @@
             <input type="number" step="any" id="prix" name="prix" value="{{ prix }}">
             
             <label for="coul">Couleur :</label>
-            <input type="submit" id="addcolor" name="addcolor" value="+">
             <div id="lstColor">
+                <input type="submit" id="addcolor" name="addcolor" value="+">
                 <input type="color" id="colorPicker" name="colorPicker[]" value="{{ colorPicker|default('#ff0000') }}">
             </div>
         </div>
@@ -87,9 +87,9 @@
         <input type="text" id="taille" name="taille" placeholder="exemple : L,M,XXL" value="{{ taille }}">
         
         <div class="actions">
-            <button type="submit" name="action" value="add">créer</button>
-            <button type="submit" name="action" value="update">modifier</button>
-            <button type="submit" name="action" value="delete">supprimer</button>
+            <button type="submit" name="action" value="add"    class="btnForm">Crée</button>
+            <button type="submit" name="action" value="update" class="btnForm">Modifier</button>
+            <button type="submit" name="action" value="delete" class="btnRouge">Supprimer</button>
         </div>
     </div>
 </form>
