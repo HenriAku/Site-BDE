@@ -22,7 +22,7 @@ class ProduitRepository {
         return $Produits;
     }
 
-    public function create(Produit $Produit){
+    public function create(Produit $Produit, string $file){
 
         $stmt = $this->pdo->prepare('
             INSERT INTO Produit (libelle_prod, stock_prod, categorie_prod, prix_prod, description_prod, couleur_prod, taille_prod)
@@ -38,6 +38,26 @@ class ProduitRepository {
             'color' => $Produit->getColor(),
             'size' => $Produit->getSize()
         ]);
+
+        $n_prod = $this->pdo->lastInsertId();
+            
+        // Insérer d'abord dans Fichier
+        $query = "INSERT INTO Fichier (nom_image) VALUES (:filename)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([':filename' => $file]);
+        
+        // Puis dans contient_evenement
+        $query = "INSERT INTO contient_produit (n_prod, nom_image)
+                    VALUES (:n_prod, :filename)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            ':n_prod' => $n_prod,
+            ':filename' => $file
+        ]);
+        
+        
+        $this->pdo->commit();
+        return true;
     }
 
     public function createProduitFromRow(array $row): Produit {
@@ -147,7 +167,7 @@ class ProduitRepository {
         $image = $stmt->fetchColumn();
         
         if ($image) {
-            $filePath = __DIR__ . '/../../public/asset/images/produit/' . $image;
+            $filePath = __DIR__ . '/../../asset/images/produit/' . $image;
             if (file_exists($filePath)) {
                 unlink($filePath);
             }

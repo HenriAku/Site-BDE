@@ -26,7 +26,7 @@
         <label for="ListeProduit">Liste Produit</label>
         <div class="LstProduits">    
             <select id="LstProduits" name="ListeProduit">
-                <option value=""></option>
+                <option value="">-- Sélectionner un événement --</option>
                 {% for Produit in Produits %}
                     <option 
                         value="{{ Produit.getn_produit() }}"
