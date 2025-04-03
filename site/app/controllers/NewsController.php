@@ -16,25 +16,11 @@ class Newscontroller extends Controller {
             unset($_SESSION['messages']);
         }
 
-        $servUser = new AuthService();
-        if($servUser->getUser() === null)
-        {
-            $this->view('news/ajouter_news.html.twig', [
-                'news' => $news,
-                'messages' => $messages,
-                'admin' => null
-            ]);
+        $this->view('news/ajouter_news.html.twig', [
+            'news' => $news,
+            'messages' => $messages
+        ]);
 
-        }else{
-            $user = $servUser->getUser();
-            $perm = $user->getAdmin();
-
-            $this->view('news/ajouter_news.html.twig', [
-                'news' => $news,
-                'messages' => $messages,
-                'admin' => $perm
-            ]);
-        }
     }
 
     public function addNews(){
