@@ -3,7 +3,7 @@
 {% block title %}<title>Boutique</title>{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }} {# Important pour conserver les styles du parent #}
+    {{ parent() }} 
     <link rel="stylesheet" href="../asset/css/boutique.css">
 {% endblock %}
 
@@ -24,7 +24,7 @@
 			</select>
 			<select id="lstOrdre" name="listeOrdre" >
 				<option>▼</option>
-				<option>▲</option>			
+				<option>▲</option>
 			</select>
 			<button type="submit">Trier</button>
 		</div>
