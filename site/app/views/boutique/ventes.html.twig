@@ -33,9 +33,9 @@
                     <tr>
                         <th scope="col">Nom</th>
                         <th scope="col">Prénom</th>
+                        <th scope="col">Produit</th>
                         <th scope="col">Mail</th>
                         <th scope="col">Numéro Vente</th>
-                        <th scope="col">Produit</th>
                         <th scope="col">Prix unitaire </th>
                         <th scope="col">Quantite</th>
                         <th scope="col" class="actions-cell">Statut Paiement</th>
@@ -49,11 +49,10 @@
                             <td>{{ vente.libelle_prod }}</td>
                             <td>{{ vente.mail_etu }}</td>
                             <td>{{ vente.n_event }}</td>
-                            <td>{{ vente.libelle_prod }}</td>
                             <td>{{ vente.prix_prod }} €</td>
                             <td>{{ vente.quantite_vente }}</td>
                             <td class="actions-cell">
-                                {% if vente.estPayee %}
+                                {% if vente.estPayee %} 
                                     <button class="btn-payment btn-paid" disabled>
                                         <i class="fas fa-check-circle"></i> Payé
                                     </button>

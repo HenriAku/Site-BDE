@@ -12,7 +12,7 @@ class VenteRepository {
 
     public function findAll() {
         $query = "SELECT etu.nom_etu,etu.prenom_etu,p.libelle_prod, etu.mail_etu
-                , p.prix_prod, a.estPayee, a.quantite_vente, p.n_prod, etu.n_etu, a.n_vente
+                , p.prix_prod, a.estpayee, a.quantite_vente, p.n_prod, etu.n_etu, a.n_vente
               FROM Achete a
               LEFT JOIN Adherent etu ON a.n_etu = etu.n_etu
               LEFT JOIN Produit p ON p.n_prod = a.n_prod";
@@ -28,7 +28,7 @@ class VenteRepository {
                 $row['libelle_prod'],
                 $row['mail_etu'],
                 $row['prix_prod'],
-                $row['estPayee'],
+                $row['estpayee'],
                 $row['quantite_vente'],
                 $row['n_prod'],
                 $row['n_etu'],

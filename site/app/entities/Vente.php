@@ -18,7 +18,7 @@ class Vente {
         $this->libelle_prod = $libelle_prod;
         $this->mail_etu = $mail_etu;
         $this->prix_prod = $prix_prod;
-        $this->estPayee = $estPayee;
+        $this->estPayee = $estPayee ?? false;
         $this->quantite_vente = $quantite_vente;
         $this->n_prod = $n_prod;
         $this->n_etu = $n_etu;
@@ -30,9 +30,7 @@ class Vente {
     public function getLibelle_prod() { return $this->libelle_prod; }
     public function getMail_etu() { return $this->mail_etu; }
     public function getPrix_prod() { return $this->prix_prod; }
-    public function getEstPayee(): bool {
-        return $this->estPayee;
-    }    
+    public function getEstPayee() :bool{ return $this->estPayee; }
     public function getQuantite_vente() { return $this->quantite_vente; }
     public function getN_prod() { return $this->n_prod; }
     public function getN_etu() { return $this->n_etu; }
