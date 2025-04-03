@@ -82,18 +82,18 @@ tbody tr:hover {
 	transform: scale(1.005);
 }
 
-.btnRouge{
+.btnAPayer{
 	background: #E05050;
 }
 
-.btnRouge:hover {
-    background-color: #924444;
+.btnAPayer:hover {
+	background-color: #924444;
 }
 
-.btnVert{
+.btnPayer{
 	background: #68d46d;	
 }
 
-.btnVert:hover {
+.btnPayer:hover {
     background-color: #60c965;
 }

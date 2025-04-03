@@ -83,4 +83,12 @@ tbody tr:hover {
 	background-color: #924444;
 }
 
+.btnPayer{
+	background: #68d46d;	
+}
+
+.btnPayer:hover {
+    background-color: #60c965;
+}
+
 
