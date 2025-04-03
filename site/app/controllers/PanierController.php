@@ -51,7 +51,7 @@ use FormTrait;
         {
             if($panier->getn_user() == $userId)
             {
-                $repo->achete($userId, $panier->getn_panier(), $panier->getqte());
+                $repo->achete($userId, $panier->getn_produit(), $panier->getqte());
                 $repo->delete($panier->getn_panier());
             }
         }
