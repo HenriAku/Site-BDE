@@ -24,7 +24,10 @@ else{
 
 // Vérification de la connexion
 if (!$service->isLoggedIn()) {
-    header('Location: achatProduit.php?id=' . $idProd . '&show_popup_connexion_err=1');
+    if (isset($_GET['idProduit']))
+        header('Location: boutique.php?&show_popup_connexion_err=1');
+    else
+        header('Location: achatProduit.php?id=' . $idProd . '&show_popup_connexion_err=1');
     exit();
 }
 
@@ -35,8 +38,10 @@ if ($taille && $quantite && $couleur && $idProd) {
         $repo->addPanier($taille, (int)$quantite, $couleur, (int)$idProd);
         $response = ['success' => true, 'message' => 'Produit ajouté au panier'];
         // Redirection vers la page produit après succès
-        if ($_GET['idProduit'])
-        header('Location: achatProduit.php?id=' . $idProd. '&show_popup_succes=1');
+        if (isset($_GET['idProduit']))
+            header('Location: boutique.php?&show_popup_succes=1');
+        else
+            header('Location: achatProduit.php?id=' . $idProd. '&show_popup_succes=1');
         exit();
     } catch (Exception $e) {
         header('Location: achatProduit.php?id=' . $idProd . '&show_popup_coul_err=1');

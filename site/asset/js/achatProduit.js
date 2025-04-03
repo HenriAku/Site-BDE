@@ -1,6 +1,22 @@
 const tabCarre = document.getElementsByClassName('carre-couleur');
 const hiddenInput = document.getElementById('selectedColor');
 
+const quantite = document.getElementById('quantite');
+quantite.addEventListener('input', function () {
+	const stock = parseInt(quantite.getAttribute('max'), 10);
+	let value = parseInt(this.value, 10);
+
+	if (value < 1) {
+		this.value = 1;
+	}
+
+	if (value > stock) {
+		this.value = stock;
+	}
+})
+
+selectCouleur(0);
+
 for (let index = 0; index < tabCarre.length; index++) {
 	const element = tabCarre[index];
 	element.addEventListener("click", () => {

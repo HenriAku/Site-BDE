@@ -39,7 +39,7 @@
 					<p>Stock : {{produit.stock}}</p>
 					<div class="quantite">
 						<label for="QuantiteAchat">Quantité</label>
-						<input type="number" id="quantite" name="quantie" value="1"> <!-- bloquer négatif -->
+						<input type="number" id="quantite" name="quantie" value="1" max={{produit.stock}}> <!-- bloquer négatif -->
 					</div>
 				</div>
 				<div class="btns">		
