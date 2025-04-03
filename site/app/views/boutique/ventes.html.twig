@@ -20,11 +20,11 @@
 
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Gestion des participations</h1>
+        <h1>Gestion des Ventes</h1>
     </div>
 </div>
 
-<form method="post" enctype="multipart/form-data" action="/payer_participation.php">
+<form method="post" enctype="multipart/form-data" action="/valider_ventes.php">
 <div class="row flex-grow-1">
     <div class="col">
         <div class="table-responsive">
@@ -33,29 +33,33 @@
                     <tr>
                         <th scope="col">Nom</th>
                         <th scope="col">Prénom</th>
-                        <th scope="col">Evenement</th>
-                        <th scope="col">Date Evenement</th>
-                        <th scope="col">Prix</th>
+                        <th scope="col">Mail</th>
+                        <th scope="col">Numéro Vente</th>
+                        <th scope="col">Produit</th>
+                        <th scope="col">Prix unitaire </th>
+                        <th scope="col">Quantite</th>
                         <th scope="col" class="actions-cell">Statut Paiement</th>
                     </tr>
                 </thead>
                 <tbody id="partTableBody">
-                    {% for participation in participations %}   
-                        <tr id="participation-row-{{ participation.idParticipation }}">
-                            <td>{{ participation.nom_etu }}</td>
-                            <td>{{ participation.prenom_etu }}</td>
-                            <td>{{ participation.nom_event }}</td>
-                            <td>{{ participation.dateDebut }}</td>
-                            <td>{{ participation.prix }} €</td>
+                    {% for vente in ventes %}   
+                        <tr id="vente-row-{{ vente.n_event }}">
+                            <td>{{ vente.nom_etu }}</td>
+                            <td>{{ vente.prenom_etu }}</td>
+                            <td>{{ vente.libelle_prod }}</td>
+                            <td>{{ vente.mail_etu }}</td>
+                            <td>{{ vente.n_event }}</td>
+                            <td>{{ vente.libelle_prod }}</td>
+                            <td>{{ vente.prix_prod }} €</td>
+                            <td>{{ vente.quantite_vente }}</td>
                             <td class="actions-cell">
-                                {% if participation.a_payer %}
+                                {% if vente.estPayee %}
                                     <button class="btn-payment btn-paid" disabled>
                                         <i class="fas fa-check-circle"></i> Payé
                                     </button>
                                 {% else %}
-                                    <form method="post" action="/payer_participation.php" style="display: inline;">
-                                        <input type="hidden" name="idEvent" value="{{ participation.getIdEvent() }}">
-                                        <input type="hidden" name="idEtu" value="{{ participation.getIdAdherent() }}">
+                                    <form method="post" action="/valider_ventes.php" style="display: inline;">
+                                        <input type="hidden" name="idVente" value="{{ vente.getN_event() }}">
                                         <button type="submit" class="btn-payment btn-unpaid">
                                             <i class="fas fa-exclamation-circle"></i> À payer
                                         </button>
@@ -65,7 +69,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="text-center text-muted py-4">Aucune participation trouvée</td>
+                            <td colspan="6" class="text-center text-muted py-4">Aucune Ventes trouvée</td>
                         </tr>
                     {% endfor %}
                 </tbody>
