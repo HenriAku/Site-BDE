@@ -15,8 +15,18 @@ class UserController extends Controller {
         $repository = new UserRepository();
         $users = $repository->findAll();
         
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('/user/index.html.twig', ['users' => $users, 'admin' => null]);
+
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            
+            $this->view('/user/index.html.twig', ['users' => $users, 'admin' => $perm]);
+        }
         
-        $this->view('/user/index.html.twig', ['users' => $users]);
     }
 
     public function create() 
@@ -169,14 +179,21 @@ class UserController extends Controller {
 
         if($authServ->isLoggedIn())
         {
-            echo "<script>console.log('sa passe');</script>";
             $user = $authServ->getUser();
-            $this->view('/user/profil.html.twig', ['user' => $user]);
+            //$servUser = new AuthService();
+            if($authServ->getUser() === null)
+            {
+                $this->view('/user/profil.html.twig', ['user' => $user,'admin' => null]);
+    
+            }else{
+                $perm = $user->getAdmin();
+                
+                $this->view('/user/profil.html.twig', ['user' => $user,'admin' => $perm]);
+            }
         }
         else
         {
             $this->redirectTo('login.php');
-            echo "<script>console.log('sa passe pas');</script>";
         }
 
 

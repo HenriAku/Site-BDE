@@ -6,6 +6,8 @@ require_once './app/repositories/ProduitRepository.php';
 require_once './app/trait/FormTrait.php';
 require_once './app/repositories/EvenementRepository.php';
 require_once './app/repositories/NewsRepository.php';
+require_once './app/repositories/UserRepository.php';
+require_once './app/services/AuthService.php';
 
 
 class HomeController extends Controller
@@ -18,11 +20,26 @@ class HomeController extends Controller
     
         $newRepo = new NewsRepository();
         $news = $newRepo->findAll();
-        
-        $this->view('index.html.twig', [
-            'evenements' => $evenements,
-            'news' => $news
-        ]);
+
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('index.html.twig', [
+                'evenements' => $evenements,
+                'news' => $news,
+                'admin' => null
+            ]);
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            
+            $this->view('index.html.twig', [
+                'evenements' => $evenements,
+                'news' => $news,
+                'admin' => $perm
+            ]);
+        }
+
     }
 
     public function purchase()
