@@ -1,6 +1,8 @@
 <?php
 require_once './app/core/Controller.php';
 require_once './app/repositories/ProduitRepository.php';
+require_once './app/services/AuthService.php';
+
 
 class BoutiqueController extends Controller
 {
@@ -11,7 +13,19 @@ class BoutiqueController extends Controller
         $Produits = $ProduitRepo->findAll("libelle_prod", true);
         $images = $ProduitRepo->getImg();
 
-        $this->view('/boutique/boutique.html.twig', ['Produits' => $Produits, 'images' => $images]);
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('/boutique/boutique.html.twig', ['Produits' => $Produits, 'images' => $images, 'admin' => null]);
+
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            
+            $this->view('/boutique/boutique.html.twig', ['Produits' => $Produits, 'images' => $images, 'admin' => $perm]);
+        }
+
+        
     }
 
     public function trier_article()

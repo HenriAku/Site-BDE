@@ -35,6 +35,18 @@ class PanierRepository {
         return $nomProd;
     }
 
+    public function achete($userId, $panierId, $panierQte)
+    {
+        $stmt = $this->pdo->prepare('INSERT INTO achete (n_prod, n_etu, quantite_vente) 
+                                     VALUES (:n_prod, :n_etu, :qte)');
+ 
+        return $stmt->execute([
+            'n_prod' => $panierId,
+            'n_etu' => $userId,
+            'qte' => $panierQte
+        ]);
+    }
+
     private function createDPanierFromRow(array $row): Panier 
     {        
         return new Panier(
@@ -50,7 +62,7 @@ class PanierRepository {
     public function create(Panier $panier): bool 
     {
         $stmt = $this->pdo->prepare('INSERT INTO detail_panier (n_dp, n_prod, n_etu,taille_prod, couleur_prod, quantite_dp) 
-                                     VALUES (:n_dp, :n_prod, :n_etu, :taille_prod, :couleur_prod :quantite_dp)');
+                                     VALUES (:n_dp, :n_prod, :n_etu, :taille_prod, :couleur_prod, :quantite_dp)');
         return $stmt->execute([
             'n_dp' => $panier->getn_panier(),
             'n_prod' => $panier->getn_produit(),
@@ -88,7 +100,7 @@ class PanierRepository {
         return $rowsAffected > 0;
     }
 
-    public function findById(int $id): ?User {
+    public function findById(int $id): ?Panier {
         $stmt = $this->pdo->prepare('SELECT * FROM "detail_panier" WHERE n_dp = :id');
         $stmt->execute(['id' => $id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);

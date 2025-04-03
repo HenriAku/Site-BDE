@@ -1,6 +1,7 @@
 <?php
 require_once './app/core/Controller.php';
 require_once './app/repositories/ProduitRepository.php';
+require_once './app/repositories/AchatProduitRepository.php';
 
 class AchatProduitController extends Controller
 {
@@ -10,6 +11,9 @@ class AchatProduitController extends Controller
             $ProduitRepo = new ProduitRepository();
             $produit = $ProduitRepo->findById($idProduit); // Récupère les détails du produit
             $images = $ProduitRepo->getImg();
+            
+            $AchatProduitRepo = new AchatProduitRepository();
+            //$couleurs = $AchatProduitRepo->findAll();
 
             $this->view('/boutique/achatProduit.html.twig', ['produit' => $produit, "images" => $images]);
         } else {

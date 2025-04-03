@@ -23,6 +23,7 @@ class ProduitController extends Controller {
         $index = null;
         $selectedProduct = null;
 
+
         if (!empty($data)) {
             try {
                 $action = $_POST['action'] ?? '';
@@ -76,7 +77,7 @@ class ProduitController extends Controller {
                 switch ($action) 
                 {
                     case 'add':
-                        $ProduitRepo->create($Produit);
+                        $ProduitRepo->create($Produit,  $imagePath);
                         break;
                     case 'update':
                         $success = $ProduitRepo->updateProduit($Produit, $index);
@@ -104,54 +105,84 @@ class ProduitController extends Controller {
             $selectedProduct = $ProduitRepo->findById($index);
         }
     
-        $this->view('/produit/index.html.twig', [
-            'Produits' => $Produits,
-            'images' => $images,
-            'index' => $index,
-            'selectedProduct' => $selectedProduct,
-            'nom' => $nom ?? ($selectedProduct->name ?? ''),
-            'description' => $description ?? ($selectedProduct->description ?? ''),
-            'prix' => $prix ?? ($selectedProduct->price ?? ''),
-            'stock' => $stock ?? ($selectedProduct->stock ?? ''),
-            'categorie' => $categorie ?? ($selectedProduct->categorie ?? ''),
-            'taille' => $taille ?? ($selectedProduct->taille ?? ''),
-            'colorPicker' => $colorPicker ?? ($selectedProduct->color ?? '#ff0000'),
-            'errors' => $errors,
-            'message' => $_SESSION['message'] ?? null
-        ]);
+        $servUser = new AuthService();
+        if($servUser->getUser() === null)
+        {
+            $this->view('/produit/index.html.twig', [
+                'Produits' => $Produits,
+                'images' => $images,
+                'index' => $index,
+                'selectedProduct' => $selectedProduct,
+                'nom' => $nom ?? ($selectedProduct->name ?? ''),
+                'description' => $description ?? ($selectedProduct->description ?? ''),
+                'prix' => $prix ?? ($selectedProduct->price ?? ''),
+                'stock' => $stock ?? ($selectedProduct->stock ?? ''),
+                'categorie' => $categorie ?? ($selectedProduct->categorie ?? ''),
+                'taille' => $taille ?? ($selectedProduct->taille ?? ''),
+                'colorPicker' => $colorPicker ?? ($selectedProduct->color ?? '#ff0000'),
+                'errors' => $errors,
+                'message' => $_SESSION['message'] ?? null,
+                'admin' => null
+            ]);
+        }else{
+            $user = $servUser->getUser();
+            $perm = $user->getAdmin();
+            $this->view('/produit/index.html.twig', [
+                'Produits' => $Produits,
+                'images' => $images,
+                'index' => $index,
+                'selectedProduct' => $selectedProduct,
+                'nom' => $nom ?? ($selectedProduct->name ?? ''),
+                'description' => $description ?? ($selectedProduct->description ?? ''),
+                'prix' => $prix ?? ($selectedProduct->price ?? ''),
+                'stock' => $stock ?? ($selectedProduct->stock ?? ''),
+                'categorie' => $categorie ?? ($selectedProduct->categorie ?? ''),
+                'taille' => $taille ?? ($selectedProduct->taille ?? ''),
+                'colorPicker' => $colorPicker ?? ($selectedProduct->color ?? '#ff0000'),
+                'errors' => $errors,
+                'message' => $_SESSION['message'] ?? null,
+                'admin' => $perm
+            ]);
+        } 
         
         // Effacer le message après l'avoir affiché
         unset($_SESSION['message']);
     }
 
     private function handleImageUpload($file) {
-        $targetDir = "../asset/images/produit/";
-        $targetFile = $targetDir . basename($file["name"]);
+        // Use absolute path from your project root
+        $targetDir = __DIR__ . "/../../asset/images/produit/";
+        
+        // Create directory if it doesn't exist
+        if (!file_exists($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
+    
+        // Generate a unique filename to prevent overwrites
+        $fileName = uniqid() . '_' . basename($file["name"]);
+        $targetFile = $targetDir . $fileName;
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
+    
         // Vérifications de sécurité
         $check = getimagesize($file["tmp_name"]);
         if ($check === false) {
             throw new Exception("Le fichier n'est pas une image.");
         }
-
-        if (file_exists($targetFile)) {
-            throw new Exception("Un fichier avec ce nom existe déjà.");
-        }
-
+    
         if ($file["size"] > 500000) {
             throw new Exception("Le fichier est trop volumineux.");
         }
-
+    
         if (!in_array($imageFileType, ["jpg", "png", "jpeg", "gif"])) {
             throw new Exception("Seuls les fichiers JPG, JPEG, PNG & GIF sont autorisés.");
         }
-
+    
         if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
             throw new Exception("Une erreur est survenue lors du téléchargement de l'image.");
         }
-
-        return $targetFile;
+    
+        // Return the relative path for database storage
+        return $fileName;
     }
 
     private function checkAuth() {

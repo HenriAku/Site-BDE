@@ -9,7 +9,8 @@ class User {
         private ?string $password, 
         private ?string $netu, 
         private bool $estvalide = false, 
-        private bool $estadmin = false
+        private bool $estadmin = false,
+        private bool $estconnecte
     ) {}
 
     public function getId(): ?int
@@ -87,6 +88,16 @@ class User {
         $this->estadmin = $estadmin;
     }
 
+    public function getConnecte(): bool
+    {
+        return $this->estconnecte;
+    }
+
+    public function setConnecte(bool $estconnecte): void
+    {
+        $this->estconnecte = $estconnecte;
+    }
+
     public function __serialize(): array
     {
         return [
@@ -97,7 +108,9 @@ class User {
             'password' => $this->password,
             'netu' => $this->netu,
             'estvalide' => $this->estvalide,
-            'estadmin' => $this->estadmin
+            'estadmin' => $this->estadmin,
+            'estconnecte' => $this->estconnecte
+
         ];
     }
 
@@ -111,6 +124,7 @@ class User {
         $this->netu = $data['netu'] ?? null;
         $this->estvalide = $data['estvalide'] ?? false;
         $this->estadmin = $data['estadmin'] ?? false;
+        $this->estconnecte = $data['estconnecte'] ?? true;
     }
 }
 ?>

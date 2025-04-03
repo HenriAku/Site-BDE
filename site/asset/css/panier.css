@@ -48,3 +48,38 @@ body{
     border: 1px solid #ddd;
     border-radius: 3px;
 }
+
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+}
+.buy-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.buy-btn:hover {
+    background-color: #45a049;
+}
+.buy-all-btn {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+.buy-all-btn:hover {
+    background-color: #0b7dda;
+}
