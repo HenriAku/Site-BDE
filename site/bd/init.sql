@@ -72,6 +72,7 @@ CREATE TABLE Achete (
                          n_etu INT NOT NULL,
                          quantite_vente INTEGER NOT NULL,
                          date_vente TIMESTAMP DEFAULT NOW(),
+                         estPayee boolean DEFAULT false, 
                          FOREIGN KEY (n_prod) REFERENCES Produit(n_prod) ON DELETE CASCADE,
                          FOREIGN KEY (n_etu) REFERENCES Adherent(n_etu) ON DELETE CASCADE
 );

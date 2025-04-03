@@ -39,7 +39,7 @@ class UserController extends Controller {
 
         if (!empty($data)) {
             try {
-                $errors = [];
+                $errors = []; 
 
                 // Validation des données
                 if (empty($data['firstname'])) {

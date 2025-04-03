@@ -63,4 +63,41 @@ class NewsRepository {
         }
             
     }
+
+    public function update(
+        int $id,
+        string $titre, 
+        string $contenu
+    ): bool {
+        try {
+            $query = "UPDATE Article SET
+                     titre_art = :titre,
+                     contenu_art = :contenu
+                     WHERE n_art = :id";
+            
+            $stmt = $this->db->prepare($query);
+            $params = [
+                ':titre' => $titre,
+                ':contenu' => $contenu,
+                ':id' => $id
+            ];
+ 
+            $stmt->execute($params);
+            return true;
+        } catch (Exception $e) {
+            error_log("Erreur mise à jour événement: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function delete(int $id): bool {
+        if (!$this->db) {
+            throw new Exception('Connexion PDO non initialisée');
+        }
+        $stmt = $this->db->prepare('DELETE FROM Article WHERE n_art = :id');
+        $stmt->execute(['id' => $id]);
+        $rowsAffected = $stmt->rowCount();
+        return $rowsAffected > 0;
+    }
+
 }
