@@ -31,4 +31,32 @@ use FormTrait;
         }
 
     }
+
+    public function achete($userId, $produit_id, $panierQte, $panierId)
+    {
+        $repo = new PanierRepository();
+
+        $repo->achete($userId, $panierId, $panierQte);
+
+        $repo->delete($panierId);
+    }
+
+    public function acheteToutPanier($userId):bool
+    {
+        $repo = new PanierRepository();
+
+        $paniers = $repo->findAll();
+
+        foreach($paniers as $panier)
+        {
+            if($panier->getn_user() == $userId)
+            {
+                $repo->achete($userId, $panier->getn_panier(), $panier->getqte());
+                $repo->delete($panier->getn_panier());
+            }
+        }
+
+        return true;
+    }
+
 }

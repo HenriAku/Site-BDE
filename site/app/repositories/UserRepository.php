@@ -10,10 +10,9 @@ class UserRepository {
     }
 
     public function findAll(): array {
-        $stmt = $this->pdo->query('SELECT * FROM "adherent"');
+        $stmt = $this->pdo->query('SELECT * FROM "adherent" where estconnecte = true');
         $users = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) 
-        {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $users[] = $this->createUserFromRow($row);
         }
         return $users;
@@ -35,7 +34,9 @@ class UserRepository {
             $row['mdp_etu'],
             $row['num_etu'],
             (bool)($row['estvalide'] ?? false),
-            $estAdmin
+            $estAdmin,
+            (bool)($row['estconnecte'] ?? true)
+
         );
     }
 

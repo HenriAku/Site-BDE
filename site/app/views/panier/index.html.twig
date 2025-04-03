@@ -58,6 +58,17 @@
                                     <td>{{ produit.getPrice() * panier.getqte() }} €</td>
                                 </tr>
                             </table>
+                            <div class="action-buttons">
+                                <form method="post" action="./paiement_connecte.php" style="display: inline;">
+                                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                                    <input type="hidden" name="produit_id" value="{{ panier.getn_produit() }}">
+                                    <input type="hidden" name="panier_id" value="{{ panier.getn_panier() }}">
+                                    <input type="hidden" name="panier_qte" value="{{ panier.getqte() }}">
+                                    <button type="submit" class="buy-btn" onclick="return confirm('Confirmez-vous l\'achat de cet article ?')">
+                                        Acheter cet article
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     {% set total_general = total_general + (produit.getPrice() * panier.getqte()) %}
@@ -67,6 +78,13 @@
             <div class="total-section">
                 <strong>Total général : {{ total_general }} €</strong>
             </div>
+            
+            <form method="post" action="./paiement_global_connecte.php" style="margin-top: 20px;">
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <button type="submit" class="buy-all-btn" onclick="return confirm('Confirmez-vous le paiement de tout votre panier ?')">
+                    Tout payer ({{ total_general }} €)
+                </button>
+            </form>>
         </div>
     {% else %}
         <p class="empty-cart">Votre panier est vide</p>
@@ -85,6 +103,18 @@
         } else {
             details.style.maxHeight = details.scrollHeight + 'px';
             arrow.classList.add('down');
+        }
+    }
+    
+    function confirmPurchase(userId, panierId) {
+        if (confirm('Confirmez-vous l\'achat de cet article ?')) {
+            window.location.href = '/paiement/single?user_id=' + userId + '&panier_id=' + panierId;
+        }
+    }
+    
+    function confirmAllPurchase(userId) {
+        if (confirm('Confirmez-vous le paiement de tout votre panier ?')) {
+            window.location.href = '/paiement/all?user_id=' + userId;
         }
     }
     
