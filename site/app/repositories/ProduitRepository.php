@@ -81,7 +81,7 @@ class ProduitRepository {
 
     public function findById(int $id): ?Produit {
         $stmt = $this->pdo->prepare('SELECT * FROM Produit WHERE n_prod = :id');
-        $stmt->execute(['id' => $id]);
+        $stmt->execute([':id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         
         return $row ? $this->createProduitFromRow($row) : null;
