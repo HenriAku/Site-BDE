@@ -87,6 +87,7 @@ class EvenementController extends Controller {
             $this->redirectTo('login.php');
         }
     }
+    
     public function show() {
         if (!isset($_GET['id'])) {
             die("ID invalide !");
