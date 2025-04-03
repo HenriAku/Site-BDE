@@ -370,8 +370,8 @@ INSERT INTO Achete (n_prod, n_etu, quantite_vente) VALUES
 -- Panier
 INSERT INTO Detail_panier VALUES
 (1, 2, 1, 'XL', '#45FA2C', 2),
-(3, 3, 2, 'M', '#44FCDC', 1),
-(4, 4, 3, 'XXL', '#71CA2C', 5); 
+(2, 3, 2, 'M', '#44FCDC', 1),
+(3, 4, 3, 'XXL', '#71CA2C', 5); 
 
 -- Consultations
 INSERT INTO Consulte (n_art, n_event, n_etu) VALUES
