@@ -42,7 +42,7 @@ class UserRepository {
     public function create(User $user): bool 
     {
         $stmt = $this->pdo->prepare('INSERT INTO adherent (num_etu, nom_etu, prenom_etu, admin, mdp_etu, mail_etu, estvalide) 
-                                    VALUES (:num_etu, :firstname, :lastname, :admin, :password, :email, :estvalide)');
+                                    VALUES (:num_etu, :lastname, :firstname, :admin, :password, :email, :estvalide)');
         return $stmt->execute([
             'num_etu' => $user->getNetu(),
             'firstname' => $user->getFirstname(),
