@@ -2,12 +2,21 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="../asset/css/event.css">
+    <link rel="stylesheet" href="../asset/css/ficheEvent.css">
 {% endblock %}
+
+{% block title %}{{ event.nom }}{% endblock %}
+
 
 {% block body %}
 <article class="event-container">
-    <h1>{{ event.nom }}</h1>
+        <h2 class="event-title">{{ event.getNom()}}
+            {% if event.getPrix() <= 0 %}
+                <span class="prix"> Gratuit</span>
+            {% else %}
+                <span>{{ event.getPrix()}} €</span>
+            {% endif %}
+        </h2>
 
     {% if event.getImage() %}
     <div class="event-main-image">
@@ -17,9 +26,13 @@
     
     <div class="event-header">
         <div class="event-meta">
-            <time>{{ event.dateDebut|date('d/m/Y H:i') }}</time>
-            <address>{{ event.adresse }}</address>
-            <div class="price">{{ event.prix }} €</div>
+            <p class="event-date">
+                {{ event.getDateDebut()|date('d/m/Y H:i') }}
+                <img src="../../asset/images/calendar.png" class="iut">
+                    <span class="tiret">-</span>
+                    {{ event.getAdresse() }}
+                <img src="../../asset/images/geo.png" class="iut">
+             </p>
         </div>
     </div>
 
@@ -37,7 +50,7 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                <span>{{ event.note_moyenne|number_format(1) }}/5 ({{ comments|length }} avis)</span>
+                {{event.note_moyenne|number_format(1) }}/5({{comments|length }} avis)
             {% else %}
                 <p>Pas encore noté</p>
             {% endif %}
@@ -48,7 +61,7 @@
         {% if user %}
             <form action="/reserver_event.php" method="post">
                 <input type="hidden" name="event_id" value="{{ event.getId() }}">
-                <button type="submit" class="btn-reserver">Réserver</button>
+                <button type="submit" class="btnEvent">S'incrire</button>
             </form>
         {% else %}
             <a href="/login.php" class="btn-reserver">Connectez-vous pour réserver</a>
@@ -82,7 +95,7 @@
                     <label for="avis">Votre commentaire</label>
                     <textarea name="avis" id="avis" class="form-control" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Envoyer</button>
+                <button type="submit" class="btnEvent">Envoyer</button>
             </form>
         </div>
     {% else %}
@@ -115,6 +128,6 @@
         {% endif %}
     </div>
 
-    <a href="/event.php" class="btn">Retour à la liste</a>
+    <a href="/event.php" class="btnEvent">Retour à la liste</a>
 </article>
 {% endblock %}
