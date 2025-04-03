@@ -2,10 +2,13 @@
 require_once './app/core/Controller.php';
 require_once './app/repositories/PanierRepository.php';
 require_once './app/repositories/UserRepository.php';
+require_once './app/repositories/ProduitRepository.php';
 require_once './app/trait/FormTrait.php';
 require_once './app/trait/AuthTrait.php';
 require_once './app/services/AuthService.php';
 require_once './vendor/autoload.php'; 
+
+use PHPMailer\PHPMailer\PHPMailer;
 
 class PanierController extends Controller {
 
@@ -33,8 +36,9 @@ class PanierController extends Controller {
     public function achete($userId, $produit_id, $panierQte, $panierId) {
         $repo = new PanierRepository();
         $userRepo = new UserRepository();
+        $prodRepo = new ProduitRepository();
         
-        $produit = $repo->getProduitById($produit_id);
+        $produit = $prodRepo->findById($produit_id);
         $user = $userRepo->findById($userId);
         
         $repo->achete($userId, $produit_id, $panierQte);
@@ -46,6 +50,7 @@ class PanierController extends Controller {
 
     public function acheteToutPanier($userId): bool {
         $repo = new PanierRepository();
+        $prodRepo = new ProduitRepository();
         $userRepo = new UserRepository();
         $paniers = $repo->findAll();
         $user = $userRepo->findById($userId);
@@ -55,7 +60,7 @@ class PanierController extends Controller {
         
         foreach($paniers as $panier) {
             if($panier->getn_user() == $userId) {
-                $produit = $repo->getProduitById($panier->getn_produit());
+                $produit = $prodRepo->findById($panier->getn_produit());
                 $repo->achete($userId, $panier->getn_produit(), $panier->getqte());
                 $repo->delete($panier->getn_panier());
                 
@@ -72,6 +77,118 @@ class PanierController extends Controller {
         $this->envoyerMailConfirmationGlobal($user, $detailsAchats, $total);
         
         return true;
+    }
+
+    private function envoyerMailConfirmation($user, $produit, $quantite) {
+        $mail = new PHPMailer(true);
+        
+        try {
+            // Configuration SMTP
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'bde.informatiquelh@gmail.com';
+            $mail->Password = 'cbse vsyc dbea vlgc';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+            
+            // Destinataires
+            $mail->setFrom('bde.informatiquelh@gmail.com', 'BDE Informatique');
+            $mail->addAddress($user->getEmail(), $user->getFirstname().' '.$user->getLastname());
+            
+            // Contenu
+            $mail->isHTML(true);
+            $mail->Subject = 'Confirmation de votre achat';
+            
+            $mail->Body = "
+                <h2>Confirmation d'achat</h2>
+                <p>Merci pour votre achat sur la boutique du BDE Informatique !</p>
+                
+                <h3>Détails de votre commande :</h3>
+                <table border='1' cellpadding='10'>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr>
+                        <td>{$produit->getName()}</td>
+                        <td>{$quantite}</td>
+                        <td>{$produit->getPrice()} €</td>
+                        <td>".($produit->getPrice() * $quantite)." €</td>
+                    </tr>
+                </table>
+                
+                <p>Total payé : <strong>".($produit->getPrice() * $quantite)." €</strong></p>
+                
+                <p>Cordialement,<br>L'équipe du BDE Informatique</p>
+            ";
+            
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("Erreur d'envoi d'email: ".$e->getMessage());
+        }
+    }
+    
+    private function envoyerMailConfirmationGlobal($user, $detailsAchats, $total) {
+        $mail = new PHPMailer(true);
+        
+        try {
+            // Configuration SMTP
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'bde.informatiquelh@gmail.com';
+            $mail->Password = 'cbse vsyc dbea vlgc';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+            
+            $mail->setFrom('bde.informatiquelh@gmail.com', 'BDE Informatique');
+            $mail->addAddress($user->getEmail(), $user->getFirstname().' '.$user->getLastname());
+            
+            $produitsRows = "";
+            foreach ($detailsAchats as $achat) {
+                $produitsRows .= "
+                    <tr>
+                        <td>{$achat['nom']}</td>
+                        <td>{$achat['quantite']}</td>
+                        <td>{$achat['prix_unitaire']} €</td>
+                        <td>{$achat['total']} €</td>
+                    </tr>
+                ";
+            }
+            
+            $mail->isHTML(true);
+            $mail->Subject = 'Confirmation de votre commande globale';
+            
+            $mail->Body = "
+                <h2>Confirmation de commande</h2>
+                <p>Merci pour votre achat sur la boutique du BDE Informatique !</p>
+                <h3>Détails de votre commande :</h3>
+                <table border='1' cellpadding='10'>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Total</th>
+                    </tr>
+                    {$produitsRows}
+                    <tr>
+                        <td colspan='3' align='right'><strong>Total général</strong></td>
+                        <td><strong>{$total} €</strong></td>
+                    </tr>
+                </table>
+                <p>Cordialement,<br>L'équipe du BDE Informatique</p>
+            ";
+            
+            echo "Envoi du mail en cours..."; // Débogage
+            $mail->send();
+            echo "Mail envoyé avec succès !";
+        } catch (Exception $e) {
+            error_log("Erreur d'envoi d'email: " . $e->getMessage());
+            echo "Erreur lors de l'envoi : " . $e->getMessage(); // Afficher l'erreur
+        }
     }
 
     public function delete($panier_id)
