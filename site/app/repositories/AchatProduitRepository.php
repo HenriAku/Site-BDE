@@ -10,7 +10,7 @@ class AchatProduitRepository {
         $this->pdo = Repository::getInstance()->getPDO();
     }
 
-    public function addPanier(string $taille, int $quantite, string $couleur, int $idProd ){
+    public function addPanier(string $taille, int $quantite, string $couleur, int $idProd, bool $redirect ){
         $service = new AuthService();
 
         $user = $service->getUser();
@@ -26,5 +26,11 @@ class AchatProduitRepository {
             ':couleur' => $couleur,
             ':quantite' => $quantite
         ]);
+
+            // Redirection vers panier.php si $redirect est true
+        if ($redirect) {
+            header('Location: /panier.php');
+        exit; // Assurez-vous de terminer le script après la redirection
+    }
     }
 }
