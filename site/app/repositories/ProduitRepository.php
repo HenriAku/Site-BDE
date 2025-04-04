@@ -28,42 +28,62 @@ class ProduitRepository {
         return $Produits;
     }
 
-    public function create(Produit $Produit, string $file){
-
-        $stmt = $this->pdo->prepare('
-            INSERT INTO Produit (libelle_prod, stock_prod, categorie_prod, prix_prod, description_prod, couleur_prod, taille_prod)
-            VALUES (:name, :stock, :category, :price, :description, :color, :size);
-        ');
-
-        $stmt->execute([
-            'name' => $Produit->getName(),
-            'stock' => $Produit->getStock(),
-            'category' => $Produit->getCategory(),
-            'price' => $Produit->getPrice(),
-            'description' => $Produit->getDescription(),
-            'color' => $Produit->getColor(),
-            'size' => $Produit->getSize()
-        ]);
-
-        $n_prod = $this->pdo->lastInsertId();
+    public function create(Produit $produit, string $filename) {
+        // Début de la transaction
+        $this->pdo->beginTransaction();
+    
+        try {
+            // 1. Insertion du produit
+            $stmt = $this->pdo->prepare('
+                INSERT INTO Produit (libelle_prod, stock_prod, categorie_prod, prix_prod, description_prod, couleur_prod, taille_prod)
+                VALUES (:name, :stock, :category, :price, :description, :color, :size)
+            ');
+    
+            $stmt->execute([
+                'name' => $produit->getName(),
+                'stock' => $produit->getStock(),
+                'category' => $produit->getCategory(),
+                'price' => $produit->getPrice(),
+                'description' => $produit->getDescription(),
+                'color' => $produit->getColor(),
+                'size' => $produit->getSize()
+            ]);
+    
+            $n_prod = $this->pdo->lastInsertId();
+    
+            // 2. Insertion du fichier
+            $stmt = $this->pdo->prepare('
+                INSERT INTO Fichier (nom_image) 
+                VALUES (:filename)
+            ');
+            $stmt->execute(['filename' => $filename]);
+    
+            // 3. Lien produit-fichier
+            $stmt = $this->pdo->prepare('
+                INSERT INTO contient_produit (n_prod, nom_image)
+                VALUES (:n_prod, :filename)
+            ');
+            $stmt->execute([
+                'n_prod' => $n_prod,
+                'filename' => $filename
+            ]);
+    
+            // Validation de la transaction
+            $this->pdo->commit();
+            return true;
+    
+        } catch (PDOException $e) {
+            // Annulation en cas d'erreur
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
             
-        // Insérer d'abord dans Fichier
-        $query = "INSERT INTO Fichier (nom_image) VALUES (:filename)";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute([':filename' => $file]);
-        
-        // Puis dans contient_evenement
-        $query = "INSERT INTO contient_produit (n_prod, nom_image)
-                    VALUES (:n_prod, :filename)";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute([
-            ':n_prod' => $n_prod,
-            ':filename' => $file
-        ]);
-        
-        
-        $this->pdo->commit();
-        return true;
+            // Log de l'erreur (optionnel)
+            error_log("Erreur création produit: " . $e->getMessage());
+            
+            // Relance de l'exception pour la gérer dans le contrôleur
+            throw new Exception("Erreur lors de la création du produit: " . $e->getMessage());
+        }
     }
 
     public function createProduitFromRow(array $row): Produit {

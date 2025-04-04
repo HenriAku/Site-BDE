@@ -46,6 +46,10 @@ class ProduitController extends Controller {
                 if (empty($data['taille'])) {
                     $errors[] = 'La taille ne peut pas être vide.';
                 }
+
+                if (empty($_FILES['image']['name'])) {
+                    $errors[] = 'Image Obligatoire';
+                }
     
                 if (!empty($errors)) {
                     throw new Exception(implode(', ', $errors));

@@ -42,6 +42,20 @@ h1{
     margin-bottom: 50px;
 }
 
+.erreur {
+    display: flex;
+    justify-content: center;
+    width: 100%; 
+    margin: 0 auto 20px auto; 
+}
+
+.alert.alert-danger {
+    width: auto;
+    max-width: 80%; 
+    padding: 15px;
+    border-radius: 4px; 
+}
+
 .Formulaire label {
     display: block;
     margin-bottom: 0.5rem;
@@ -141,5 +155,7 @@ h1{
 .news{
     margin-bottom: 20%;
 }
+
+
 
 
