@@ -31,6 +31,14 @@ class ProduitController extends Controller {
                 $index = $_POST['prodId'];
     
                 // Validation des données
+                
+                if ($data['action'] === "add") 
+                {
+                    if (empty($_FILES['image']['name'])) 
+                    {
+                        $errors[] = 'Image Obligatoire';
+                    }
+                }
                 if (empty($data['nom'])) {
                     $errors[] = 'Le nom est requis.';
                 }
@@ -47,9 +55,7 @@ class ProduitController extends Controller {
                     $errors[] = 'La taille ne peut pas être vide.';
                 }
 
-                if (empty($_FILES['image']['name'])) {
-                    $errors[] = 'Image Obligatoire';
-                }
+                
     
                 if (!empty($errors)) {
                     throw new Exception(implode(', ', $errors));
