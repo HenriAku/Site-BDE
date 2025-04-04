@@ -10,8 +10,6 @@
     font-weight: bold;
 }
 
-/* Liste des événements */
-
 .event-card {
     align-items: center;
     border-radius: 8px;
@@ -66,6 +64,10 @@ span{
     display: flex;
     align-items: center;
     width: 10%;
+}
+
+.voir-button:hover {
+    background-color: #98e1f5;
 }
 
 .voir-text {

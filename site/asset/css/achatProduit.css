@@ -57,20 +57,24 @@ body{
 
 .stock-quantite {
     display: flex;
-    justify-content: space-between; /* Aligne le stock à gauche et la quantité à droite */
-    align-items: center; /* Centre verticalement */
-    width: 100%; /* Permet un bon alignement */
+	flex-direction: row;
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+}
+
+.stock-quantite p{
+	font-size: 1.2rem;
+	margin-top: 15px;
 }
 
 .quantite {
     display: flex;
     align-items: center;
-    gap: 5px; /* Espacement entre "Quantité" et l'input */
+    gap: 5px; 
 }
 
-.stock-quantite p{
-	font-size: 1.2rem;
-}
+
 
 .quantite input{
 	width: 70px;
