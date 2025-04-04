@@ -52,7 +52,7 @@
                         data-stock="{{ Produit.getStock() }}"
                         data-categorie="{{ Produit.getCategorie() }}"
                         data-taille="{{ Produit.getTaille() }}"
-                        data-description="{{ Produit.getDescription() }}"
+                        data-description="{{ Produit.getDescription()|e('html_attr') }}"
                         {% if index == Produit.getn_produit() %}selected{% endif %}>
                         {{ Produit.getName() }}
                     </option>
@@ -118,7 +118,6 @@
         const Produits = {{ Produits|json_encode|raw }};
         const selectedProduct = {{ selectedProduct|json_encode|raw|default('null') }};
         
-        // Initialisation des valeurs si un produit est sélectionné
         if (selectedProduct) {
             document.getElementById('nom').value = selectedProduct.name || '';
             document.getElementById('description').value = selectedProduct.description || '';
