@@ -21,7 +21,6 @@
 				<div class="couleurDispo">
 					{% set couleurs = produit.color|split(',') %}
 					{% for couleur in couleurs %}
-						<p>{{couleur}}</p>
 						<div class="carre-couleur" style="background-color: {{ couleur }};" data-color="{{ couleur }}"></div>
 					{% endfor %}
 				</div>
