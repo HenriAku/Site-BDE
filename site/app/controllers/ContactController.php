@@ -54,22 +54,19 @@ class ContactController extends Controller
 
                 // Configuration de PHPMailer
                 $mail = new PHPMailer(true);
-                $mail->SMTPDebug = 2; // Active le débogage pour voir les erreurs détaillées
+                $mail->SMTPDebug = 0; 
                 
-                // Paramètres du serveur SMTP
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'bde.informatiquelh@gmail.com';
-                $mail->Password = 'cbse vsyc dbea vlgc'; // Mot de passe corrigé sans espaces, remplacez par le vôtre si différent
+                $mail->Password = 'cbse vsyc dbea vlgc';
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
-                // Destinataire et expéditeur
                 $mail->setFrom($data['email'], 'Formulaire Contact');
                 $mail->addAddress('bde.informatiquelh@gmail.com');
 
-                // Contenu de l'email
                 $mail->isHTML(true);
                 $mail->Subject = $data['objet'];
                 $mail->Body    = '<h2>Nouveau message de contact</h2>' .
@@ -79,7 +76,6 @@ class ContactController extends Controller
                                "Email: " . $data['email'] . "\n" .
                                "Message: " . $data['msg'];
 
-                // Envoi de l'email
                 $mail->send();
                 
                 $success = 'Votre message a été envoyé avec succès !';
