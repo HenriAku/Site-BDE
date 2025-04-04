@@ -47,5 +47,11 @@ if ($taille && $quantite && $couleur && $idProd) {
         header('Location: achatProduit.php?id=' . $idProd . '&show_popup_coul_err=1');
     }
 } 
-
+else
+{
+    echo $taille;
+    echo $quantite;
+    echo $couleur;
+    echo $idProd;
+}
 

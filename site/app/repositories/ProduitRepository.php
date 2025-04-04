@@ -45,7 +45,7 @@ class ProduitRepository {
                 'category' => $produit->getCategory(),
                 'price' => $produit->getPrice(),
                 'description' => $produit->getDescription(),
-                'color' => $produit->getColor(),
+                'color' => rtrim($produit->getColor(), ','),
                 'size' => $produit->getSize()
             ]);
     
@@ -129,7 +129,7 @@ class ProduitRepository {
             'category' => $Produit->getCategory(),
             'price' => $Produit->getPrice(),
             'description' => $Produit->getDescription(),
-            'color' => $Produit->getColor(),
+            ':color' => rtrim($Produit->getColor(), ','), //$Produit->getColor(),
             'size' => $Produit->getSize()
         ], true));
     
@@ -151,7 +151,7 @@ class ProduitRepository {
             ':categorie' => $Produit->getCategory(),
             ':prix' => $Produit->getPrice(),
             ':description' => $Produit->getDescription(),
-            ':color' => $Produit->getColor(),
+            ':color' => rtrim($Produit->getColor(), ','),
             ':size' => $Produit->getSize(),
             ':id' => $id
         ];
