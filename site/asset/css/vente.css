@@ -29,22 +29,23 @@ h1{
 	color : white;
 }
 
-form{
-    margin: 0 auto;
-    margin-top: 2vh;
-    margin-bottom: 50px;
-	width: 80%;
-}
 
+.table-responsive{
+	align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2%;
+}
 table {
-	width: 100%;
+	width: 80%;
 	border-collapse: collapse; 
 	margin: 20px 0;
 	box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+	margin-bottom: 100px;
 }
 
 thead {
-	background-color: #D7EBF1; 
+	background-color: #b8e3f1; 
 	color: white;
 }
 
