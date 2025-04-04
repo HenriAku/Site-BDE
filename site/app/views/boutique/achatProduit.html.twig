@@ -15,7 +15,11 @@
 			<input type="hidden" id="selectedColor" name="selectedColor" value="">
 			<input type="hidden" id="idProduit" name="idProduit" value={{produit.n_produit}}>
 			<input type="hidden" id="redirection" name="redirection" value="false">
-			<img src="../asset/images/produit/{{ images[produit.n_produit-1].nom_image }}" alt="Image du produit">
+			{% for image in images %}
+				{% if image.n_prod == produit.n_produit %}
+					<img id="{{ Produit.n_produit }}" class="image-prod" src="./asset/images/produit/{{image.nom_image}}">
+				{% endif %}
+			{% endfor %}
 			<div class="info">
 				<h1>{{produit.name}}</h1>
 				<div class="couleurDispo">

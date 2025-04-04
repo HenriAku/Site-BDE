@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mise à jour de l'ID du produit
         const prodIdInput = document.getElementById('prodId');
         prodIdInput.value = selectedOption.value;
-            
+        console.log(Produits.color);
         if (color) {
             colorBox.style.backgroundColor = color;
             colorBox.style.visibility = 'visible';
