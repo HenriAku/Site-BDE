@@ -86,6 +86,18 @@ class ProduitRepository {
         }
     }
 
+    public function baisserQte($idProd, $qte)
+    {
+        $stmt = $this->pdo->prepare('UPDATE produit SET stock_prod = stock_prod - :qte WHERE n_prod = :n_prod AND stock_prod >= :qte');
+
+        return $stmt->execute([
+            'n_prod' => $idProd,
+            'qte' => $qte
+        ]);
+
+        die();
+    }
+
     public function createProduitFromRow(array $row): Produit {
         return new Produit(
             $row['n_prod'],
@@ -120,7 +132,7 @@ class ProduitRepository {
         
         return $images;
     }
-
+ 
     public function updateProduit(Produit $Produit, int $id): bool {
         error_log("Tentative de mise à jour du produit ID: " . $id);
         error_log("Données du produit: " . print_r([

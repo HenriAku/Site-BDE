@@ -35,13 +35,18 @@ class PanierRepository {
         return $nomProd;
     }
 
-    public function achete($userId, $panierId, $panierQte)
+    public function achete($userId, $produit_id, $panierQte)
     {
+        $prodRepo = new ProduitRepository();
+
         $stmt = $this->pdo->prepare('INSERT INTO achete (n_prod, n_etu, quantite_vente) 
                                      VALUES (:n_prod, :n_etu, :qte)');
  
+        
+        $prodRepo->baisserQte($produit_id, $panierQte);
+
         return $stmt->execute([
-            'n_prod' => $panierId,
+            'n_prod' => $produit_id,
             'n_etu' => $userId,
             'qte' => $panierQte
         ]);

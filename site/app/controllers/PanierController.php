@@ -70,6 +70,7 @@ class PanierController extends Controller {
                 $repo->achete($userId, $panier->getn_produit(), $panier->getqte());
                 $repo->delete($panier->getn_panier());
                 
+
                 $total += $produit->getPrice() * $panier->getqte();
                 $detailsAchats[] = [
                     'nom' => $produit->getName(),

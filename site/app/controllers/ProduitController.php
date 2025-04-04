@@ -72,6 +72,8 @@ class ProduitController extends Controller {
                     $colors .= $color.","; 
                 }
     
+                
+
                 $Produit = new Produit(
                     null, 
                     $data['nom'],
@@ -83,7 +85,7 @@ class ProduitController extends Controller {
                     $data['taille']
                 );
                 
-    
+
                 switch ($action) 
                 {
                     case 'add':
