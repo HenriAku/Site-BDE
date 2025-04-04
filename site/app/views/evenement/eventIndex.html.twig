@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="../asset/css/event.css">
+    <link rel="stylesheet" href="asset/css/event.css">
 {% endblock %}
 
 {% block title %}<title>Event - BDE Infromatique</title>{% endblock %}
@@ -24,17 +24,17 @@
 
         {% if event.getImage() %}
             <div class="event-image">
-                <img src="/asset/images/evenements/{{ event.getImage() }}" alt="{{ event.getNom() }}">
+                <img src="asset/images/evenements/{{ event.getImage() }}" alt="{{ event.getNom() }}">
             </div>
         {% endif %}
 
         <p class="event-description">{{ event.getDescription() }}</p>
         <p class="event-date">
             {{ event.getDateDebut()|date('d/m/Y') }}
-            <img src="../../asset/images/calendar.png" class="iut">
+            <img src="asset/images/calendar.png" class="iut">
                 <span class="tiret">-</span>
                  {{ event.getAdresse() }}
-            <img src="../../asset/images/geo.png" class="iut">
+            <img src="asset/images/geo.png" class="iut">
         </p>
         <p class="event-note">
             Note : 
@@ -51,7 +51,7 @@
             {% endif %}
         </p>
         <div class="voir-button">
-            <div class="voir-text"><a href="/event.php?id={{ event.getId() }}">Voir plus</a></div>
+            <div class="voir-text"><a href="event.php?id={{ event.getId() }}">Voir plus</a></div>
         </div>
     </div>
     {% endfor %}

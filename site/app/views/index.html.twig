@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }} 
-    <link rel="stylesheet" href="../asset/css/accueil.css">
+    <link rel="stylesheet" href="asset/css/accueil.css">
 {% endblock %}
 
 
@@ -14,7 +14,7 @@
             <h1>BDE INFORMATIQUE</h1>
             <h2>Organisateur de sortie et de soirée pour le département Informatique.</h2>
         </div>
-        <div><img src="../../asset/images/grand-logo.png" alt="Logo BDE" ></div>
+        <div><img src="asset/images/grand-logo.png" alt="Logo BDE" ></div>
     </div>
 
     <div class="section2">
@@ -33,10 +33,10 @@
                                         <hr>
                                         <p class="event-date">
                                             {{ event.dateDebut|date('d/m/Y') }}
-                                            <img src="../../asset/images/calendar.png" class="iut">
+                                            <img src="asset/images/calendar.png" class="iut">
 
                                              - {{ event.adresse }}
-                                            <img src="../../asset/images/geo.png" class="iut">
+                                            <img src="asset/images/geo.png" class="iut">
 
                                         </p>
                                     </div>
@@ -59,7 +59,7 @@
 
     <div class="section 3">
         <div class="iut-container">
-            <img src="../../asset/images/iut1.jpg" class="iut">
+            <img src="asset/images/iut1.jpg" class="iut">
         </div>
         <div class="text">
             <p><strong>DEPUIS 2024</strong> <br>Le BDE Informatique vous accompagne dans la vie étudiante</p>
@@ -83,7 +83,7 @@
                                         <hr>
                                         <p class="new-date">
                                             {{ new.date|date('d/m/Y') }}
-                                            <img src="../../asset/images/calendar.png" class="iut">
+                                            <img src="asset/images/calendar.png" class="iut">
                                         </p>
                                     
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newsModal{{ new.id }}">
@@ -109,7 +109,7 @@
                                     <hr>
                                     <p>
                                         <strong>Date :</strong> {{ new.date|date('d/m/Y') }}
-                                        <img src="../../asset/images/calendar.png" class="iut">
+                                        <img src="asset/images/calendar.png" class="iut">
                                     </p>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="../asset/css/ficheEvent.css">
+    <link rel="stylesheet" href="asset/css/ficheEvent.css">
 {% endblock %}
 
 {% block title %}<title>Event - {{ event.nom }}</title>{% endblock %}
@@ -19,7 +19,7 @@
 
     {% if event.getImage() %}
     <div class="event-main-image">
-        <img src="/asset/images/evenements/{{ event.getImage() }}" alt="{{ event.getNom() }}">
+        <img src="asset/images/evenements/{{ event.getImage() }}" alt="{{ event.getNom() }}">
     </div>
     {% endif %}
     
@@ -27,10 +27,10 @@
         <div class="event-meta">
             <p class="event-date">
                 {{ event.getDateDebut()|date('d/m/Y H:i') }}
-                <img src="../../asset/images/calendar.png" class="iut">
+                <img src="asset/images/calendar.png" class="iut">
                     <span class="tiret">-</span>
                     {{ event.getAdresse() }}
-                <img src="../../asset/images/geo.png" class="iut">
+                <img src="asset/images/geo.png" class="iut">
              </p>
         </div>
     </div>

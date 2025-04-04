@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="../asset/css/create.css">
+    <link rel="stylesheet" href="asset/css/create.css">
 {% endblock %}
 
 {% block title %}<title>Panel creation Produit</title>{% endblock %}
@@ -70,7 +70,7 @@
                 {% for image in images %}
                     {% if image.n_prod == index %}
                         {% set imageFound = true %}
-                        <img src="../asset/images/produit/{{ image.nom_image }}" style="max-width: 100%; max-height: 100%;">
+                        <img src="asset/images/produit/{{ image.nom_image }}" style="max-width: 100%; max-height: 100%;">
                     {% endif %}
                 {% endfor %}
                 {% if not imageFound %}
@@ -112,7 +112,7 @@
 </form>
 
 {% block javascripts %}
-    <script src="../asset/js/produit.js"></script>
+    <script src="asset/js/produit.js"></script>
     <script>
         const images = {{ images|json_encode|raw }};
         const Produits = {{ Produits|json_encode|raw }};
