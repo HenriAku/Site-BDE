@@ -62,7 +62,7 @@
         <input type="text" id="nom" name="nom" value="{{ nom }}">
 
         <label for="zoneDepotImage">Image (PNG,JPG) :</label>
-        <div class="zoneDepotImage" onclick="triggerFileInput()">
+        <div id="zoneImg" class="zoneDepotImage" onclick="triggerFileInput()">
             <div id="zoneDepTxt">
                 {% set imageFound = false %}
                 {% for image in images %}

@@ -45,7 +45,6 @@
                                                      title="{{ color }}"></div>
                                             {% endfor %}
                                         </div>
-                                        <small>{{ panier.getCouleur() }}</small>
                                     </td>
                                 </tr>
                                 <tr>
@@ -79,17 +78,19 @@
                     {% set total_general = total_general + (produit.getPrice() * panier.getqte()) %}
                 {% endif %}
             {% endfor %}
-            
-            <div class="total-section">
-                <strong>Total général : {{ total_general }} €</strong>
-            </div>
-            
-            <form method="post" action="./paiement_global_connecte.php" style="margin-top: 20px;">
-                <input type="hidden" name="user_id" value="{{ user.id }}">
-                <button type="submit" class="buy-all-btn" onclick="return confirm('Confirmez-vous le paiement de tout votre panier ?')">
-                    Tout payer ({{ total_general }} €)
-                </button>
-            </form>
+
+            <div class="total">
+                <div class="total-section">
+                    <strong>Total général : {{ total_general }} €</strong>
+                </div>
+                
+                <form method="post" action="./paiement_global_connecte.php" style="margin-top: 20px;">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <button type="submit" class="buy-all-btn" onclick="return confirm('Confirmez-vous le paiement de tout votre panier ?')">
+                        Tout payer
+                    </button>
+                </form>
+            </div>   
         </div>
     {% else %}
         <p class="empty-cart">Votre panier est vide</p>

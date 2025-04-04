@@ -3,7 +3,21 @@ const lstProduit = document.getElementById("LstProduits");
 lstProduit.addEventListener("change", () => {
     updateNom();
     updateProdId(); // Ajout de cette ligne
+    grisserImage();
 });
+
+function grisserImage(){
+    const inputImg = document.getElementById("fileInput");
+    const zoneImg = document.getElementById("zoneImg");
+    if (lstProduit.selectedIndex != 0){
+        inputImg.disabled = true;
+        zoneImg.style.backgroundColor = '#959595';
+    }
+    else{
+        inputImg.disabled = false;
+        zoneImg.style.backgroundColor = '#FFFFFF';
+    }
+}
 
 function updateProdId() {
     const select = document.getElementById('LstProduits');
