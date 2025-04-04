@@ -19,6 +19,7 @@ selectCouleur(0);
 
 for (let index = 0; index < tabCarre.length; index++) {
 	const element = tabCarre[index];
+	console.log(element);
 	element.addEventListener("click", () => {
 		selectCouleur(index);
 	});

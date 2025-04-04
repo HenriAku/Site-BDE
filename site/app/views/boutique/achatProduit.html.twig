@@ -21,16 +21,16 @@
 				<div class="couleurDispo">
 					{% set couleurs = produit.color|split(',') %}
 					{% for couleur in couleurs %}
+						<p>{{couleur}}</p>
 						<div class="carre-couleur" style="background-color: {{ couleur }};" data-color="{{ couleur }}"></div>
 					{% endfor %}
 				</div>
 				<div class="taille">
-					<select id="LstTaille" name="ListeTaille">
-					<option>XXL</option>
-					<option>XL</option>
-					<option>L</option>
-					<option>M</option>
-					<option>S</option>
+				<select id="LstTaille" name="ListeTaille">le">
+					{% set sizes = produit.size|split(',') %}
+					{% for size in sizes %}
+						<option>{{ size }}</option>
+					{% endfor %}
 				</select>
 				</div>
 

@@ -49,11 +49,10 @@
 				<p>{{ Produit.price }}€</p>
 				<div class="taille-btn">
 					<select id="LstTaille_{{ Produit.n_produit }}" name="ListeTaille">
-						<option>XXL</option>
-						<option>XL</option>
-						<option>L</option>
-						<option>M</option>
-						<option>S</option>
+						{% set sizes = Produit.size|split(',') %}
+						{% for size in sizes %}
+							<option>{{ size }}</option>
+						{% endfor %}
 					</select>
 					<button class="btn-add-to-cart" data-id="{{ Produit.n_produit }}" data-colors="{{ Produit.color}}" action="/ajoutPanier.php">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
