@@ -7,7 +7,7 @@ require_once './app/services/AuthService.php';
 require_once './app/repositories/ProduitRepository.php';
 require_once './app/core/Controller.php';
 require_once './app/trait/FormTrait.php';
-
+ 
 class ProduitController extends Controller {
 
     use FormTrait;
