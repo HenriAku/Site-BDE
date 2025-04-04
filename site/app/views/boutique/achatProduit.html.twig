@@ -26,12 +26,11 @@
 					{% endfor %}
 				</div>
 				<div class="taille">
-					<select id="LstTaille" name="ListeTaille">
-					<option>XXL</option>
-					<option>XL</option>
-					<option>L</option>
-					<option>M</option>
-					<option>S</option>
+				<select id="LstTaille" name="ListeTaille">le">
+					{% set sizes = produit.size|split(',') %}
+					{% for size in sizes %}
+						<option>{{ size }}</option>
+					{% endfor %}
 				</select>
 				</div>
 
