@@ -130,3 +130,81 @@ body {
     height: 100px;
     width: auto;
 }
+
+
+/* Version Mobile */
+@media (max-width: 768px) {
+    .barnavigation-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        display: none; /* Cache par défaut */
+    }
+
+    .barnavigation-nav.active {
+        display: flex; /* Affiche quand menu ouvert */
+    }
+
+    .nav-item {
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .nav-icons {
+        margin-left: 0;
+        margin-top: 20px;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Menu Burger */
+    .menu-burger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 21px;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .menu-burger p {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background-color: white;
+        transition: all 0.3s ease;
+    }
+
+    .menu-burger.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+
+    .menu-burger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-burger.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* Cache les éléments inutiles en mobile */
+    .nav-link img {
+        height: 30px; /* Taille légèrement augmentée pour mobile */
+    }
+
+    .conteneur {
+        padding-top: 60px;
+    }
+}
+
+/* Version Desktop - cache le menu burger */
+@media (min-width: 769px) {
+    .menu-burger {
+        display: none;
+    }
+
+    .barnavigation-nav {
+        display: flex !important;
+    }
+}
