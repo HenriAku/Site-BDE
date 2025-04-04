@@ -21,6 +21,21 @@
 
 <form method="post" action="produit.php" enctype="multipart/form-data">
 
+
+{% if errors is not empty %}
+<div class="erreur" role="alert">
+    <div class="alert alert-danger" role="alert">
+    {% if errors is not empty %}
+        <ul class="mb-0">
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+</div>
+{% endif %}
+
     <div class="Formulaire">
         <input type="hidden" id="prodId" name="prodId" value="">    
         <label for="ListeProduit">Liste Produit</label>
@@ -71,8 +86,8 @@
             <input type="number" step="any" id="prix" name="prix" value="{{ prix }}">
             
             <label for="coul">Couleur :</label>
+            <input type="submit" id="addcolor" name="addcolor" value="+">
             <div id="lstColor">
-                <input type="submit" id="addcolor" name="addcolor" value="+">
                 <input type="color" id="colorPicker" name="colorPicker[]" value="{{ colorPicker|default('#ff0000') }}">
             </div>
         </div>

@@ -9,32 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const tailleSelect = document.getElementById(`LstTaille_${productId}`);
             const selectedTaille = tailleSelect.value;
 
-            // Préparer les données pour l'achat
-            const formData = new FormData();
-            formData.append('idProduit', productId);
-            formData.append('ListeTaille', selectedTaille);
-            formData.append('selectedColor', firstColor);
-            formData.append('quantie', 1); // Quantité fixe à 1
-            formData.append('redirection', false); // Pas de redirection
-
-            // Envoyer la requête AJAX
-            fetch('/ajoutPanier.php', {
-                method: 'POST',
-                body: formData
-            })
-			.then(response => response.json())
-			.then(data => {
-				
-				if (data.success) {
-					alert('Produit ajouté au panier avec succès !');
-				} else {
-					alert('Erreur : ' + data.message);
-				}
-			})
-			.catch(error => {
-				console.error('Erreur lors de l\'ajout au panier :', error);
-				alert('Une erreur est survenue.');
-			});
+            // Construire l'URL avec les paramètres
+            const url = `/ajoutPanier.php?idProduit=${productId}&selectedColor=${encodeURIComponent(firstColor)}&ListeTaille=${selectedTaille}&quantite=1`;
+			window.location.href = url;
         });
     });
 });

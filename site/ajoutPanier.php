@@ -1,32 +1,51 @@
 <?php
-
-require_once './app/repositories/AchatProduitRepository.php';
-
+error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
+require_once './app/repositories/AchatProduitRepository.php';
+require_once './app/services/AuthService.php';
 
-header('Content-Type: application/json'); // Indique que la réponse est en JSON
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$service = new AuthService();
+//idProduit=${productId}&selectedColor=${firstColor}&ListeTaille=${selectedTaille}&quantie=1`;
+if (isset($_GET['idProduit']) && isset($_GET['selectedColor']) && isset($_GET['ListeTaille']) && isset($_GET['quantite'])) {
+    $taille = $_GET['ListeTaille'];
+    $quantite = $_GET['quantite'];
+    $couleur = $_GET['selectedColor'];
+    $idProd = $_GET['idProduit'];
+}
+else{
+//if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $taille = $_POST['ListeTaille'] ?? null;
     $quantite = $_POST['quantie'] ?? null;
     $couleur = $_POST['selectedColor'] ?? null;
     $idProd = $_POST['idProduit'] ?? null;
-    $redirect = $_POST['redirection'] ?? null;
-
-    if ($taille && $quantite && $couleur && $idProd && $redirect) {
-        try {
-            $repo = new AchatProduitRepository();
-            $repo->addPanier($taille, (int)$quantite, $couleur, (int)$idProd, (bool)$redirect);
-            echo json_encode(['success' => true, 'message' => 'Produit ajouté au panier']);
-        } catch (Exception $e) {
-            echo json_encode(['success' => false, 'message' => 'Erreur : ' . $e->getMessage()]);
-        }
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Données manquantes']);
-    }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
 }
+
+// Vérification de la connexion
+if (!$service->isLoggedIn()) {
+    if (isset($_GET['idProduit']))
+        header('Location: boutique.php?&show_popup_connexion_err=1');
+    else
+        header('Location: achatProduit.php?id=' . $idProd . '&show_popup_connexion_err=1');
+    exit();
+}
+
+
+if ($taille && $quantite && $couleur && $idProd) {
+    try {
+        $repo = new AchatProduitRepository();
+        $repo->addPanier($taille, (int)$quantite, $couleur, (int)$idProd);
+        $response = ['success' => true, 'message' => 'Produit ajouté au panier'];
+        // Redirection vers la page produit après succès
+        if (isset($_GET['idProduit']))
+            header('Location: boutique.php?&show_popup_succes=1');
+        else
+            header('Location: achatProduit.php?id=' . $idProd. '&show_popup_succes=1');
+        exit();
+    } catch (Exception $e) {
+        header('Location: achatProduit.php?id=' . $idProd . '&show_popup_coul_err=1');
+    }
+} 
+
+

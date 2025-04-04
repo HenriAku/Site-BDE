@@ -11,7 +11,7 @@
 {% block body %}
 
 	<div class="info-prod">
-		<form class="form" id="productForm" method="POST" action="#"> <!--testAjoutPanier.php-->
+		<form class="form" id="productForm" method="POST" action="/ajoutPanier.php">
 			<input type="hidden" id="selectedColor" name="selectedColor" value="">
 			<input type="hidden" id="idProduit" name="idProduit" value={{produit.n_produit}}>
 			<input type="hidden" id="redirection" name="redirection" value="false">
@@ -39,7 +39,7 @@
 					<p>Stock : {{produit.stock}}</p>
 					<div class="quantite">
 						<label for="QuantiteAchat">Quantité</label>
-						<input type="number" id="quantite" name="quantie" value="1"> <!-- bloquer négatif -->
+						<input type="number" id="quantite" name="quantie" value="1" max={{produit.stock}}> <!-- bloquer négatif -->
 					</div>
 				</div>
 				<div class="btns">		

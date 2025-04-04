@@ -10,11 +10,14 @@ class AchatProduitRepository {
         $this->pdo = Repository::getInstance()->getPDO();
     }
 
-    public function addPanier(string $taille, int $quantite, string $couleur, int $idProd, bool $redirect ){
+    public function addPanier(string $taille, int $quantite, string $couleur, int $idProd){
         $service = new AuthService();
 
         $user = $service->getUser();
         $userId = $user->getId();
+
+        if ($service->getUser() === null)
+            throw new Exception("Vous devez être connecté pour acheter");
 
         $sql = "INSERT INTO Detail_panier (n_prod, n_etu, taille_prod, couleur_prod, quantite_dp) VALUES (:idProd, :userId, :taille, :couleur, :quantite)";
         $stmt = $this->pdo->prepare($sql);
